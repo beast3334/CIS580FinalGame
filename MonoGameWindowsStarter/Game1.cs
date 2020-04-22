@@ -11,11 +11,17 @@ namespace MonoGameWindowsStarter
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        Player player;
+        BackgroundTileModel backgroundTileModel;
+        Background background;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            
+            player = new Player(this);
+            backgroundTileModel = new BackgroundTileModel();
+            
         }
 
         /// <summary>
@@ -26,8 +32,9 @@ namespace MonoGameWindowsStarter
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.ApplyChanges();
             base.Initialize();
         }
 
@@ -39,8 +46,11 @@ namespace MonoGameWindowsStarter
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            
+            player.LoadContent(Content);
+            //Background
+            backgroundTileModel.LoadContent(Content);
+            background = new Background(this, backgroundTileModel);
         }
 
         /// <summary>
@@ -62,8 +72,8 @@ namespace MonoGameWindowsStarter
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-
+            player.Update(gameTime);
+            background.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -75,7 +85,11 @@ namespace MonoGameWindowsStarter
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            background.Draw(spriteBatch);
+            player.Draw(spriteBatch);
+            
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
