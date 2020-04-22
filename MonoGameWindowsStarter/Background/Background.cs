@@ -40,7 +40,7 @@ namespace MonoGameWindowsStarter
                 tile.Update(gameTime, speed);
             }
 
-            //Move tiles from top of stack to bottom if offscreen
+            //Move tiles from top of queue to bottom if offscreen
             if (backgroundTiles.Peek().Bounds.Y >= game.GraphicsDevice.Viewport.Height)
             {
                 tempTile = backgroundTiles.Dequeue();
