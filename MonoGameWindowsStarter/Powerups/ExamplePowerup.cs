@@ -38,7 +38,7 @@ namespace MonoGameWindowsStarter.Powerups
 
         public override void Update(GameTime gameTime)
         {
-            //Depends on Powerup
+            //Depends on Powerups
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
