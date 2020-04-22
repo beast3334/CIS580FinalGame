@@ -32,8 +32,8 @@ namespace MonoGameWindowsStarter
         /// </summary>
         protected override void Initialize()
         {
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
             graphics.ApplyChanges();
             base.Initialize();
         }
@@ -86,6 +86,7 @@ namespace MonoGameWindowsStarter
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
+
             background.Draw(spriteBatch);
             player.Draw(spriteBatch);
             
