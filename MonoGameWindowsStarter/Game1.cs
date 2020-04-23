@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGameWindowsStarter.Bosses;
 
 namespace MonoGameWindowsStarter
 {
@@ -14,6 +15,7 @@ namespace MonoGameWindowsStarter
         Player player;
         BackgroundTileModel backgroundTileModel;
         Background background;
+        ExampleBoss exampleBoss;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -21,6 +23,7 @@ namespace MonoGameWindowsStarter
             
             player = new Player(this);
             backgroundTileModel = new BackgroundTileModel();
+           // exampleBoss = new ExampleBoss(this, Content, player);
             
         }
 
@@ -51,6 +54,8 @@ namespace MonoGameWindowsStarter
             //Background
             backgroundTileModel.LoadContent(Content);
             background = new Background(this, backgroundTileModel);
+            //exampleBoss.LoadContent();
+            exampleBoss = new ExampleBoss(this, Content, player);
         }
 
         /// <summary>
@@ -73,6 +78,7 @@ namespace MonoGameWindowsStarter
                 Exit();
 
             player.Update(gameTime);
+            exampleBoss.Update(gameTime);
             background.Update(gameTime);
             base.Update(gameTime);
         }
@@ -88,6 +94,7 @@ namespace MonoGameWindowsStarter
             spriteBatch.Begin();
             background.Draw(spriteBatch);
             player.Draw(spriteBatch);
+            exampleBoss.Draw(spriteBatch);
             
             spriteBatch.End();
 

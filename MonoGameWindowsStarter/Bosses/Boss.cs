@@ -15,6 +15,12 @@ namespace MonoGameWindowsStarter.Bosses
     /// </summary>
     public abstract class Boss
     {
+        //how much health each boss will be able to take
+        public int health;
+        //bool to activate when it is time for a boss to appear
+        public bool active;
+        //speed of the boss's movement
+        public int speed;
         public abstract BoundingRectangle Bounds
         { get; }
         
