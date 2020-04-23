@@ -13,14 +13,36 @@ namespace MonoGameWindowsStarter.Powerups
 {
     public abstract class Powerup
     {
-        public abstract BoundingRectangle Bounds
-        { get; }
+        /// <summary>
+        /// Name of the Texture in the Content
+        /// </summary>
+        public abstract string TextureName { get; }
 
-        public abstract void Update(GameTime gameTime);
+        /// <summary>
+        /// Direction and Speed the bullet goes
+        /// </summary>
+        public abstract Vector2 Velocity { get; }
 
-        public abstract void LoadContent();
+        /// <summary>
+        /// Scale of the Texture
+        /// <para>- If the texture is bigger than you want it</para>
+        /// </summary>
+        public abstract Vector2 Scale { get; }
 
-        public abstract void Draw(SpriteBatch spriteBatch);
+        /// <summary>
+        /// Color for the SpriteBatch to use in the Draw method
+        /// </summary>
+        public Color Color => Color.White;
+
+        /// <summary>
+        /// Degrees of rotation for the Sprite to rotate
+        /// </summary>
+        public float Angle => 0f;
+
+        /// <summary>
+        /// TimeSpan set to 1 second
+        /// </summary>
+        public TimeSpan TimeBetweenBullets => new TimeSpan(0, 0, 0, 0, 200);
 
         //Extend with any methods required by all powerups.
 

@@ -14,24 +14,20 @@ namespace MonoGameWindowsStarter.Bosses
     {
         BoundingRectangle bounds;
         Texture2D texture;
-        ContentManager content;
         Game1 game;
 
         public override BoundingRectangle Bounds => bounds;
 
-        public ExampleBoss(Game1 game, ContentManager content)
+        public ExampleBoss(Game1 game)
         {
             this.game = game;
-            this.content = content;
             bounds.X = 50;
             bounds.Y = 50;
             bounds.Height = 100;
             bounds.Width = 100;
-            LoadContent();
         }
 
-
-        public override void LoadContent()
+        public override void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("SPRITENAME");
         }
@@ -40,10 +36,10 @@ namespace MonoGameWindowsStarter.Bosses
         {
           //Depends on Boss
         }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, bounds, Color.White);
         }
-
     }
 }

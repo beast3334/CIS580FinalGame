@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
+using MonoGameWindowsStarter.Powerups.Bullets;
+
 namespace MonoGameWindowsStarter
 {
     enum State
@@ -18,53 +20,56 @@ namespace MonoGameWindowsStarter
         Left,
         Right
     }
-    public class Player
+    public class Player : EntityAlive
     {
+        public override BoundingRectangle Bounds => bounds;
+        public BulletSpawner BulletSpawner { get; }
+
         BoundingRectangle bounds;
         Game1 game;
         Texture2D texture;
         State state = State.Idle;
-        public BoundingRectangle Bounds
-        {
-            get { return bounds; }
-
-        }
 
         public Player(Game1 game)
         {
             this.game = game;
+            BulletSpawner = new BulletSpawner(game, this);
         }
-        public void LoadContent(ContentManager content)
+
+        public override void LoadContent(ContentManager content)
         {
             bounds.Width = 50;
             bounds.Height = 50;
             bounds.X = (game.GraphicsDevice.Viewport.Width - bounds.Width) / 2; //Places player horizontally in the middle of viewwindow
             bounds.Y = game.GraphicsDevice.Viewport.Height; //Places player at bottom of viewwindow.
             texture = content.Load<Texture2D>("playerShip");
+
+            BulletSpawner.LoadContent(content);
         }
-        public void Update(GameTime gameTime)
+
+        public override void Update(GameTime gameTime)
         {
             var keyboardState = Keyboard.GetState();
             //Up Movement
-            if(keyboardState.IsKeyDown(Keys.Up))
+            if(keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.W))
             {
                 bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds / 2;
                 state = State.Up; //For future, if adding animation to player
             }
             //Down Movement
-            if(keyboardState.IsKeyDown(Keys.Down))
+            if(keyboardState.IsKeyDown(Keys.Down) || keyboardState.IsKeyDown(Keys.S))
             {
                 bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds / 2;
                 state = State.Down; //For future, if adding animation to player
             }
             //Left Movement
-            if(keyboardState.IsKeyDown(Keys.Left))
+            if(keyboardState.IsKeyDown(Keys.Left) || keyboardState.IsKeyDown(Keys.A))
             {
                 bounds.X -= (float)gameTime.ElapsedGameTime.TotalMilliseconds / 2;
                 state = State.Left; //For future, if adding animation to player
             }
             //Right Movement
-            if(keyboardState.IsKeyDown(Keys.Right))
+            if(keyboardState.IsKeyDown(Keys.Right) || keyboardState.IsKeyDown(Keys.D))
             {
                 bounds.X += (float)gameTime.ElapsedGameTime.TotalMilliseconds / 2;
                 state = State.Right; //For future, if adding animation to player
@@ -73,6 +78,12 @@ namespace MonoGameWindowsStarter
             if (keyboardState.IsKeyUp(Keys.Up) && keyboardState.IsKeyUp(Keys.Down) && keyboardState.IsKeyUp(Keys.Left) && keyboardState.IsKeyUp(Keys.Right))
             {
                 state = State.Idle; //For future, if adding animation to player
+            }
+
+            //Check Action Button
+            if (keyboardState.IsKeyDown(Keys.Space))
+            {
+                BulletSpawner.Shoot();
             }
 
             //Check Y bounds
@@ -94,10 +105,12 @@ namespace MonoGameWindowsStarter
                 bounds.X = game.GraphicsDevice.Viewport.Width - bounds.Width;
             }
 
-
+            BulletSpawner.Update(gameTime);
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
+            BulletSpawner.Draw(spriteBatch);
+
             spriteBatch.Draw(texture, bounds, Color.White);
         }
          

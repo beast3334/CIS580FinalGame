@@ -14,7 +14,6 @@ namespace MonoGameWindowsStarter.Enemies
     {
         BoundingRectangle bounds;
         Texture2D texture;
-        ContentManager content;
         Game1 game;
 
         public override BoundingRectangle Bounds => bounds;
@@ -22,16 +21,14 @@ namespace MonoGameWindowsStarter.Enemies
         public ExampleEnemy(Game1 game, ContentManager content)
         {
             this.game = game;
-            this.content = content;
             bounds.X = 50;
             bounds.Y = 50;
             bounds.Height = 100;
             bounds.Width = 100;
-            LoadContent();
         }
 
 
-        public override void LoadContent()
+        public override void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("SPRITENAME");
         }
