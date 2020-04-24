@@ -13,14 +13,58 @@ namespace MonoGameWindowsStarter.Powerups
 {
     public abstract class Powerup
     {
-        public abstract BoundingRectangle Bounds
-        { get; }
+        /// <summary>
+        /// Name of the Texture in the Content
+        /// </summary>
+        public abstract string TextureName { get; }
 
-        public abstract void Update(GameTime gameTime);
+        /// <summary>
+        /// Direction and Speed
+        /// <para>Default: X=0, Y=-10</para>
+        /// </summary>
+        public virtual Vector2 Velocity { get; set; } = new Vector2(0, -10);
 
-        public abstract void LoadContent();
+        /// <summary>
+        /// Acceleration of the bullet
+        /// <para>Default: X=0, Y=0</para>
+        /// </summary>
+        public virtual Vector2 Acceleration { get; set; } = Vector2.Zero;
 
-        public abstract void Draw(SpriteBatch spriteBatch);
+        /// <summary>
+        /// Scale of the Texture
+        /// <para>Default: X=1, Y=1</para>
+        /// </summary>
+        public virtual Vector2 Scale => Vector2.One;
+
+        /// <summary>
+        /// Color for the SpriteBatch to use in the Draw method
+        /// <para>Default: White</para>
+        /// </summary>
+        public virtual Color Color => Color.White;
+
+        /// <summary>
+        /// TimeSpan set to 1 second
+        /// <para>Default: 200 milliseconds</para>
+        /// </summary>
+        public virtual TimeSpan TimeBetweenBullets => new TimeSpan(0, 0, 0, 0, 200);
+
+        /// <summary>
+        /// The amount of rotation between bullets
+        /// <para>Default: PI / 15 radians</para>
+        /// </summary>
+        public virtual float RotationBetweenBullets => (float)(Math.PI / 15);
+
+        /// <summary>
+        /// Amount of Damage the bullet does on collision
+        /// <para>Default: 1</para>
+        /// </summary>
+        public virtual float Damage => 1.0f;
+
+        /// <summary>
+        /// Number of Bullets to dispersely shoot
+        /// <para>Default: 1</para>
+        /// </summary>
+        public virtual int NumberToSpawnOnShoot => 1;
 
         //Extend with any methods required by all powerups.
 

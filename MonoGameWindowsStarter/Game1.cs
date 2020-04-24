@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGameWindowsStarter.Powerups;
+using MonoGameWindowsStarter.Powerups.Bullets;
+using System.Collections.Generic;
 
 namespace MonoGameWindowsStarter
 {
@@ -14,6 +17,8 @@ namespace MonoGameWindowsStarter
         Player player;
         BackgroundTileModel backgroundTileModel;
         Background background;
+        List<BulletSpawner> BulletSpawners = new List<BulletSpawner>();
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -21,7 +26,6 @@ namespace MonoGameWindowsStarter
             
             player = new Player(this);
             backgroundTileModel = new BackgroundTileModel();
-            
         }
 
         /// <summary>
@@ -51,6 +55,8 @@ namespace MonoGameWindowsStarter
             //Background
             backgroundTileModel.LoadContent(Content);
             background = new Background(this, backgroundTileModel);
+
+            VisualDebugging.LoadContent(Content);
         }
 
         /// <summary>
