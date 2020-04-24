@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameWindowsStarter.Powerups;
 using MonoGameWindowsStarter.Powerups.Bullets;
+using MonoGameWindowsStarter.Enemies;
 using System.Collections.Generic;
 
 namespace MonoGameWindowsStarter
@@ -18,6 +19,7 @@ namespace MonoGameWindowsStarter
         BackgroundTileModel backgroundTileModel;
         Background background;
         List<BulletSpawner> BulletSpawners = new List<BulletSpawner>();
+        List<Enemy> Enemies;
 
         public Game1()
         {
@@ -56,6 +58,10 @@ namespace MonoGameWindowsStarter
             backgroundTileModel.LoadContent(Content);
             background = new Background(this, backgroundTileModel);
 
+            //Enemies
+            Enemies = new List<Enemy>();
+            Enemies.Add(new ShootingEnemy(this, Content));
+
             VisualDebugging.LoadContent(Content);
         }
 
@@ -79,8 +85,23 @@ namespace MonoGameWindowsStarter
                 Exit();
 
             player.Update(gameTime);
+            for(int i =0; i<Enemies.Count; i++)
+            {
+                Enemies[i].Update(gameTime);
+            }
             background.Update(gameTime);
             base.Update(gameTime);
+            //Check all collisions
+            Collision.CheckAll(Enemies, BulletSpawners, player);
+            //remove dead enemies
+            for(int i=0; i<Enemies.Count; i++)
+            {
+                if(Enemies[i].Alive == false)
+                {
+                    Enemies.Remove(Enemies[i]);
+                    i--;
+                }
+            }
         }
 
         /// <summary>
@@ -94,8 +115,15 @@ namespace MonoGameWindowsStarter
             spriteBatch.Begin();
 
             background.Draw(spriteBatch);
-            player.Draw(spriteBatch);
-            
+            if (player.Alive)
+            {
+                player.Draw(spriteBatch);
+            }
+            for (int i = 0; i < Enemies.Count; i++)
+            {
+                Enemies[i].Draw(spriteBatch);
+            }
+
             spriteBatch.End();
 
             base.Draw(gameTime);

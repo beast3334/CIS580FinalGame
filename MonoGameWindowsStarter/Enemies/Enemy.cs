@@ -13,8 +13,10 @@ namespace MonoGameWindowsStarter.Enemies
 {
     public abstract class Enemy : EntityAlive
     {
+
         //Extend with any methods required by all enemies.
 
         //Will allow for abstract access to all enemies, instead of by name.
+        public bool Alive { get; set; } = true;
     }
 }
