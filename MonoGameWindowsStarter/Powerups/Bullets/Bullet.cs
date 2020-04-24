@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,12 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
     {
         private Game game;
 
+        public Vector2 Position { get => new Vector2(Bounds.X, Bounds.Y); }
+
         /// <summary>
-        /// Position of the bullet
+        /// X, Y, Width, and Height
         /// </summary>
-        public Vector2 Position { get; private set; }
+        public BoundingRectangle Bounds { get; private set; }
 
         /// <summary>
         /// Powerup on the bullet
@@ -56,16 +59,16 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         /// </summary>
         /// <param name="bulletPosition">The BulletPosition for the bullet</param>
         /// <param name="powerup">The powerup to follow for the rest of it's life</param>
-        public Bullet(Game game, BulletPosition bulletPosition, Powerup powerup)
+        public Bullet(Game game, BulletPosition bulletPosition, Powerup powerup, Texture2D texture)
         {
             this.game = game;
-            Position = bulletPosition.Position;
             Powerup = powerup;
             Acceleration = Powerup.Acceleration;
             Velocity = Powerup.Velocity;
             Damage = Powerup.Damage;
             Color = Powerup.Color;
             Scale = Powerup.Scale;
+            Bounds = new BoundingRectangle(bulletPosition.Position.X, bulletPosition.Position.Y, texture.Bounds.Width, texture.Bounds.Height);
         }
 
         /// <summary>
@@ -75,12 +78,14 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         public void Update(GameTime gameTime)
         {
             Velocity += Acceleration;
-            Position += Velocity;
+            var position = Position;
+            position += Velocity;
+            Bounds = new BoundingRectangle(position.X, position.Y, Bounds.Width, Bounds.Height);
 
-            if (Position.Y > game.GraphicsDevice.Viewport.Height + 100
-                || Position.Y < 0 - 100
-                || Position.X > game.GraphicsDevice.Viewport.Width + 100
-                || Position.X < 0 - 100)
+            if (position.Y > game.GraphicsDevice.Viewport.Height + 100
+                || position.Y < 0 - 100
+                || position.X > game.GraphicsDevice.Viewport.Width + 100
+                || position.X < 0 - 100)
             {
                 Alive = false;
             }

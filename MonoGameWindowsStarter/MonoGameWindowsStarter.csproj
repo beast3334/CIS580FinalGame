@@ -56,6 +56,7 @@
     <Compile Include="Powerups\Bullets\BulletPosition.cs" />
     <Compile Include="Powerups\Bullets\BulletSpawner.cs" />
     <Compile Include="Powerups\Bullets\Powerups\PowerupDefault.cs" />
+    <Compile Include="Powerups\Bullets\Powerups\PowerupLaser.cs" />
     <Compile Include="Powerups\Powerup.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
