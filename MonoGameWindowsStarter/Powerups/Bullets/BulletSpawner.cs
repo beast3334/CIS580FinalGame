@@ -27,9 +27,13 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
 
         /// <summary>
         /// The powerup this spawner is currently using
+        /// <para>Default: PowerupDefault</para>
         /// </summary>
-        public Powerup Powerup { get; set; } = new PowerupDefault();
+        public Powerup Powerup { get; private set; } = new PowerupDefault();
 
+        /// <summary>
+        /// Texture for the bullet's to use
+        /// </summary>
         public Texture2D Texture { get; private set; }
 
         /// <summary>
@@ -98,26 +102,38 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
 
                 for (int i = start; i <= finish; i++)
                 {
-                    var bullet = new Bullet(game, position, Powerup);
-
-                    //float x2 = (float)(Math.Cos(Powerup.RotationBetweenBullets * Powerup.Velocity.X * i) - Math.Sin(Powerup.RotationBetweenBullets * Powerup.Velocity.Y * i));
-                    //float y2 = (float)(Math.Sin(Powerup.RotationBetweenBullets * Powerup.Velocity.X * i) + Math.Cos(Powerup.RotationBetweenBullets * Powerup.Velocity.Y * i));
-                    bullet.Velocity = Vector2.Transform(bullet.Velocity, Matrix.CreateRotationZ(Powerup.RotationBetweenBullets * i));
+                    // New bullet
+                    var bullet = new Bullet(game, position, Powerup, Texture);
+                    // New velocity based on the rotation
+                    bullet.Velocity = Vector2.Transform(
+                        bullet.Velocity,
+                        Matrix.CreateRotationZ(Powerup.RotationBetweenBullets * i)
+                    );
+                    // Adds the bullet to the list of bullets
                     Bullets.Add(bullet);
                 }
+                // Can't shoot now
                 canShoot = false;
                 return true;
             }
             return false;
         }
 
+        /// <summary>
+        /// Changes the current Powerup being used
+        /// <para>**IMPORTANT** Only call this method AFTER LoadContent</para>
+        /// </summary>
+        /// <param name="powerup">Powerup to use</param>
+        /// <returns></returns>
         public bool ChangePowerup(Powerup powerup)
         {
+            // Can only change a powerup if it's allowed
             if (canChangePowerup)
             {
                 Powerup = powerup;
                 timeBetweenBullets = powerup.TimeBetweenBullets;
                 Texture = content.Load<Texture2D>(powerup.TextureName);
+                return true;
             }
             return false;
         }
@@ -125,6 +141,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         public void LoadContent(ContentManager content)
         {
             this.content = content;
+            // TODO: Make a dictionary or something of Textures to use in the Draw for different bullets just in case the texture changes while the bullet is still alive.
             Texture = content.Load<Texture2D>(Powerup.TextureName);
         }
 
