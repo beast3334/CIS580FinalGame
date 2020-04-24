@@ -86,7 +86,25 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         {
             if (canShoot)
             {
-                Bullets.Add(new Bullet(game, position, Powerup));
+                // Makes the start and finish for spawning the bullets
+                // Ex: NumberToSpawnOnShoot = 5 then start = -2 and finish = 2
+                int n = Powerup.NumberToSpawnOnShoot;
+                if (n % 2 == 1)
+                {
+                    n--;
+                }
+                int start = -(n / 2);
+                int finish = (n / 2);
+
+                for (int i = start; i <= finish; i++)
+                {
+                    var bullet = new Bullet(game, position, Powerup);
+
+                    //float x2 = (float)(Math.Cos(Powerup.RotationBetweenBullets * Powerup.Velocity.X * i) - Math.Sin(Powerup.RotationBetweenBullets * Powerup.Velocity.Y * i));
+                    //float y2 = (float)(Math.Sin(Powerup.RotationBetweenBullets * Powerup.Velocity.X * i) + Math.Cos(Powerup.RotationBetweenBullets * Powerup.Velocity.Y * i));
+                    bullet.Velocity = Vector2.Transform(bullet.Velocity, Matrix.CreateRotationZ(Powerup.RotationBetweenBullets * i));
+                    Bullets.Add(bullet);
+                }
                 canShoot = false;
                 return true;
             }
@@ -146,12 +164,25 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            // Go through every bullet to Draw
             Bullets.ForEach(bullet =>
             {
+                // Auto rotation for whichever way the bullet is traveling
+                var rotation = (float)(Math.Atan2(bullet.Velocity.Y, bullet.Velocity.X) + (Math.PI / 2));
+                
+                // Size of the bullet for rendering
+                var size = new BoundingRectangle(bullet.Position.X, bullet.Position.Y, Texture.Bounds.Width, Texture.Bounds.Height) * bullet.Scale;
+                
+                // Draw the bullet
                 spriteBatch.Draw(
                     Texture,
-                    new BoundingRectangle(bullet.Position.X, bullet.Position.Y, Texture.Bounds.Width, Texture.Bounds.Height) * Powerup.Scale,
-                    Powerup.Color
+                    size,
+                    null,
+                    bullet.Color,
+                    rotation,
+                    new Vector2(size.Width / 2, 0),
+                    SpriteEffects.None,
+                    1f
                 );
             });
         }

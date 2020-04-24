@@ -19,30 +19,52 @@ namespace MonoGameWindowsStarter.Powerups
         public abstract string TextureName { get; }
 
         /// <summary>
-        /// Direction and Speed the bullet goes
+        /// Direction and Speed
+        /// <para>Default: X=0, Y=-10</para>
         /// </summary>
-        public abstract Vector2 Velocity { get; }
+        public virtual Vector2 Velocity { get; set; } = new Vector2(0, -10);
+
+        /// <summary>
+        /// Acceleration of the bullet
+        /// <para>Default: X=0, Y=0</para>
+        /// </summary>
+        public virtual Vector2 Acceleration { get; set; } = Vector2.Zero;
 
         /// <summary>
         /// Scale of the Texture
-        /// <para>- If the texture is bigger than you want it</para>
+        /// <para>Default: X=1, Y=1</para>
         /// </summary>
-        public abstract Vector2 Scale { get; }
+        public virtual Vector2 Scale => Vector2.One;
 
         /// <summary>
         /// Color for the SpriteBatch to use in the Draw method
+        /// <para>Default: White</para>
         /// </summary>
-        public Color Color => Color.White;
-
-        /// <summary>
-        /// Degrees of rotation for the Sprite to rotate
-        /// </summary>
-        public float Angle => 0f;
+        public virtual Color Color => Color.White;
 
         /// <summary>
         /// TimeSpan set to 1 second
+        /// <para>Default: 200 milliseconds</para>
         /// </summary>
-        public TimeSpan TimeBetweenBullets => new TimeSpan(0, 0, 0, 0, 200);
+        public virtual TimeSpan TimeBetweenBullets => new TimeSpan(0, 0, 0, 0, 200);
+
+        /// <summary>
+        /// The amount of rotation between bullets
+        /// <para>Default: PI / 15 radians</para>
+        /// </summary>
+        public virtual float RotationBetweenBullets => (float)(Math.PI / 15);
+
+        /// <summary>
+        /// Amount of Damage the bullet does on collision
+        /// <para>Default: 1</para>
+        /// </summary>
+        public virtual float Damage => 1.0f;
+
+        /// <summary>
+        /// Number of Bullets to dispersely shoot
+        /// <para>Default: 1</para>
+        /// </summary>
+        public virtual int NumberToSpawnOnShoot => 1;
 
         //Extend with any methods required by all powerups.
 
