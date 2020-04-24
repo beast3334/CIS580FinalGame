@@ -9,13 +9,12 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
 {
     public class Bullet
     {
-        private Vector2 position;
         private Game game;
 
         /// <summary>
         /// Position of the bullet
         /// </summary>
-        public Vector2 Position => position;
+        public Vector2 Position { get; private set; }
 
         /// <summary>
         /// Powerup on the bullet
@@ -25,8 +24,32 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         /// <summary>
         /// Is this bullet alive?
         /// </summary>
-        public bool Alive => alive;
-        private bool alive = true;
+        public bool Alive { get; private set; } = true;
+
+        /// <summary>
+        /// Direction and Speed the bullet goes
+        /// </summary>
+        public Vector2 Velocity { get; set; }
+
+        /// <summary>
+        /// Acceleration of the bullet
+        /// </summary>
+        public Vector2 Acceleration { get; set; }
+
+        /// <summary>
+        /// Amount of Damage this bullet gives
+        /// </summary>
+        public float Damage { get; }
+
+        /// <summary>
+        /// Color for the SpriteBatch to use in the Draw method
+        /// </summary>
+        public Color Color { get; }
+
+        /// <summary>
+        /// Scale of the Texture
+        /// </summary>
+        public Vector2 Scale { get; }
 
         /// <summary>
         /// The Bullet that moves
@@ -36,8 +59,13 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         public Bullet(Game game, BulletPosition bulletPosition, Powerup powerup)
         {
             this.game = game;
-            position = bulletPosition.Position;
+            Position = bulletPosition.Position;
             Powerup = powerup;
+            Acceleration = Powerup.Acceleration;
+            Velocity = Powerup.Velocity;
+            Damage = Powerup.Damage;
+            Color = Powerup.Color;
+            Scale = Powerup.Scale;
         }
 
         /// <summary>
@@ -46,14 +74,15 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
-            position += Powerup.Velocity;
+            Velocity += Acceleration;
+            Position += Velocity;
 
-            if (   position.Y > game.GraphicsDevice.Viewport.Height + 100
-                || position.Y < 0 - 100
-                || position.X > game.GraphicsDevice.Viewport.Width + 100
-                || position.X < 0 - 100)
+            if (Position.Y > game.GraphicsDevice.Viewport.Height + 100
+                || Position.Y < 0 - 100
+                || Position.X > game.GraphicsDevice.Viewport.Width + 100
+                || Position.X < 0 - 100)
             {
-                alive = false;
+                Alive = false;
             }
         }
     }
