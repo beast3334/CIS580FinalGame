@@ -18,7 +18,6 @@ namespace MonoGameWindowsStarter.Bosses
     {
         BoundingRectangle bounds;
         Texture2D texture;
-        ContentManager content;
         Game1 game;
         Random random;
 
@@ -30,6 +29,7 @@ namespace MonoGameWindowsStarter.Bosses
         double shootTimer;
 
         public override BoundingRectangle Bounds => bounds;
+
 
         public ExampleBoss(Game1 game, ContentManager content, Player player)
         {
@@ -48,10 +48,10 @@ namespace MonoGameWindowsStarter.Bosses
 
             random = new Random();
 
+
         }
 
-
-        public override void LoadContent()
+        public override void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("movieTheater");
            // bulletSpawner.LoadContent(content);
@@ -107,6 +107,7 @@ namespace MonoGameWindowsStarter.Bosses
             //bulletSpawner.Update(gameTime);
 
         }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, bounds, Color.White);
@@ -131,6 +132,5 @@ namespace MonoGameWindowsStarter.Bosses
             }
 
         }
-
     }
 }

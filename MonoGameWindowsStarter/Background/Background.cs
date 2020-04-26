@@ -16,7 +16,7 @@ namespace MonoGameWindowsStarter
         Game1 game;
         Queue<BackgroundTile> backgroundTiles = new Queue<BackgroundTile>(); //Using a queue allows for different backgrounds based on location, level, etc
         int highestLocation = 0;
-        public float speed = 1f; //Speed of scrolling background (1 is default)
+        public float speed = 0.1f; //Speed of scrolling background (1 is default)
         public Background(Game1 game, BackgroundTileModel model)
         {
             this.game = game;

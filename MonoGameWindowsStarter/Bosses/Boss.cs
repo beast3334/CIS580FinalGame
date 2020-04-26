@@ -13,8 +13,9 @@ namespace MonoGameWindowsStarter.Bosses
     /// <summary>
     /// An abstract class containing all the items that an in game boss must possess
     /// </summary>
-    public abstract class Boss
+    public abstract class Boss : EntityAlive
     {
+
         //how much health each boss will be able to take
         public int health;
         //bool to activate when it is time for a boss to appear
@@ -30,9 +31,9 @@ namespace MonoGameWindowsStarter.Bosses
 
         public abstract void Draw(SpriteBatch spriteBatch);
 
+
         //Additonal methods can be defined here that apply to all bosses in the game.
 
         //Having an abstract class will allow for referecence to all bosses abstractly, rather than by name.
-
     }
 }

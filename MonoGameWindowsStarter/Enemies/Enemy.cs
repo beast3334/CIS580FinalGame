@@ -11,19 +11,12 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace MonoGameWindowsStarter.Enemies
 {
-    public abstract class Enemy
+    public abstract class Enemy : EntityAlive
     {
-        public abstract BoundingRectangle Bounds
-        { get; }
-
-        public abstract void Update(GameTime gameTime);
-
-        public abstract void LoadContent();
-
-        public abstract void Draw(SpriteBatch spriteBatch);
 
         //Extend with any methods required by all enemies.
 
         //Will allow for abstract access to all enemies, instead of by name.
+        public bool Alive { get; set; } = true;
     }
 }

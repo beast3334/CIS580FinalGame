@@ -8,42 +8,43 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
-namespace MonoGameWindowsStarter.Powerups
+
+namespace MonoGameWindowsStarter.Enemies
 {
-    public class ExamplePowerup : Powerup
+    class BasicEnemy: Enemy
     {
+
         BoundingRectangle bounds;
         Texture2D texture;
-        ContentManager content;
         Game1 game;
 
         public override BoundingRectangle Bounds => bounds;
 
-        public ExamplePowerup(Game1 game, ContentManager content)
+        public BasicEnemy(Game1 game, ContentManager content)
         {
             this.game = game;
-            this.content = content;
             bounds.X = 50;
             bounds.Y = 50;
-            bounds.Height = 100;
-            bounds.Width = 100;
-            LoadContent();
+            bounds.Height = 50;
+            bounds.Width = 50;
+            LoadContent(content);
         }
 
 
-        public override void LoadContent()
+        public override void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("SPRITENAME");
+            texture = content.Load<Texture2D>("playerShip");
         }
 
         public override void Update(GameTime gameTime)
         {
-            //Depends on Powerup
+            bounds.Y += 1;
+
+            
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, bounds, Color.White);
+            spriteBatch.Draw(texture, bounds, Color.Red);
         }
-
     }
 }
