@@ -11,41 +11,42 @@ namespace MonoGameWindowsStarter
     static class Collision
     {
 
-        static void EnemyOnBullet(List<Enemy> enemies, Player player)
+        public static void EnemyOnBullet(List<Enemy> enemies, Player player)
         {
-            for(int i=0; i<enemies.Count; i++)
+            foreach(Bullet b in player.BulletSpawner.Bullets)
             {
-                for(int j=0; j<player.BulletSpawner.Bullets.Count; j++)
+                foreach(Enemy e in enemies)
                 {
-                    if (enemies[i].Bounds.Intersects(player.BulletSpawner.Bullets[i].Position)){
-                        //player.BulletSpawner.Bullets[i].Alive = false;
-                        enemies[i].Alive = false;
+                    if (e.Bounds.Intersects(b.Position)){
+                        //b.Alive = false;
+                        e.Alive = false;
                     }
                 }
             }
+            
         }
 
-        static void PlayerOnBullet(List<Enemy> enemies, Player player)
+        public static void PlayerOnBullet(List<Enemy> enemies, Player player)
         {
-            for (int i = 0; i < enemies.Count; i++)
+            
+            foreach(Enemy e in enemies)
             {
-                if(enemies[i].GetType() != typeof(BasicEnemy))
+                if (e.GetType() != typeof(BasicEnemy))
                 {
-                    ShootingEnemy tempE = (ShootingEnemy)enemies[i];
-                    for (int j = 0; j < tempE.bulletSpawner.Bullets.Count; j++)
+                    ShootingEnemy tempE = (ShootingEnemy)e;
+                    foreach(Bullet b in tempE.bulletSpawner.Bullets)
                     {
-                        if (player.Bounds.Intersects(tempE.bulletSpawner.Bullets[j].Position))
+                        if (player.Bounds.Intersects(b.Position))
                         {
                             //player.BulletSpawner.Bullets[i].Alive = false;
                             player.Alive = false;
                         }
                     }
                 }
-                
             }
         }
 
-        static void PlayerOnEnemy(List<Enemy> enemies, Player player)
+        public static void PlayerOnEnemy(List<Enemy> enemies, Player player)
         {
 
         }
