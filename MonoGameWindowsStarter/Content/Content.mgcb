@@ -13,7 +13,9 @@
 
 #---------------------------------- Content ---------------------------------#
 
+
 #begin Bullets/Bullet_1.PNG
+
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -23,9 +25,11 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
+
 /build:Bullets/Bullet_1.PNG
 
 #begin Bullets/Bullet_2.PNG
+
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -35,6 +39,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
+
 /build:Bullets/Bullet_2.PNG
 
 #begin Bullets/Bullet_3.PNG
@@ -72,6 +77,7 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:pixel.png
+
 
 #begin playerShip3_blue.png
 /importer:TextureImporter
