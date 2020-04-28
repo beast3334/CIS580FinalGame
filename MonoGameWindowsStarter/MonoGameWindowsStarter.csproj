@@ -60,6 +60,8 @@
     <Compile Include="Powerups\Bullets\BulletSpawner.cs" />
     <Compile Include="Powerups\Bullets\Powerups\PowerupDefaultEnemy.cs" />
     <Compile Include="Powerups\Bullets\Powerups\PowerupDefault.cs" />
+    <Compile Include="Powerups\Bullets\Powerups\Powerup360Shot.cs" />
+    <Compile Include="Powerups\Bullets\Powerups\PowerupExploding360Shot.cs" />
     <Compile Include="Powerups\Bullets\Powerups\PowerupLaser.cs" />
     <Compile Include="Powerups\Powerup.cs" />
     <Compile Include="Program.cs" />

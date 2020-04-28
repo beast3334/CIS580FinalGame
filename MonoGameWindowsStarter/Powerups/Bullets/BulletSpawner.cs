@@ -19,6 +19,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         TimeSpan timer = new TimeSpan();
         bool canShoot = true;
         bool canChangePowerup = true;
+        List<BulletSpawner> bulletSpawners = new List<BulletSpawner>();
 
         /// <summary>
         /// The position of this spawner
@@ -29,7 +30,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         /// The powerup this spawner is currently using
         /// <para>Default: PowerupDefault</para>
         /// </summary>
-        public Powerup Powerup { get; private set; } = new PowerupDefault();
+        public Powerup Powerup { get; set; } = new PowerupExploding360Shot();
 
         /// <summary>
         /// Texture for the bullet's to use
@@ -39,7 +40,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         /// <summary>
         /// A list of all the current bullets
         /// </summary>
-        public List<Bullet> Bullets { get; } = new List<Bullet>();
+        public List<Bullet> Bullets { get; set; } = new List<Bullet>();
 
         /// <summary>
         /// Spawner for bullets
@@ -143,6 +144,12 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
             this.content = content;
             // TODO: Make a dictionary or something of Textures to use in the Draw for different bullets just in case the texture changes while the bullet is still alive.
             Texture = content.Load<Texture2D>(Powerup.TextureName);
+
+            // Go through the spawners and Load their content
+            bulletSpawners.ForEach(bs =>
+            {
+                bs.LoadContent(content);
+            });
         }
 
         public void Update(GameTime gameTime)
@@ -173,10 +180,23 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
 
                 if (!bullet.Alive)
                 {
+                    if (bullet.Powerup.SpawnAfterImpact != null && bullet.HitEntity)
+                    {
+                        var tempBS = new BulletSpawner(game, bullet.Position) { Powerup = bullet.Powerup.SpawnAfterImpact };
+                        tempBS.Shoot();
+                        bulletSpawners.Add(tempBS);
+                    }
+
                     Bullets.RemoveAt(i);
                     i--;
                 }
             }
+
+            // Go through all the spawners and update them
+            bulletSpawners.ForEach(bs =>
+            {
+                bs.Update(gameTime);
+            });
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -201,6 +221,12 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
                     SpriteEffects.None,
                     1f
                 );
+            });
+
+            // Go through all of the spawners and draw their bullets
+            bulletSpawners.ForEach(bs =>
+            {
+                bs.Draw(spriteBatch);
             });
         }
     }

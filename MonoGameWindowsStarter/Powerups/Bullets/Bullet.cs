@@ -27,7 +27,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         /// <summary>
         /// Is this bullet alive?
         /// </summary>
-        public bool Alive { get; private set; } = true;
+        public bool Alive { get; set; } = true;
 
         /// <summary>
         /// Direction and Speed the bullet goes
@@ -53,6 +53,11 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         /// Scale of the Texture
         /// </summary>
         public Vector2 Scale { get; }
+
+        /// <summary>
+        /// True if the bullet hit the entity or False if it went off the screen or hasn't hit anything yet
+        /// </summary>
+        public bool HitEntity { get; set; } = false;
 
         /// <summary>
         /// The Bullet that moves
@@ -82,10 +87,10 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
             position += Velocity;
             Bounds = new BoundingRectangle(position.X, position.Y, Bounds.Width, Bounds.Height);
 
-            if (position.Y > game.GraphicsDevice.Viewport.Height + 100
-                || position.Y < 0 - 100
-                || position.X > game.GraphicsDevice.Viewport.Width + 100
-                || position.X < 0 - 100)
+            if (position.Y > game.GraphicsDevice.Viewport.Height + Bounds.Height
+                || position.Y < 0 - Bounds.Height
+                || position.X > game.GraphicsDevice.Viewport.Width + Bounds.Width
+                || position.X < 0 - Bounds.Width)
             {
                 Alive = false;
             }
