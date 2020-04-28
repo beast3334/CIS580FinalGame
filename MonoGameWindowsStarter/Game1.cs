@@ -22,7 +22,8 @@ namespace MonoGameWindowsStarter
         Background background;
 
         List<BulletSpawner> BulletSpawners = new List<BulletSpawner>();
-        List<Enemy> Enemies;
+        //List<Enemy> Enemies;
+        EnemySpawner EnemySpawner;
 
 
         public Game1()
@@ -65,8 +66,8 @@ namespace MonoGameWindowsStarter
 
 
             //Enemies
-            Enemies = new List<Enemy>();
-            Enemies.Add(new ShootingEnemy(this, Content));
+            EnemySpawner = new EnemySpawner(this);
+            EnemySpawner.LoadContent(Content);
 
             VisualDebugging.LoadContent(Content);
 
@@ -93,24 +94,13 @@ namespace MonoGameWindowsStarter
 
             player.Update(gameTime);
 
-            for(int i =0; i<Enemies.Count; i++)
-            {
-                Enemies[i].Update(gameTime);
-            }
-
             background.Update(gameTime);
             base.Update(gameTime);
             //Check all collisions
-            Collision.CheckAll(Enemies, BulletSpawners, player);
+            Collision.CheckAll(EnemySpawner.Enemies, BulletSpawners, player);
             //remove dead enemies
-            for(int i=0; i<Enemies.Count; i++)
-            {
-                if(Enemies[i].Alive == false)
-                {
-                    Enemies.Remove(Enemies[i]);
-                    i--;
-                }
-            }
+            EnemySpawner.Update(gameTime);
+            
         }
 
         /// <summary>
@@ -129,10 +119,7 @@ namespace MonoGameWindowsStarter
             {
                 player.Draw(spriteBatch);
             }
-            for (int i = 0; i < Enemies.Count; i++)
-            {
-                Enemies[i].Draw(spriteBatch);
-            }
+            EnemySpawner.Draw(spriteBatch);
 
 
             spriteBatch.End();

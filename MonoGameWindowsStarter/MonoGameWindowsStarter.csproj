@@ -48,7 +48,10 @@
     <Compile Include="Bosses\ExampleBoss.cs" />
     <Compile Include="BoundingRectangle.cs" />
     <Compile Include="Collision.cs" />
+    <Compile Include="Enemies\EnemySpawner.cs" />
     <Compile Include="Enemies\ShootingEnemy.cs" />
+    <Compile Include="Enemies\SwervingEnemy.cs" />
+    <Compile Include="Enemies\BasicShootingEnemy.cs" />
     <Compile Include="Enemies\BasicEnemy.cs" />
     <Compile Include="Enemies\Enemy.cs" />
     <Compile Include="Enemies\ExampleEnemy.cs" />

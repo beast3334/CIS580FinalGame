@@ -20,10 +20,10 @@ namespace MonoGameWindowsStarter.Enemies
 
         public override BoundingRectangle Bounds => bounds;
 
-        public BasicEnemy(Game1 game, ContentManager content)
+        public BasicEnemy(Game1 game, ContentManager content, int position)
         {
             this.game = game;
-            bounds.X = 50;
+            bounds.X = position;
             bounds.Y = 50;
             bounds.Height = 50;
             bounds.Width = 50;
@@ -39,6 +39,14 @@ namespace MonoGameWindowsStarter.Enemies
         public override void Update(GameTime gameTime)
         {
             bounds.Y += 1;
+            if(bounds.Y>= game.GraphicsDevice.Viewport.Height)
+            {
+                Alive = false;
+            }
+            if (!Alive)
+            {
+                ReadyForTrash = true;
+            }
 
             
         }
