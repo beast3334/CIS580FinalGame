@@ -19,7 +19,11 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         TimeSpan timer = new TimeSpan();
         bool canShoot = true;
         bool canChangePowerup = true;
-        List<BulletSpawner> bulletSpawners = new List<BulletSpawner>();
+
+        /// <summary>
+        /// Bullet spawners
+        /// </summary>
+        public List<BulletSpawner> BulletSpawners { get; private set; } = new List<BulletSpawner>();
 
         /// <summary>
         /// The position of this spawner
@@ -30,7 +34,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         /// The powerup this spawner is currently using
         /// <para>Default: PowerupDefault</para>
         /// </summary>
-        public Powerup Powerup { get; set; } = new PowerupExploding360Shot();
+        public Powerup Powerup { get; set; } = new PowerupAcceleration();
 
         /// <summary>
         /// Texture for the bullet's to use
@@ -81,6 +85,10 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         {
             this.game = game;
             timeBetweenBullets = Powerup.TimeBetweenBullets;
+            if (game.GraphicsDevice != null)
+            {
+                LoadContent(game.Content);
+            }
         }
 
         /// <summary>
@@ -146,7 +154,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
             Texture = content.Load<Texture2D>(Powerup.TextureName);
 
             // Go through the spawners and Load their content
-            bulletSpawners.ForEach(bs =>
+            BulletSpawners.ForEach(bs =>
             {
                 bs.LoadContent(content);
             });
@@ -184,7 +192,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
                     {
                         var tempBS = new BulletSpawner(game, bullet.Position) { Powerup = bullet.Powerup.SpawnAfterImpact };
                         tempBS.Shoot();
-                        bulletSpawners.Add(tempBS);
+                        BulletSpawners.Add(tempBS);
                     }
 
                     Bullets.RemoveAt(i);
@@ -193,7 +201,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
             }
 
             // Go through all the spawners and update them
-            bulletSpawners.ForEach(bs =>
+            BulletSpawners.ForEach(bs =>
             {
                 bs.Update(gameTime);
             });
@@ -224,7 +232,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
             });
 
             // Go through all of the spawners and draw their bullets
-            bulletSpawners.ForEach(bs =>
+            BulletSpawners.ForEach(bs =>
             {
                 bs.Draw(spriteBatch);
             });

@@ -11,19 +11,24 @@ namespace MonoGameWindowsStarter
     static class Collision
     {
 
-        public static void EnemyOnBullet(List<Enemy> enemies, Player player)
+        public static void EnemyOnBullet(List<Enemy> enemies, BulletSpawner bulletSpawner)
         {
-            foreach(Bullet b in player.BulletSpawner.Bullets)
+            foreach(Bullet b in bulletSpawner.Bullets)
             {
                 foreach(Enemy e in enemies)
                 {
-                    if (e.Bounds.Intersects(b.Position)){
-                        //b.Alive = false;
+                    if (e.Alive && e.Bounds.Intersects(b.Position)){
+                        b.Alive = false;
                         e.Alive = false;
+                        b.HitEntity = true;
                     }
                 }
             }
-            
+
+            foreach (BulletSpawner bs in bulletSpawner.BulletSpawners)
+            {
+                EnemyOnBullet(enemies, bs);
+            }
         }
 
         public static void PlayerOnBullet(List<Enemy> enemies, Player player)
@@ -38,8 +43,9 @@ namespace MonoGameWindowsStarter
                     {
                         if (player.Bounds.Intersects(b.Position))
                         {
-                            //player.BulletSpawner.Bullets[i].Alive = false;
-                            player.Alive = false;
+                            b.Alive = false;
+                            // player.Alive = false;
+                            b.HitEntity = true;
                         }
                     }
                 }
@@ -53,7 +59,7 @@ namespace MonoGameWindowsStarter
 
         public static void CheckAll(List<Enemy> enemies, List<BulletSpawner> bulletSpawners, Player player)
         {
-            EnemyOnBullet(enemies, player);
+            EnemyOnBullet(enemies, player.BulletSpawner);
             PlayerOnBullet(enemies, player);
             PlayerOnEnemy(enemies, player);
         }

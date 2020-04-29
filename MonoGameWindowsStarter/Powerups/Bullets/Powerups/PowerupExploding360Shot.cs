@@ -11,9 +11,9 @@ namespace MonoGameWindowsStarter.Powerups.Bullets.Powerups
     {
         public override string TextureName => "Bullets/Bullet_3";
 
-        public override Vector2 Velocity => new Vector2(0, -5f);
+        public override Vector2 Velocity => new Vector2(0, -10f);
 
-        public override Vector2 Scale => new Vector2(0.05f, 0.05f);
+        public override Vector2 Scale => new Vector2(0.1f, 0.1f);
 
         public override TimeSpan TimeBetweenBullets => new TimeSpan(0, 0, 0, 1);
 
