@@ -13,14 +13,14 @@ namespace MonoGameWindowsStarter
 
         public static void EnemyOnBullet(List<Enemy> enemies, BulletSpawner bulletSpawner)
         {
-            foreach(Bullet b in bulletSpawner.Bullets)
+            foreach(Bullet bullet in bulletSpawner.Bullets)
             {
-                foreach(Enemy e in enemies)
+                foreach(Enemy enemy in enemies)
                 {
-                    if (e.Alive && e.Bounds.Intersects(b.Position)){
-                        b.Alive = false;
-                        e.Alive = false;
-                        b.HitEntity = true;
+                    if (enemy.Alive && enemy.Bounds.Intersects(bullet.Position)) {
+                        bullet.Alive = false;
+                        enemy.Alive = false;
+                        bullet.HitEntity = true;
                     }
                 }
             }
@@ -34,17 +34,17 @@ namespace MonoGameWindowsStarter
         public static void PlayerOnBullet(List<Enemy> enemies, Player player)
         {
             
-            foreach(Enemy e in enemies)
+            foreach(Enemy enemy in enemies)
             {
-                if (e.GetType() != typeof(BasicEnemy))
+                if (enemy.GetType() != typeof(BasicEnemy))
                 {
-                    ShootingEnemy tempE = (ShootingEnemy)e;
+                    ShootingEnemy tempE = (ShootingEnemy)enemy;
                     foreach(Bullet b in tempE.bulletSpawner.Bullets)
                     {
                         if (player.Bounds.Intersects(b.Position))
                         {
                             b.Alive = false;
-                            // player.Alive = false;
+                            player.Alive = false;
                             b.HitEntity = true;
                         }
                     }
