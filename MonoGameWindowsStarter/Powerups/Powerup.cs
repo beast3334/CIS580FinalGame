@@ -66,6 +66,11 @@ namespace MonoGameWindowsStarter.Powerups
         /// </summary>
         public virtual int NumberToSpawnOnShoot => 1;
 
+        /// <summary>
+        /// The powerup to spawn after the bullet has impacted another entity
+        /// </summary>
+        public virtual Powerup SpawnAfterImpact => null;
+
         //Extend with any methods required by all powerups.
 
         //Will allow for abstract access to all powerups, instead of by name.
