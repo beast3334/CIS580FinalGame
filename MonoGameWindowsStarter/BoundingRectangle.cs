@@ -60,6 +60,28 @@ namespace MonoGameWindowsStarter
             return new BoundingRectangle(br.X, br.Y, tempVect2.X, tempVect2.Y);
         }
 
+        /// <summary>
+        /// Finds if a given rectangle intersects with the rectangle the method was called on
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public bool Intersects(Rectangle b)
+        {
+            if (this.X < b.X + b.Width &&
+                this.X + this.Width > b.X &&
+                this.Y < b.Y + b.Height &&
+                this.Y + this.Height > b.Y)
+            {
+                return true;
+            }
+            else { return false; }
+        }
+        public bool Intersects(Vector2 b)
+        {
+            if(b.X>=this.X && b.X <=this.X+this.Width && b.Y>=this.Y && b.Y <= this.Y + this.Height) { return true; }
+            else { return false; }
+        }
+
     }
 
 

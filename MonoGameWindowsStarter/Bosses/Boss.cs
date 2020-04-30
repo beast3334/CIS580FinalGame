@@ -15,6 +15,15 @@ namespace MonoGameWindowsStarter.Bosses
     /// </summary>
     public abstract class Boss : EntityAlive
     {
+
+        //how much health each boss will be able to take
+        public int health;
+        //bool to activate when it is time for a boss to appear
+        public bool active;
+        //speed of the boss's movement
+        public int speed;
+
+
         //Additonal methods can be defined here that apply to all bosses in the game.
 
         //Having an abstract class will allow for referecence to all bosses abstractly, rather than by name.

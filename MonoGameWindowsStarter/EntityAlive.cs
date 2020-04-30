@@ -11,6 +11,7 @@ namespace MonoGameWindowsStarter
 {
     public abstract class EntityAlive
     {
+        public virtual bool Alive { get; set; } = true;
         public abstract BoundingRectangle Bounds { get; }
 
         public abstract void Update(GameTime gameTime);
