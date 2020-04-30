@@ -24,7 +24,7 @@ namespace MonoGameWindowsStarter.Bosses
             this.content = content;
         }
 
-        public override void LoadContent()
+        public override void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("CircleShooterBoss");
             bounds.Height = 200;
