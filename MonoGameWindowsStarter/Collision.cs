@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using MonoGameWindowsStarter.Powerups;
 using MonoGameWindowsStarter.Powerups.Bullets;
 using MonoGameWindowsStarter.Enemies;
+using MonoGameWindowsStarter.PlayerNamespace;
 using System.Collections.Generic;
 
 namespace MonoGameWindowsStarter
