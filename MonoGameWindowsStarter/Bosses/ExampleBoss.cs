@@ -8,8 +8,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
-//using MonoGameWindowsStarter.Powerups.Bullets;
-//using MonoGameWindowsStarter.Powerups.Bullets.Powerups;
 
 
 namespace MonoGameWindowsStarter.Bosses
@@ -20,14 +18,15 @@ namespace MonoGameWindowsStarter.Bosses
         Texture2D texture;
         Game1 game;
         Random random;
+        ContentManager content;
+        bool attackRand = true;
 
         //adding a timer to make the boss move in different patterns
         double bossTimer;
 
-        //added to make boss shoot at the player
-        //public BulletSpawner bulletSpawner;
-        double shootTimer;
 
+        //a bool that if true will make the boss move back and forth
+        bool moving = true;
         public override BoundingRectangle Bounds => bounds;
 
 
@@ -41,20 +40,16 @@ namespace MonoGameWindowsStarter.Bosses
             bounds.Width = 200;
             LoadContent();
             //setting the speed for this specific boss
-            speed = 2;
-            //adding in shooting for the boss
-            //bulletSpawner = new BulletSpawner(game, this);
-            //bulletSpawner.Powerup = new PowerupDefaultEnemy();
+            speed = 3;
 
-            random = new Random();
-
+            
+            
 
         }
 
-        public override void LoadContent(ContentManager content)
+        public override void LoadContent()
         {
             texture = content.Load<Texture2D>("movieTheater");
-           // bulletSpawner.LoadContent(content);
         }
 
         public override void Update(GameTime gameTime)
@@ -62,22 +57,29 @@ namespace MonoGameWindowsStarter.Bosses
             //Depends on Boss
             bossTimer += gameTime.ElapsedGameTime.TotalSeconds;
 
-            //adds shooting
-            //shootTimer += gameTime.ElapsedGameTime.TotalSeconds;
-            //if (shootTimer >= 1.5)
-            //{
-            //    bulletSpawner.Shoot();
-            //    shootTimer = 0;
-            //}
 
             //check to trigger different movement
-            if(bossTimer > random.Next(7,11))
+            random = new Random();
+
+            if (bossTimer > random.Next(5,11))
             {
-                Attack();
+                
+                if (attackRand)
+                {
+                    Attack1();
+                }
+                else
+                {
+                    moving = false;
+                    Attack2();
+                }
+
+                    
             }
 
-            //move this boss side to side
+            //move this boss side to side if Moving is true
 
+            if(moving)
             bounds.X += speed;
 
             //Check Y bounds
@@ -103,18 +105,15 @@ namespace MonoGameWindowsStarter.Bosses
             }
 
 
-            //update bulletspawner
-            //bulletSpawner.Update(gameTime);
 
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, bounds, Color.White);
-           // bulletSpawner.Draw(spriteBatch);
         }
 
-        public void Attack()
+        public void Attack1()
         {
             
             //once this is triggered the boss should go down towards the player bounce off the bottom sceen and go back
@@ -129,8 +128,32 @@ namespace MonoGameWindowsStarter.Bosses
                 bounds.Y = 0;
                 //reseting the timer should stop the method from being called
                 bossTimer = 0;
+                attackRand = false;
             }
 
         }
+
+        public void Attack2()
+        {
+
+            //once this is triggered the boss should go down towards the player bounce off the bottom sceen and go back
+            bounds.Y += speed;
+            if (bounds.Y >= game.GraphicsDevice.Viewport.Height - bounds.Height)
+            {
+                bounds.Y = game.GraphicsDevice.Viewport.Height - bounds.Height;
+                speed *= -1;
+            }
+            if (bounds.Y <= 0)
+            {
+                bounds.Y = 0;
+                //reseting the timer should stop the method from being called
+                bossTimer = 0;
+                moving = true;
+                attackRand = true;
+            }
+
+        }
+
+
     }
 }

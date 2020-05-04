@@ -6,7 +6,7 @@ using MonoGameWindowsStarter.Powerups;
 using MonoGameWindowsStarter.Powerups.Bullets;
 using MonoGameWindowsStarter.Enemies;
 using System.Collections.Generic;
-
+using MonoGameWindowsStarter.Bosses;
 
 namespace MonoGameWindowsStarter
 {
@@ -21,8 +21,10 @@ namespace MonoGameWindowsStarter
         BackgroundTileModel backgroundTileModel;
         Background background;
 
-        List<BulletSpawner> BulletSpawners = new List<BulletSpawner>();
+      //  List<BulletSpawner> BulletSpawners = new List<BulletSpawner>();
         List<Enemy> Enemies;
+
+        ExampleBoss exampleBoss;
 
 
         public Game1()
@@ -69,7 +71,7 @@ namespace MonoGameWindowsStarter
             Enemies.Add(new ShootingEnemy(this, Content));
 
             VisualDebugging.LoadContent(Content);
-
+            exampleBoss = new ExampleBoss(this, Content, player);
         }
 
         /// <summary>
@@ -92,7 +94,7 @@ namespace MonoGameWindowsStarter
                 Exit();
 
             player.Update(gameTime);
-
+            exampleBoss.Update(gameTime);
             for(int i =0; i<Enemies.Count; i++)
             {
                 Enemies[i].Update(gameTime);
@@ -101,7 +103,7 @@ namespace MonoGameWindowsStarter
             background.Update(gameTime);
             base.Update(gameTime);
             //Check all collisions
-            Collision.CheckAll(Enemies, BulletSpawners, player);
+          //  Collision.CheckAll(Enemies, BulletSpawners, player);
             //remove dead enemies
             for(int i=0; i<Enemies.Count; i++)
             {
@@ -122,7 +124,7 @@ namespace MonoGameWindowsStarter
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-
+            
             background.Draw(spriteBatch);
 
             if (player.Alive)
@@ -133,7 +135,7 @@ namespace MonoGameWindowsStarter
             {
                 Enemies[i].Draw(spriteBatch);
             }
-
+            exampleBoss.Draw(spriteBatch);
 
             spriteBatch.End();
 

@@ -13,7 +13,8 @@ namespace MonoGameWindowsStarter.Bosses
     /// <summary>
     /// An abstract class containing all the items that an in game boss must possess
     /// </summary>
-    public abstract class Boss : EntityAlive
+    //public abstract class Boss : EntityAlive
+    public abstract class Boss
     {
 
         //how much health each boss will be able to take
