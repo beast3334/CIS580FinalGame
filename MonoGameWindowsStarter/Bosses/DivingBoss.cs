@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace MonoGameWindowsStarter.Bosses
 {
-    class ExampleBoss : Boss
+    class DivingBoss : Boss
     {
         BoundingRectangle bounds;
         Texture2D texture;
@@ -30,7 +30,7 @@ namespace MonoGameWindowsStarter.Bosses
         public override BoundingRectangle Bounds => bounds;
 
 
-        public ExampleBoss(Game1 game, ContentManager content, Player player)
+        public DivingBoss(Game1 game, ContentManager content, Player player)
         {
             this.game = game;
             this.content = content;
@@ -61,9 +61,10 @@ namespace MonoGameWindowsStarter.Bosses
             //check to trigger different movement
             random = new Random();
 
-            if (bossTimer > random.Next(5,11))
+            if (bossTimer > random.Next(7,11))
             {
-                
+                //random = new Random();
+
                 if (attackRand)
                 {
                     Attack1();
@@ -130,7 +131,6 @@ namespace MonoGameWindowsStarter.Bosses
                 bossTimer = 0;
                 attackRand = false;
             }
-
         }
 
         public void Attack2()
@@ -151,7 +151,6 @@ namespace MonoGameWindowsStarter.Bosses
                 moving = true;
                 attackRand = true;
             }
-
         }
 
 

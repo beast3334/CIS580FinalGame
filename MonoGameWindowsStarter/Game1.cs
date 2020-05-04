@@ -24,7 +24,7 @@ namespace MonoGameWindowsStarter
       //  List<BulletSpawner> BulletSpawners = new List<BulletSpawner>();
         List<Enemy> Enemies;
 
-        ExampleBoss exampleBoss;
+        DivingBoss exampleBoss;
 
 
         public Game1()
@@ -71,7 +71,7 @@ namespace MonoGameWindowsStarter
             Enemies.Add(new ShootingEnemy(this, Content));
 
             VisualDebugging.LoadContent(Content);
-            exampleBoss = new ExampleBoss(this, Content, player);
+            exampleBoss = new DivingBoss(this, Content, player);
         }
 
         /// <summary>
