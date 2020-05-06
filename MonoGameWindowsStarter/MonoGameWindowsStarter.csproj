@@ -62,7 +62,6 @@
     <Compile Include="Powerups\Bullets\Bullet.cs" />
     <Compile Include="Powerups\Bullets\BulletPosition.cs" />
     <Compile Include="Powerups\Bullets\BulletSpawner.cs" />
-    <Compile Include="Powerups\Bullets\Powerups\PowerupAcceleration.cs" />
     <Compile Include="Powerups\Bullets\Powerups\PowerupTriplePenetration.cs" />
     <Compile Include="Powerups\Bullets\Powerups\PowerupPenetration.cs" />
     <Compile Include="Powerups\Bullets\Powerups\PowerupDefaultEnemy.cs" />

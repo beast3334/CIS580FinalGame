@@ -19,7 +19,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets.Powerups
 
         public override Color Color => Color.White;
 
-        public override float Damage => 2f;
+        public override float Damage => 0.5f;
 
         public override float RotationBetweenBullets => (float)(Math.PI / 10);
 

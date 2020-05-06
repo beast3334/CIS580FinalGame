@@ -34,7 +34,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         /// The powerup this spawner is currently using
         /// <para>Default: PowerupDefault</para>
         /// </summary>
-        public Powerup Powerup { get; set; } = new PowerupExploding360Shot();
+        public Powerup Powerup { get; set; } = new PowerupLaser();
 
         /// <summary>
         /// Texture for the bullet's to use

@@ -13,6 +13,9 @@ using MonoGameWindowsStarter.PlayerNamespace.Powerups;
 
 namespace MonoGameWindowsStarter.PlayerNamespace
 {
+    /// <summary>
+    /// Different states of the Player
+    /// </summary>
     public enum PlayerState
     {
         Idle,
@@ -21,23 +24,57 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         Left,
         Right
     }
+
     public class Player : EntityAlive
     {
         Game1 game;
         List<Tuple<PlayerState, Texture2D>> Textures = new List<Tuple<PlayerState, Texture2D>>();
         BoundingRectangle bounds = new BoundingRectangle();
 
-        public PlayerState State { get; set; } = PlayerState.Idle;
+        /// <summary>
+        /// State of the player
+        /// </summary>
+        public PlayerState State { get; private set; } = PlayerState.Idle;
+
+        /// <summary>
+        /// Bounds of the player
+        /// </summary>
         public override BoundingRectangle Bounds { get => bounds; }
 
+        /// <summary>
+        /// Velocity of the player
+        /// </summary>
         public Vector2 Velocity { get; set; } = Vector2.Zero;
 
+        /// <summary>
+        /// Scale of the player
+        /// </summary>
         public Vector2 Scale { get; set; } = Vector2.One;
 
-        public float Health { get; set; }
+        /// <summary>
+        /// Current number of Hearts for the player
+        /// </summary>
+        public int Hearts { get; set; }
 
+        /// <summary>
+        /// Max number of hearts that the player can have
+        /// </summary>
+        public int MaxHearts { get; set; } = 3;
+
+        /// <summary>
+        /// The bullet spawner
+        /// </summary>
         public BulletSpawner BulletSpawner { get; set; }
-        public PlayerPowerup Powerup { get; set; } = new PlayerPowerup_Default();
+
+        /// <summary>
+        /// The currently used powerup
+        /// </summary>
+        public PlayerPowerup CurrentPowerup { get; private set; } = new PlayerPowerup_Default();
+
+        /// <summary>
+        /// Temporary Powerup the player picked up
+        /// </summary>
+        public PlayerPowerup TempPowerup { get; set; } = null;
 
         public Player(Game1 game)
         {
@@ -50,11 +87,34 @@ namespace MonoGameWindowsStarter.PlayerNamespace
             }
         }
 
-        private Texture2D GetTexture2D(PlayerState ps)
+        /// <summary>
+        /// Add hearts to the Player
+        /// </summary>
+        /// <param name="numberOfHearts">The number of hearts to add to the player</param>
+        public void AddHearts_InGame(int numberOfHearts)
+        {
+            Hearts += numberOfHearts;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="numberOfHearts"></param>
+        public void AddHearts_InMenu(int numberOfHearts)
+        {
+            MaxHearts += numberOfHearts;
+            Hearts = MaxHearts;
+        }
+
+        /// <summary>
+        /// Gets the Texture of the player
+        /// </summary>
+        /// <returns>The Player's current Texture2D</returns>
+        private Texture2D GetPlayerTexture()
         {
             for (int i = 0; i < Textures.Count; i++)
             {
-                if (Textures[i].Item1 == ps)
+                if (Textures[i].Item1 == State)
                 {
                     return Textures[i].Item2;
                 }
@@ -62,10 +122,13 @@ namespace MonoGameWindowsStarter.PlayerNamespace
             return Textures[0].Item2;
         }
 
+        /// <summary>
+        /// Updates the player's bounds
+        /// </summary>
         private void UpdateBounds()
         {
             // Gets the texture
-            var texture = GetTexture2D(State);
+            var texture = GetPlayerTexture();
 
             // Sets the bounds according to the texture
             bounds = new BoundingRectangle(
@@ -76,21 +139,29 @@ namespace MonoGameWindowsStarter.PlayerNamespace
             );
         }
 
+        /// <summary>
+        /// Changes the powerup of the player
+        /// </summary>
+        /// <param name="powerup">Powerup to add</param>
         public void ChangePowerup(PlayerPowerup powerup)
         {
-            Powerup = powerup;
+            CurrentPowerup = powerup;
             LoadContent(game.Content);
         }
 
+        /// <summary>
+        /// Loads the content and updates the powerup
+        /// </summary>
+        /// <param name="content">Content to load from</param>
         public override void LoadContent(ContentManager content)
         {
-            Powerup.TextureNames.ForEach(tex =>
+            CurrentPowerup.TextureNames.ForEach(tex =>
             {
                 Textures.Add(new Tuple<PlayerState, Texture2D>(tex.Item1, content.Load<Texture2D>(tex.Item2)));
             });
 
             // Get the texture
-            var texture = GetTexture2D(State);
+            var texture = GetPlayerTexture();
             // Set the bounds according to the texture
             bounds = new BoundingRectangle(
                 (game.GraphicsDevice.Viewport.Width - Bounds.Width) / 2, //Places player horizontally in the middle of viewwindow
@@ -99,9 +170,19 @@ namespace MonoGameWindowsStarter.PlayerNamespace
                 texture.Height * Scale.Y
             );
 
-            Velocity = Powerup.Velocity;
-            Scale = Powerup.Scale;
-            Health = Powerup.Health;
+            Velocity = CurrentPowerup.Velocity;
+            Scale = CurrentPowerup.Scale;
+
+            // Add to current hearts
+            if (CurrentPowerup.Hearts.Item1 == false)
+            {
+                Hearts += CurrentPowerup.Hearts.Item2;
+            }
+            // Replace the current hearts
+            else
+            {
+                Hearts = CurrentPowerup.Hearts.Item2;
+            }
 
             // Load the Bullet Spawner Content
             BulletSpawner.LoadContent(content);
@@ -184,9 +265,9 @@ namespace MonoGameWindowsStarter.PlayerNamespace
 
             // Draw the Player
             spriteBatch.Draw(
-                GetTexture2D(State), 
+                GetPlayerTexture(), 
                 bounds, 
-                Powerup.Color
+                CurrentPowerup.Color
             );
         }
     }

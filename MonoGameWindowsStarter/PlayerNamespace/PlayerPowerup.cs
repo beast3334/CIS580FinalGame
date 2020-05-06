@@ -24,7 +24,7 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         /// Direction and Speed
         /// <para>Default: X=0, Y=-10</para>
         /// </summary>
-        public virtual Vector2 Velocity { get; set; } = new Vector2(10);
+        public virtual Vector2 Velocity { get; set; } = new Vector2(15);
 
         /// <summary>
         /// Color for the SpriteBatch to use in the Draw method
@@ -33,9 +33,11 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         public virtual Color Color => Color.White;
 
         /// <summary>
-        /// Starting Health
-        /// <para>Default: 50</para>
+        /// Health to add or replace
+        /// <para>Bool: Replace the current health</para>
+        /// <para>Float: Amount of Health</para>
+        /// <para>Default: (false, 0) ; Add 0</para>
         /// </summary>
-        public virtual float Health => 50f;
+        public virtual Tuple<bool, int> Hearts => new Tuple<bool, int>(false, 0);
     }
 }
