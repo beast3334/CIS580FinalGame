@@ -64,7 +64,7 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         /// <summary>
         /// Current number of nukes the player can use
         /// </summary>
-        public int Nukes { get; set; } = 0;
+        public int Nukes { get; set; } = 3;
 
         /// <summary>
         /// The bullet spawner
@@ -187,6 +187,11 @@ namespace MonoGameWindowsStarter.PlayerNamespace
             _tempPowerupTimer = null;
             _usedTempPowerup = false;
             LoadContent(game.Content);
+        }
+
+        public void AddSpeed(Vector2 Speed)
+        {
+            Velocity += Speed;
         }
 
         /// <summary>
