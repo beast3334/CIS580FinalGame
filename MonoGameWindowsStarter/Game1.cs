@@ -6,7 +6,7 @@ using MonoGameWindowsStarter.Powerups;
 using MonoGameWindowsStarter.Powerups.Bullets;
 using MonoGameWindowsStarter.Enemies;
 using System.Collections.Generic;
-
+using MonoGameWindowsStarter.PlayerNamespace;
 
 namespace MonoGameWindowsStarter
 {
@@ -114,7 +114,7 @@ namespace MonoGameWindowsStarter
             background.Update(gameTime);
             base.Update(gameTime);
             //Check all collisions
-            Collision.CheckAll(director.enemySpawner.Enemies, BulletSpawners, player);
+            Collision.CheckAll(director.enemySpawner.Enemies, player);
             //remove dead enemies
             //EnemySpawner.Update(gameTime);
             director.Update(gameTime);

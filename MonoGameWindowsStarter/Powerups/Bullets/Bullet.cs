@@ -42,7 +42,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         /// <summary>
         /// Amount of Damage this bullet gives
         /// </summary>
-        public float Damage { get; }
+        public int Damage { get; }
 
         /// <summary>
         /// Color for the SpriteBatch to use in the Draw method

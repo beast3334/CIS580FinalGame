@@ -58,7 +58,7 @@ namespace MonoGameWindowsStarter.Powerups
         /// Amount of Damage the bullet does on collision
         /// <para>Default: 1</para>
         /// </summary>
-        public virtual float Damage => 1.0f;
+        public virtual int Damage => 1;
 
         /// <summary>
         /// Number of Bullets to dispersely shoot
