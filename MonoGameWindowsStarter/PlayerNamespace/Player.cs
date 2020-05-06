@@ -62,6 +62,11 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         public int MaxHearts { get; set; } = 3;
 
         /// <summary>
+        /// Current number of nukes the player can use
+        /// </summary>
+        public int Nukes { get; set; } = 0;
+
+        /// <summary>
         /// The bullet spawner
         /// </summary>
         public BulletSpawner BulletSpawner { get; set; }
@@ -88,19 +93,26 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         }
 
         /// <summary>
-        /// Add hearts to the Player
+        /// Adds hearts to the Player's current heart count if it isn't already full
         /// </summary>
         /// <param name="numberOfHearts">The number of hearts to add to the player</param>
-        public void AddHearts_InGame(int numberOfHearts)
+        /// <returns>If a heart was added</returns>
+        public bool AddHearts_PickedUpPowerup(int numberOfHearts)
         {
-            Hearts += numberOfHearts;
+            if (Hearts < MaxHearts)
+            {
+                Hearts += numberOfHearts;
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
-        /// 
+        /// Adds hearts to the Player's max heart count
+        /// <para>Fills the players current hearts</para>
         /// </summary>
         /// <param name="numberOfHearts"></param>
-        public void AddHearts_InMenu(int numberOfHearts)
+        public void AddHearts_PurchasedPowerup(int numberOfHearts)
         {
             MaxHearts += numberOfHearts;
             Hearts = MaxHearts;
