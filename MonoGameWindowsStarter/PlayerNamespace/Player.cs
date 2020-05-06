@@ -79,7 +79,10 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         /// <summary>
         /// Temporary Powerup the player picked up
         /// </summary>
-        public PlayerPowerup TempPowerup { get; set; } = null;
+        public PlayerPowerup TempPowerup { get; private set; } = null;
+
+        private TimeSpan? _tempPowerupTimer = null;
+        private bool _usedTempPowerup = false;
 
         public Player(Game1 game)
         {
@@ -155,9 +158,34 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         /// Changes the powerup of the player
         /// </summary>
         /// <param name="powerup">Powerup to add</param>
-        public void ChangePowerup(PlayerPowerup powerup)
+        public void ChangePowerup_Permanent(PlayerPowerup powerup)
         {
             CurrentPowerup = powerup;
+            TempPowerup = null;
+            _tempPowerupTimer = null;
+            _usedTempPowerup = false;
+            LoadContent(game.Content);
+        }
+
+        /// <summary>
+        /// Gives the player a temp powerup that lasts until they use it or the timer runs out
+        /// </summary>
+        /// <param name="powerup">Powerup to use</param>
+        public void ChangePowerup_PickedUp(PlayerPowerup powerup)
+        {
+            TempPowerup = CurrentPowerup;
+            CurrentPowerup = powerup;
+            _tempPowerupTimer = powerup.Timer;
+            _usedTempPowerup = false;
+            LoadContent(game.Content);
+        }
+
+        private void ChangeTempPowerupBack()
+        {
+            CurrentPowerup = TempPowerup;
+            TempPowerup = null;
+            _tempPowerupTimer = null;
+            _usedTempPowerup = false;
             LoadContent(game.Content);
         }
 
@@ -245,6 +273,13 @@ namespace MonoGameWindowsStarter.PlayerNamespace
             if (keyboardState.IsKeyDown(Keys.Space))
             {
                 BulletSpawner.Shoot();
+
+                // The temporary powerup is used
+                if (TempPowerup != null)
+                {
+                    // Knows the powerup is used
+                    _usedTempPowerup = true;
+                }
             }
 
             //Check Y bounds
@@ -268,6 +303,16 @@ namespace MonoGameWindowsStarter.PlayerNamespace
 
             // Update the Bullet Spawner
             BulletSpawner.Update(gameTime);
+
+            if (_tempPowerupTimer != null)
+            {
+                _tempPowerupTimer -= gameTime.ElapsedGameTime;
+
+                if (_tempPowerupTimer.Value.Ticks < 0 && _usedTempPowerup == true)
+                {
+                    ChangeTempPowerupBack();
+                }
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
