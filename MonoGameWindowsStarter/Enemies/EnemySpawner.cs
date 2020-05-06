@@ -40,14 +40,35 @@ namespace MonoGameWindowsStarter.Enemies
             Content = content;
         }
 
-        public void Update(GameTime gameTime)
+        public void SpawnRandom()
         {
-            timer += gameTime.ElapsedGameTime.TotalSeconds;
-            
             if (timer >= 2 && state == State.Idle)
             {
-                pos = random.Next(50, 900);
-                var r = random.Next(0, 4);
+                pos = random.Next(50, 1000);
+                var r = random.Next(0, 100);
+                if(r>=0 && r<= 30)
+                {
+                    Enemies.Add(new BasicEnemy(game, Content, pos));
+                }
+                else if(r>30 && r <= 60)
+                {
+                    Enemies.Add(new BasicShootingEnemy(game, Content, pos));
+                }
+                else if(r>60 && r <= 80)
+                {
+                    Enemies.Add(new SwervingEnemy(game, Content, pos));
+                }
+                else if(r>80 && r <= 85)
+                {
+                    Enemies.Add(new SwervingEnemy(game, Content, pos));
+                    state = State.Spawning;
+                }
+                else if(r>85 && r<= 95)
+                {
+                    Enemies.Add(new TrackingEnemy(game, Content, pos));
+                }
+                
+                /* old spawning method
                 switch (r)
                 {
                     case 0:
@@ -62,14 +83,21 @@ namespace MonoGameWindowsStarter.Enemies
                     case 3:
                         Enemies.Add(new SwervingEnemy(game, Content, pos));
                         state = State.Spawning;
-                        
+
                         break;
-                        
-                } 
-                //Enemies.Add(new BasicShootingEnemy(game, Content));
+
+                }*/
+                
                 timer = 0;
             }
-            else if(state == State.Spawning)
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            timer += gameTime.ElapsedGameTime.TotalSeconds;
+            
+            
+            if(state == State.Spawning)
             {
                 timer2 += gameTime.ElapsedGameTime.TotalSeconds;
                 if(timer2 >= .5 && counter <5)
@@ -96,6 +124,10 @@ namespace MonoGameWindowsStarter.Enemies
             {
                 if (Enemies[i].ReadyForTrash == true)
                 {
+                    if (Enemies[i].Bounds.Y < game.GraphicsDevice.Viewport.Height)
+                    {
+                        game.Score += Enemies[i].points;
+                    }
                     Enemies.Remove(Enemies[i]);
                     i--;
                 }

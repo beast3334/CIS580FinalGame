@@ -18,6 +18,7 @@ namespace MonoGameWindowsStarter.Enemies
         Texture2D texture;
         Game1 game;
 
+
         public override BoundingRectangle Bounds => bounds;
 
         public BasicEnemy(Game1 game, ContentManager content, int position)
@@ -25,15 +26,16 @@ namespace MonoGameWindowsStarter.Enemies
             this.game = game;
             bounds.X = position;
             bounds.Y = 50;
-            bounds.Height = 50;
-            bounds.Width = 50;
+            bounds.Height = 120;
+            bounds.Width = 120;
             LoadContent(content);
+            Health = 2;
         }
 
 
         public override void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("playerShip");
+            texture = content.Load<Texture2D>("Enemy2");
         }
 
         public override void Update(GameTime gameTime)
@@ -52,7 +54,7 @@ namespace MonoGameWindowsStarter.Enemies
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, bounds, Color.Red);
+            spriteBatch.Draw(texture, bounds, Color.White);
         }
     }
 }

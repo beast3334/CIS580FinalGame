@@ -47,6 +47,7 @@
     <Compile Include="Bosses\Boss.cs" />
     <Compile Include="BoundingRectangle.cs" />
     <Compile Include="Collision.cs" />
+    <Compile Include="Director.cs" />
     <Compile Include="Enemies\EnemySpawner.cs" />
     <Compile Include="Enemies\ShootingEnemy.cs" />
     <Compile Include="Enemies\SwervingEnemy.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Enemies\BasicEnemy.cs" />
     <Compile Include="Enemies\Enemy.cs" />
     <Compile Include="Enemies\ExampleEnemy.cs" />
+    <Compile Include="Enemies\TrackingEnemy.cs" />
     <Compile Include="EntityAlive.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Player.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="Powerups\Bullets\BulletPosition.cs" />
     <Compile Include="Powerups\Bullets\BulletSpawner.cs" />
     <Compile Include="Powerups\Bullets\Powerups\PowerupAcceleration.cs" />
+    <Compile Include="Powerups\Bullets\Powerups\PowerupTrackingEnemy.cs" />
     <Compile Include="Powerups\Bullets\Powerups\PowerupTriplePenetration.cs" />
     <Compile Include="Powerups\Bullets\Powerups\PowerupPenetration.cs" />
     <Compile Include="Powerups\Bullets\Powerups\PowerupDefaultEnemy.cs" />
