@@ -19,5 +19,7 @@ namespace MonoGameWindowsStarter.Enemies
         //Will allow for abstract access to all enemies, instead of by name.
         //public bool Alive { get; set; } = true;
         public bool ReadyForTrash = false;
+        public int Health = 0;
+        public int points = 100;
     }
 }

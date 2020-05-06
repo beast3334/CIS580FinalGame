@@ -11,6 +11,7 @@ namespace MonoGameWindowsStarter
 {
     static class Collision
     {
+        //static int counter = 0;
 
         public static void EnemyOnBullet(List<Enemy> enemies, BulletSpawner bulletSpawner)
         {
@@ -20,16 +21,26 @@ namespace MonoGameWindowsStarter
                 {
                     if (enemy.Alive && enemy.Bounds.Intersects(bullet.Position)) {
                         bullet.Alive = false;
-                        enemy.Alive = false;
+                        
+                            if (enemy.Health <= 1)
+                            {
+                                enemy.Alive = false;
+                            }
+                            else
+                            {
+                                enemy.Health--;
+                            }
+                        
                         bullet.HitEntity = true;
                     }
                 }
             }
-
+            
             foreach (BulletSpawner bs in bulletSpawner.BulletSpawners)
             {
                 EnemyOnBullet(enemies, bs);
             }
+            
         }
 
         public static void PlayerOnBullet(List<Enemy> enemies, Player player)
@@ -55,7 +66,13 @@ namespace MonoGameWindowsStarter
 
         public static void PlayerOnEnemy(List<Enemy> enemies, Player player)
         {
-
+            foreach(Enemy e in enemies)
+            {
+                if (player.Bounds.Intersects(e.Bounds)){
+                    e.Alive = false;
+                    player.Alive = false;
+                }
+            }
         }
 
         public static void CheckAll(List<Enemy> enemies, List<BulletSpawner> bulletSpawners, Player player)
