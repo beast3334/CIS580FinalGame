@@ -39,5 +39,11 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         /// <para>Default: (false, 0) ; Add 0</para>
         /// </summary>
         public virtual Tuple<bool, int> Hearts => new Tuple<bool, int>(false, 0);
+
+        /// <summary>
+        /// How long the powerup lasts if it is picked up
+        /// <para>Default: 30 seconds</para>
+        /// </summary>
+        public virtual TimeSpan Timer => new TimeSpan(0, 0, 30);
     }
 }
