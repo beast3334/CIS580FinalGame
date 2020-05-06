@@ -21,6 +21,12 @@ namespace MonoGameWindowsStarter
         BackgroundTileModel backgroundTileModel;
         Background background;
         public int Score;
+        public int Wave;
+        SpriteFont mainFont;
+        int playerHearts;
+        int playerNukes;
+        Texture2D heart;
+        Texture2D nuke;
 
         List<BulletSpawner> BulletSpawners = new List<BulletSpawner>();
         //List<Enemy> Enemies;
@@ -59,7 +65,11 @@ namespace MonoGameWindowsStarter
         protected override void LoadContent()
         {
             Score = 0;
-
+            Wave = 1;
+            playerHearts = 3;
+            playerNukes = 3;
+            heart = Content.Load<Texture2D>("Heart");
+            nuke = Content.Load<Texture2D>("Nuke");
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             
@@ -74,6 +84,7 @@ namespace MonoGameWindowsStarter
             // EnemySpawner.LoadContent(Content);
             director = new Director(this);
             director.LoadContent(Content);
+            mainFont = Content.Load<SpriteFont>("mainFont");
 
             VisualDebugging.LoadContent(Content);
 
@@ -128,6 +139,28 @@ namespace MonoGameWindowsStarter
             }
             //EnemySpawner.Draw(spriteBatch);
             director.Draw(spriteBatch);
+
+            // draw score
+            spriteBatch.DrawString(mainFont, "SCORE", new Vector2(40, 20), Color.Red);
+            spriteBatch.DrawString(mainFont, Score.ToString(), new Vector2(141, 20), Color.Red);
+
+            // draw wave
+            spriteBatch.DrawString(mainFont, "WAVE", new Vector2(1790, 20), Color.Red);
+            spriteBatch.DrawString(mainFont, Wave.ToString(), new Vector2(1875, 20), Color.Red);
+
+            // draw hearts
+            spriteBatch.DrawString(mainFont, "HEARTS", new Vector2(40, 1000), Color.Red);
+            for(int i = 1; i <= playerHearts; i++)
+            {
+                spriteBatch.Draw(heart, new BoundingRectangle(120 + (i * 40), 995, 35, 35), Color.White);
+            }
+
+            // draw nukes
+            spriteBatch.DrawString(mainFont, "NUKES", new Vector2(40, 1040), Color.Red);
+            for (int i = 1; i <= playerNukes; i++)
+            {
+                spriteBatch.Draw(nuke, new BoundingRectangle(120 + (i * 40), 1035, 35, 35), Color.White);
+            }
 
 
             spriteBatch.End();
