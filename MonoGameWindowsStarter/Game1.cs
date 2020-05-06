@@ -122,6 +122,8 @@ namespace MonoGameWindowsStarter
             EnemySpawner.Draw(spriteBatch);
 
 
+
+
             spriteBatch.End();
 
             base.Draw(gameTime);
