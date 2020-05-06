@@ -20,6 +20,6 @@ namespace MonoGameWindowsStarter.Powerups.Bullets.Powerups
 
         public override int NumberToSpawnOnShoot => 3;
 
-        public override float Damage => 5f;
+        public override int Damage => 2;
     }
 }

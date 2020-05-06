@@ -18,6 +18,6 @@ namespace MonoGameWindowsStarter.Powerups.Bullets.Powerups
 
         public override Powerup SpawnAfterImpact => new PowerupPenetration();
 
-        public override float Damage => 5f;
+        public override int Damage => 2;
     }
 }

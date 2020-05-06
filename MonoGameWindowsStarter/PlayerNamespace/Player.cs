@@ -54,7 +54,7 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         /// <summary>
         /// Current number of Hearts for the player
         /// </summary>
-        public int Hearts { get; set; }
+        public int Hearts { get; set; } = 3;
 
         /// <summary>
         /// Max number of hearts that the player can have
