@@ -18,6 +18,6 @@ namespace MonoGameWindowsStarter.Powerups.Bullets.Powerups
 
         public override Vector2 Acceleration => new Vector2(0, -1);
 
-        public override int NumberToSpawnOnShoot => 3;
+        public override int NumberToSpawnOnShoot => 1;
     }
 }

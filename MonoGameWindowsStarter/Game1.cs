@@ -17,13 +17,15 @@ namespace MonoGameWindowsStarter
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Player player;
+        public Player player;
         BackgroundTileModel backgroundTileModel;
         Background background;
+        public int Score;
 
         List<BulletSpawner> BulletSpawners = new List<BulletSpawner>();
         //List<Enemy> Enemies;
-        EnemySpawner EnemySpawner;
+        //EnemySpawner EnemySpawner;
+        Director director;
 
 
         public Game1()
@@ -56,6 +58,8 @@ namespace MonoGameWindowsStarter
         /// </summary>
         protected override void LoadContent()
         {
+            Score = 0;
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             
@@ -66,8 +70,10 @@ namespace MonoGameWindowsStarter
 
 
             //Enemies
-            EnemySpawner = new EnemySpawner(this);
-            EnemySpawner.LoadContent(Content);
+            //EnemySpawner = new EnemySpawner(this);
+            // EnemySpawner.LoadContent(Content);
+            director = new Director(this);
+            director.LoadContent(Content);
 
             VisualDebugging.LoadContent(Content);
 
@@ -97,9 +103,10 @@ namespace MonoGameWindowsStarter
             background.Update(gameTime);
             base.Update(gameTime);
             //Check all collisions
-            Collision.CheckAll(EnemySpawner.Enemies, BulletSpawners, player);
+            Collision.CheckAll(director.enemySpawner.Enemies, BulletSpawners, player);
             //remove dead enemies
-            EnemySpawner.Update(gameTime);
+            //EnemySpawner.Update(gameTime);
+            director.Update(gameTime);
             
         }
 
@@ -119,7 +126,8 @@ namespace MonoGameWindowsStarter
             {
                 player.Draw(spriteBatch);
             }
-            EnemySpawner.Draw(spriteBatch);
+            //EnemySpawner.Draw(spriteBatch);
+            director.Draw(spriteBatch);
 
 
 
