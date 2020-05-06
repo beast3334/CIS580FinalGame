@@ -23,8 +23,6 @@ namespace MonoGameWindowsStarter
         public int Score;
         public int Wave;
         SpriteFont mainFont;
-        int playerHearts;
-        int playerNukes;
         Texture2D heart;
         Texture2D nuke;
 
@@ -66,8 +64,6 @@ namespace MonoGameWindowsStarter
         {
             Score = 0;
             Wave = 1;
-            playerHearts = 3;
-            playerNukes = 3;
             heart = Content.Load<Texture2D>("Heart");
             nuke = Content.Load<Texture2D>("Nuke");
             // Create a new SpriteBatch, which can be used to draw textures.
@@ -150,14 +146,14 @@ namespace MonoGameWindowsStarter
 
             // draw hearts
             spriteBatch.DrawString(mainFont, "HEARTS", new Vector2(40, 1000), Color.Red);
-            for(int i = 1; i <= playerHearts; i++)
+            for(int i = 1; i <= player.Hearts; i++)
             {
                 spriteBatch.Draw(heart, new BoundingRectangle(120 + (i * 40), 995, 35, 35), Color.White);
             }
 
             // draw nukes
             spriteBatch.DrawString(mainFont, "NUKES", new Vector2(40, 1040), Color.Red);
-            for (int i = 1; i <= playerNukes; i++)
+            for (int i = 1; i <= player.Nukes; i++)
             {
                 spriteBatch.Draw(nuke, new BoundingRectangle(120 + (i * 40), 1035, 35, 35), Color.White);
             }
