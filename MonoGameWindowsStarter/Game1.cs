@@ -26,7 +26,7 @@ namespace MonoGameWindowsStarter
 
         DivingBoss exampleBoss;
 
-
+        UpgradeMenu upgradeMenu;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -72,6 +72,7 @@ namespace MonoGameWindowsStarter
 
             VisualDebugging.LoadContent(Content);
             exampleBoss = new DivingBoss(this, Content, player);
+            upgradeMenu = new UpgradeMenu(this, Content, player);
         }
 
         /// <summary>
@@ -113,6 +114,8 @@ namespace MonoGameWindowsStarter
                     i--;
                 }
             }
+            if (upgradeMenu.isOpen)
+                upgradeMenu.Update(gameTime);
         }
 
         /// <summary>
@@ -136,7 +139,8 @@ namespace MonoGameWindowsStarter
                 Enemies[i].Draw(spriteBatch);
             }
             exampleBoss.Draw(spriteBatch);
-
+            if (upgradeMenu.isOpen)
+                upgradeMenu.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
