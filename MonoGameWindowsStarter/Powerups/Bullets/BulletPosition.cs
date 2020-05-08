@@ -10,7 +10,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
 {
     public class BulletPosition
     {
-        readonly EntityAlive entity;
+        readonly EntityAlive Entity;
         BoundingRectangle bounds;
         Vector2 position;
         Vector2 bulletSize = Vector2.One;
@@ -18,9 +18,9 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         public Vector2 Position { 
             get {
                 // entity bounds is used
-                if (entity != null)
+                if (Entity != null)
                 {
-                    return new Vector2(entity.Bounds.X + (entity.Bounds.Width / 2) - (bulletSize.X / 2), entity.Bounds.Y);
+                    return new Vector2(Entity.Bounds.X, Entity.Bounds.Y);
                 }
                 // position is used
                 else if (position != null)
@@ -30,14 +30,14 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
                 // bounds is used
                 else
                 {
-                    return new Vector2(bounds.X + (bounds.Width / 2) - (bulletSize.X / 2), bounds.Y);
+                    return new Vector2(bounds.X, bounds.Y);
                 }
             }
         }
 
         public BulletPosition(EntityAlive entity, BulletSpawner bulletSpawner)
         {
-            this.entity = entity;
+            this.Entity = entity;
         }
 
         public BulletPosition(BoundingRectangle bounds, BulletSpawner bulletSpawner)

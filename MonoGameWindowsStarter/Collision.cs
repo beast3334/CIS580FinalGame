@@ -13,7 +13,7 @@ namespace MonoGameWindowsStarter
     {
         //static int counter = 0;
 
-        public static void EnemyOnBullet(List<Enemy> enemies, BulletSpawner bulletSpawner)
+        public static void EnemyOnBullet(List<EntityAlive> enemies, BulletSpawner bulletSpawner)
         {
             foreach(Bullet bullet in bulletSpawner.Bullets)
             {
@@ -49,7 +49,7 @@ namespace MonoGameWindowsStarter
         /// </summary>
         /// <param name="enemies"></param>
         /// <param name="player"></param>
-        public static void PlayerOnBullet(List<Enemy> enemies, Player player)
+        public static void PlayerOnBullet(List<EntityAlive> enemies, Player player)
         {
             foreach(Enemy enemy in enemies)
             {
@@ -101,7 +101,7 @@ namespace MonoGameWindowsStarter
         /// </summary>
         /// <param name="enemies">Enemies to check</param>
         /// <param name="player">Player to check</param>
-        public static void PlayerOnEnemy(List<Enemy> enemies, Player player)
+        public static void PlayerOnEnemy(List<EntityAlive> enemies, Player player)
         {
             foreach(Enemy enemy in enemies)
             {
@@ -145,7 +145,7 @@ namespace MonoGameWindowsStarter
         /// </summary>
         /// <param name="enemies">Enemies to check</param>
         /// <param name="player">Player to check</param>
-        public static void CheckAll(List<Enemy> enemies, Player player, Boss boss)
+        public static void CheckAll(List<EntityAlive> enemies, Player player, Boss boss)
         {
             EnemyOnBullet(enemies, player.BulletSpawner);
             PlayerOnBullet(enemies, player);
