@@ -58,6 +58,8 @@
     <Compile Include="Enemies\TrackingEnemy.cs" />
     <Compile Include="EntityAlive.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Particle.cs" />
+    <Compile Include="ParticleSystem.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Powerups\Bullets\Bullet.cs" />
     <Compile Include="Powerups\Bullets\BulletPosition.cs" />

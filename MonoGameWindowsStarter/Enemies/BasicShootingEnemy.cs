@@ -18,7 +18,7 @@ namespace MonoGameWindowsStarter.Enemies
 
         BoundingRectangle bounds;
         Texture2D texture;
-        Game1 game;
+        //Game1 game;
         int speed;
         //public BulletSpawner bulletSpawner;
         double shootTimer;
@@ -56,7 +56,7 @@ namespace MonoGameWindowsStarter.Enemies
         public override void Update(GameTime gameTime)
         {
             shootTimer += gameTime.ElapsedGameTime.TotalSeconds;
-            if(shootTimer >= 1.5 && Alive)
+            if(shootTimer >= 2.5 && Alive)
             {
                 bulletSpawner.Shoot();
                 shootTimer = 0;

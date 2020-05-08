@@ -18,7 +18,7 @@ namespace MonoGameWindowsStarter.Enemies
 
         BoundingRectangle bounds;
         Texture2D texture;
-        Game1 game;
+        //Game1 game;
         int speed;
         //public BulletSpawner bulletSpawner;
         double shootTimer;

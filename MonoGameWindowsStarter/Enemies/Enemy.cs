@@ -21,5 +21,7 @@ namespace MonoGameWindowsStarter.Enemies
         public bool ReadyForTrash = false;
         public int Health = 0;
         public int points = 100;
+        public Game1 game;
+
     }
 }

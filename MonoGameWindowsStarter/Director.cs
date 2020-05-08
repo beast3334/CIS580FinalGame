@@ -21,6 +21,7 @@ namespace MonoGameWindowsStarter
         //BossSpawner bossSpawner;
         //PowerupSpawner powerupSpawner
         Game1 game;
+        double timer = 0;
 
         public Director(Game1 game)
         {
@@ -39,11 +40,21 @@ namespace MonoGameWindowsStarter
 
         public void Update(GameTime gameTime)
         {
+            timer += gameTime.ElapsedGameTime.TotalSeconds;
             enemySpawner.Update(gameTime);
             //bossSpawner.Update(gameTime);
             //powerupSpawner.Update(gameTime);
 
             enemySpawner.SpawnRandom();
+            if(timer >= 8)
+            {
+                for(int i=0; i <= 3; i++)
+                {
+                    enemySpawner.SpawnWeak();
+                }
+                enemySpawner.SpawnStrong();
+                timer = 0;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
