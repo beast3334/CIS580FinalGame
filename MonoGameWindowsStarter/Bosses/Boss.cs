@@ -17,11 +17,14 @@ namespace MonoGameWindowsStarter.Bosses
     {
 
         //how much health each boss will be able to take
-        public int health;
+        public float healthMax;
+        public float healthCurrent;
         //bool to activate when it is time for a boss to appear
         public bool active;
+        public string bossName;
         //speed of the boss's movement
         public int speed;
+        public HealthBar healthBar;
 
 
         //Additonal methods can be defined here that apply to all bosses in the game.
