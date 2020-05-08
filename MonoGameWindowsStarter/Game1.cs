@@ -31,6 +31,7 @@ namespace MonoGameWindowsStarter
         //List<Enemy> Enemies;
         //EnemySpawner EnemySpawner;
         Director director;
+        UpgradeMenu upgradeMenu;
 
         //particles
         public ParticleSystem particleSystem;
@@ -144,6 +145,7 @@ namespace MonoGameWindowsStarter
             };
 
 
+            upgradeMenu = new UpgradeMenu(this, Content, player, Score);
             VisualDebugging.LoadContent(Content);
 
         }
@@ -195,11 +197,18 @@ namespace MonoGameWindowsStarter
             playerParticle.Update(gameTime);
             director.Update(gameTime);
 
+            //testing to draw the upgradeMenu
+            //temp: open upgrade by hitting 'U'
+            var keyboardState = Keyboard.GetState();
             
-            
-            
+            if (keyboardState.IsKeyDown(Keys.U))
+            {
+                upgradeMenu.isOpen = true;
+            }
 
 
+            if (upgradeMenu.isOpen)
+                upgradeMenu.Update(gameTime);
         }
 
         /// <summary>
@@ -245,7 +254,8 @@ namespace MonoGameWindowsStarter
             {
                 spriteBatch.Draw(nuke, new BoundingRectangle(120 + (i * 40), 1035, 35, 35), Color.White);
             }
-
+            if (upgradeMenu.isOpen)
+                upgradeMenu.Draw(spriteBatch);
 
             spriteBatch.End();
             particleSystem.Draw();
