@@ -59,6 +59,7 @@ namespace MonoGameWindowsStarter
 
         public  void Update(GameTime gameTime)
         {
+            playerPoints = game.Score;
             //display powerup names correctly
             if (player.BulletSpawner.Powerup.ToString() == "MonoGameWindowsStarter.Powerups.Bullets.Powerups.Powerup360Shot")
             {
@@ -184,6 +185,7 @@ namespace MonoGameWindowsStarter
                 }
             }
             oldKeyboard = keyboardState;
+            game.Score = playerPoints;
         }
 
         public void Draw(SpriteBatch spriteBatch)

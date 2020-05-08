@@ -31,7 +31,7 @@ namespace MonoGameWindowsStarter
         //List<Enemy> Enemies;
         //EnemySpawner EnemySpawner;
         Director director;
-        UpgradeMenu upgradeMenu;
+        public UpgradeMenu upgradeMenu;
 
         //particles
         public ParticleSystem particleSystem;

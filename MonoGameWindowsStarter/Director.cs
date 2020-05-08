@@ -15,6 +15,12 @@ using System.Threading.Tasks;
 
 namespace MonoGameWindowsStarter
 {
+    enum State
+    {
+        Enemy,
+        Boss,
+        Shop
+    }
     class Director
     {
         public EnemySpawner enemySpawner;
@@ -22,6 +28,10 @@ namespace MonoGameWindowsStarter
         //PowerupSpawner powerupSpawner
         Game1 game;
         double timer = 0;
+        int credits = 100;
+        const int BEGINCREDITS = 100;
+
+        State state = State.Enemy;
 
         public Director(Game1 game)
         {
@@ -45,16 +55,59 @@ namespace MonoGameWindowsStarter
             //bossSpawner.Update(gameTime);
             //powerupSpawner.Update(gameTime);
 
-            enemySpawner.SpawnRandom();
-            if(timer >= 8)
+            if(state == State.Enemy && credits <= 0 && enemySpawner.Enemies.Count <= 0)
             {
-                for(int i=0; i <= 3; i++)
-                {
-                    enemySpawner.SpawnWeak();
-                }
-                enemySpawner.SpawnStrong();
-                timer = 0;
+                state = State.Boss;
             }
+            else if(state == State.Boss)
+            {
+                /*if (game.BossSpawner.boss == null)
+                {
+                    game.upgradeMenu.isOpen = true;
+                    state = State.Shop;
+                }*/
+            }
+            else if (state == State.Shop)
+            {
+                if (!game.upgradeMenu.isOpen)
+                {
+                    state = State.Enemy;
+                }
+            }
+
+            if (state == State.Enemy)
+            {
+
+                //spawn enemies
+                enemySpawner.SpawnRandom();
+                credits -= 5;
+                if (timer >= 8)
+                {
+                    for (int i = 0; i <= 3; i++)
+                    {
+                        enemySpawner.SpawnWeak();
+                        credits -= 5;
+                    }
+                    enemySpawner.SpawnStrong();
+                    credits -= 10;
+                    timer = 0;
+                }
+
+                //spawn powerups
+
+
+            }
+            else if (state == State.Boss)
+            {
+
+            }
+            else if (state == State.Shop)
+            {
+
+            }
+            
+
+            
         }
 
         public void Draw(SpriteBatch spriteBatch)
