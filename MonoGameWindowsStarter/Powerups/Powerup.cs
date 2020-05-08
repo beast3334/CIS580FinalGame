@@ -58,13 +58,18 @@ namespace MonoGameWindowsStarter.Powerups
         /// Amount of Damage the bullet does on collision
         /// <para>Default: 1</para>
         /// </summary>
-        public virtual float Damage => 1.0f;
+        public virtual int Damage => 1;
 
         /// <summary>
         /// Number of Bullets to dispersely shoot
         /// <para>Default: 1</para>
         /// </summary>
         public virtual int NumberToSpawnOnShoot => 1;
+
+        /// <summary>
+        /// The powerup to spawn after the bullet has impacted another entity
+        /// </summary>
+        public virtual Powerup SpawnAfterImpact => null;
 
         //Extend with any methods required by all powerups.
 

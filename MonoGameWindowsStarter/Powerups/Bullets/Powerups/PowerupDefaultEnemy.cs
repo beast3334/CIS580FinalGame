@@ -10,7 +10,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets.Powerups
 {
     public class PowerupDefaultEnemy : Powerup
     {
-        public override string TextureName => "bullet_default";
+        public override string TextureName => "Bullets/Bullet_1";
 
         public override Vector2 Velocity => new Vector2(0, 10);
 

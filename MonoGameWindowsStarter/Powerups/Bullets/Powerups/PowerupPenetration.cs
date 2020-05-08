@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MonoGameWindowsStarter.Powerups.Bullets.Powerups
 {
-    public class PowerupDefault : Powerup
+    public class PowerupPenetration : Powerup
     {
         public override string TextureName => "Bullets/Bullet_2";
 
@@ -16,6 +16,8 @@ namespace MonoGameWindowsStarter.Powerups.Bullets.Powerups
 
         public override Vector2 Velocity => new Vector2(0, -10f);
 
-        public override int NumberToSpawnOnShoot => 1;
+        public override Powerup SpawnAfterImpact => new PowerupPenetration();
+
+        public override int Damage => 2;
     }
 }
