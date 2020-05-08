@@ -8,13 +8,16 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
+using MonoGameWindowsStarter.PlayerNamespace;
+using MonoGameWindowsStarter.Powerups.Bullets.Powerups;
+using MonoGameWindowsStarter.Powerups;
 
 namespace MonoGameWindowsStarter
 {
     public class UpgradeMenu
     {
         //bool to see if the shop is open
-        public bool isOpen = true;
+        public bool isOpen = false;
 
         Texture2D texture;
         BoundingRectangle bounds;
@@ -22,16 +25,16 @@ namespace MonoGameWindowsStarter
         ContentManager content;
         KeyboardState oldKeyboard;
         //all of the variables that need to be displayed as a font
-        int playerSpeed = 1;
-        int nukeNumber = 0;
+        Vector2 playerSpeed = new Vector2(1,1);
         int playerPoints = 3000;
-        int playerHearts = 3;
+        int playerHearts;
         String bulletType;
         SoundEffect purchase;
 
         SpriteFont font;
+        Player player;
 
-        public UpgradeMenu(Game1 game, ContentManager content, Player player)
+        public UpgradeMenu(Game1 game, ContentManager content, Player players, int score)
         {
             this.game = game;
             this.content = content;
@@ -40,24 +43,48 @@ namespace MonoGameWindowsStarter
             bounds.Height = game.GraphicsDevice.Viewport.Height;
             bounds.Width = game.GraphicsDevice.Viewport.Width;
             //sets variables to be displayed in the menu to the same as the player's
-
-            //playerSpeed = player.Velocity;
-            bulletType = player.BulletSpawner.Powerup.ToString();
-            //nukeNumber = player.Nukes;
-            //playerHearts = player.Hearts;
-
+            player = players;
+            playerHearts = player.Hearts;
+           // playerPoints = score;
             LoadContent();
         }
 
         public void LoadContent()
         {
             texture = content.Load<Texture2D>("UpgradeMenu");
-            font = content.Load<SpriteFont>("font");
+            font = content.Load<SpriteFont>("mainFont");
             purchase = content.Load<SoundEffect>("upgrade");
         }
 
         public  void Update(GameTime gameTime)
         {
+            //display powerup names correctly
+            if (player.BulletSpawner.Powerup.ToString() == "MonoGameWindowsStarter.Powerups.Bullets.Powerups.Powerup360Shot")
+            {
+                bulletType = "360";
+            }
+            else if (player.BulletSpawner.Powerup.ToString() == "MonoGameWindowsStarter.Powerups.Bullets.Powerups.PowerupExploding360Shot")
+            {
+                bulletType = "Exploding";
+            }
+            else if (player.BulletSpawner.Powerup.ToString() == "MonoGameWindowsStarter.Powerups.Bullets.Powerups.PowerupLaser")
+            {
+                bulletType = "Laser";
+            }
+            else if (player.BulletSpawner.Powerup.ToString() == "MonoGameWindowsStarter.Powerups.Bullets.Powerups.PowerupPenetration")
+            {
+                bulletType = "Penetration";
+            }
+            else if (player.BulletSpawner.Powerup.ToString() == "MonoGameWindowsStarter.Powerups.Bullets.Powerups.PowerupTriplePenetration")
+            {
+                bulletType = "Trishot";
+            }
+            else
+            {
+                bulletType = "Default";
+            }
+            //bulletType = player.BulletSpawner.Powerup.ToString();
+
             var keyboardState = Keyboard.GetState();
             //resume
             if (keyboardState.IsKeyDown(Keys.Enter) )
@@ -70,6 +97,7 @@ namespace MonoGameWindowsStarter
                if(playerPoints >= 200)
                 {
                     playerPoints -= 200;
+                    player.BulletSpawner.ChangePowerup(new PowerupLaser());
                     purchase.Play();
                 }
             }
@@ -79,6 +107,7 @@ namespace MonoGameWindowsStarter
                 if (playerPoints >= 200)
                 {
                     playerPoints -= 200;
+                    player.BulletSpawner.ChangePowerup(new PowerupTriplePenetration());
                     purchase.Play();
                 }
             }
@@ -88,6 +117,7 @@ namespace MonoGameWindowsStarter
                 if (playerPoints >= 200)
                 {
                     playerPoints -= 200;
+                    player.BulletSpawner.ChangePowerup(new Powerup360Shot());
                     purchase.Play();
                 }
             }
@@ -97,7 +127,9 @@ namespace MonoGameWindowsStarter
                 if (playerPoints >= 200)
                 {
                     playerPoints -= 200;
+                    player.BulletSpawner.ChangePowerup(new PowerupTriplePenetration());
                     purchase.Play();
+                   
                 }
             }
             //exploding
@@ -106,6 +138,7 @@ namespace MonoGameWindowsStarter
                 if (playerPoints >= 200)
                 {
                     playerPoints -= 200;
+                    player.BulletSpawner.ChangePowerup(new PowerupExploding360Shot());
                     purchase.Play();
                 }
             }
@@ -115,6 +148,7 @@ namespace MonoGameWindowsStarter
                 if (playerPoints >= 200)
                 {
                     playerPoints -= 200;
+                    player.BulletSpawner.ChangePowerup(new PowerupPenetration());
                     purchase.Play();
                 }
             }
@@ -125,7 +159,7 @@ namespace MonoGameWindowsStarter
                 {
                     playerPoints -= 100;
                     purchase.Play();
-                    playerHearts++;
+                    player.AddHearts_PurchasedPowerup(1);
                 }
             }
             //nuke
@@ -135,7 +169,7 @@ namespace MonoGameWindowsStarter
                 {
                     playerPoints -= 250;
                     purchase.Play();
-                    nukeNumber++;
+                    player.Nukes++;
                 }
             }
             //speed increase
@@ -145,7 +179,7 @@ namespace MonoGameWindowsStarter
                 {
                     playerPoints -= 50;
                     purchase.Play();
-                    playerSpeed++;
+                    player.AddSpeed(playerSpeed);
                 }
             }
             oldKeyboard = keyboardState;
@@ -157,11 +191,11 @@ namespace MonoGameWindowsStarter
             //draw score
             spriteBatch.DrawString(font, playerPoints.ToString(), new Vector2(610, 505), Color.White);
             //draw number of nukes
-            spriteBatch.DrawString(font, nukeNumber.ToString(), new Vector2(610, 545), Color.White);
+            spriteBatch.DrawString(font, player.Nukes.ToString(), new Vector2(610, 545), Color.White);
             //draw number of hearts
-            spriteBatch.DrawString(font, playerHearts.ToString(), new Vector2(610, 587), Color.White);
+            spriteBatch.DrawString(font, player.Hearts.ToString(), new Vector2(610, 587), Color.White);
             //draw speed
-            spriteBatch.DrawString(font, playerSpeed.ToString(), new Vector2(610, 627), Color.White);
+            spriteBatch.DrawString(font, player.Velocity.X.ToString(), new Vector2(610, 627), Color.White);
             //draw current bullet type
             spriteBatch.DrawString(font, bulletType, new Vector2(610, 670), Color.White);
         }
