@@ -25,7 +25,7 @@ namespace MonoGameWindowsStarter.Bosses
         //speed of the boss's movement
         public int speed;
         public HealthBar healthBar;
-
+        public Powerups.Bullets.BulletSpawner bulletSpawner;
 
         //Additonal methods can be defined here that apply to all bosses in the game.
 

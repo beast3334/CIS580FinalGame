@@ -20,7 +20,7 @@ namespace MonoGameWindowsStarter.Bosses
         SpriteFont bossFont;
         float nameSize;
         BoundingRectangle bounds;
-
+        int initial_width = 500;
         public BoundingRectangle Bounds => bounds;
         public HealthBar(Game1 game, ContentManager content, Boss bossHost)
         {
@@ -41,12 +41,12 @@ namespace MonoGameWindowsStarter.Bosses
         }
         public void Update()
         {
-            bounds.Width = (bossHost.healthCurrent / bossHost.healthMax) * bounds.Width;
+            bounds.Width = (bossHost.healthCurrent / bossHost.healthMax) * initial_width;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            
-            spriteBatch.DrawString(bossFont, bossHost.bossName, new Vector2(bounds.X + 250 - nameSize, bounds.Y - 50),  Color.White);
+
+            spriteBatch.DrawString(bossFont, bossHost.bossName, new Vector2(bounds.X + 250 - nameSize, bounds.Y - 50), Color.White);
             spriteBatch.Draw(texture, bounds, Color.White);
         }
     }

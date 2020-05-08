@@ -12,7 +12,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
 {
     public class BulletSpawner
     {
-        Game game;
+        Game1 game;
         ContentManager content;
         BulletPosition position;
         TimeSpan timeBetweenBullets = new TimeSpan();
@@ -34,7 +34,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         /// The powerup this spawner is currently using
         /// <para>Default: PowerupDefault</para>
         /// </summary>
-        public Powerup Powerup { get; set; } = new PowerupLaser();
+        public Powerup Powerup { get; set; } = new PowerupDefault();
 
         /// <summary>
         /// Texture for the bullet's to use
@@ -51,7 +51,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         /// </summary>
         /// <param name="game"></param>
         /// <param name="position"></param>
-        public BulletSpawner(Game game, Vector2 position)
+        public BulletSpawner(Game1 game, Vector2 position)
         {
             Initialize(game);
             this.position = new BulletPosition(position);
@@ -63,7 +63,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         /// </summary>
         /// <param name="game"></param>
         /// <param name="entity">The EntityAlive that you want this spawner to track</param>
-        public BulletSpawner(Game game, EntityAlive entity)
+        public BulletSpawner(Game1 game, EntityAlive entity)
         {
             Initialize(game);
             position = new BulletPosition(entity, this);
@@ -75,13 +75,13 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         /// </summary>
         /// <param name="game"></param>
         /// <param name="bounds">The BoundingRectangle that you want this spawner to track</param>
-        public BulletSpawner(Game game, BoundingRectangle bounds)
+        public BulletSpawner(Game1 game, BoundingRectangle bounds)
         {
             Initialize(game);
             position = new BulletPosition(bounds, this);
         }
 
-        private void Initialize(Game game)
+        private void Initialize(Game1 game)
         {
             this.game = game;
             timeBetweenBullets = Powerup.TimeBetweenBullets;

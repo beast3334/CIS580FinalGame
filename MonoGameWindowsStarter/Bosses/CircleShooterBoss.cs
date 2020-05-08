@@ -18,11 +18,10 @@ namespace MonoGameWindowsStarter.Bosses
         Texture2D texture;
         Game1 game;
         ContentManager content;
-        BulletSpawner bulletSpawner;
         int direction = 0;
         double shootTimer = 0;
         double angle;
-        
+
 
         public override BoundingRectangle Bounds => bounds;
         public CircleShooterBoss(Game1 game, ContentManager content)

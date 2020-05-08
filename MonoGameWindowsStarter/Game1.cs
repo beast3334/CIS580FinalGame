@@ -30,7 +30,7 @@ namespace MonoGameWindowsStarter
         //List<Enemy> Enemies;
         //EnemySpawner EnemySpawner;
         Director director;
-
+        UpgradeMenu upgradeMenu;
 
         public Game1()
         {
@@ -81,7 +81,7 @@ namespace MonoGameWindowsStarter
             director = new Director(this);
             director.LoadContent(Content);
             mainFont = Content.Load<SpriteFont>("mainFont");
-
+            upgradeMenu = new UpgradeMenu(this, Content, player, Score);
             VisualDebugging.LoadContent(Content);
 
         }
@@ -110,11 +110,24 @@ namespace MonoGameWindowsStarter
             background.Update(gameTime);
             base.Update(gameTime);
             //Check all collisions
-            Collision.CheckAll(director.enemySpawner.Enemies, player);
+
+            Collision.CheckAll(new List<EntityAlive>(director.enemySpawner.Enemies), player, director.bossSpawner.boss);
             //remove dead enemies
             //EnemySpawner.Update(gameTime);
             director.Update(gameTime);
+
+            //testing to draw the upgradeMenu
+            //temp: open upgrade by hitting 'U'
+            var keyboardState = Keyboard.GetState();
             
+            if (keyboardState.IsKeyDown(Keys.U))
+            {
+                upgradeMenu.isOpen = true;
+            }
+
+
+            if (upgradeMenu.isOpen)
+                upgradeMenu.Update(gameTime);
         }
 
         /// <summary>
@@ -157,7 +170,8 @@ namespace MonoGameWindowsStarter
             {
                 spriteBatch.Draw(nuke, new BoundingRectangle(120 + (i * 40), 1035, 35, 35), Color.White);
             }
-
+            if (upgradeMenu.isOpen)
+                upgradeMenu.Draw(spriteBatch);
 
             spriteBatch.End();
 

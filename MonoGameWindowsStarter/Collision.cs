@@ -6,14 +6,14 @@ using MonoGameWindowsStarter.Powerups.Bullets;
 using MonoGameWindowsStarter.Enemies;
 using MonoGameWindowsStarter.PlayerNamespace;
 using System.Collections.Generic;
-
+using MonoGameWindowsStarter.Bosses;
 namespace MonoGameWindowsStarter
 {
     static class Collision
     {
         //static int counter = 0;
 
-        public static void EnemyOnBullet(List<Enemy> enemies, BulletSpawner bulletSpawner)
+        public static void EnemyOnBullet(List<EntityAlive> enemies, BulletSpawner bulletSpawner)
         {
             foreach(Bullet bullet in bulletSpawner.Bullets)
             {
@@ -49,7 +49,7 @@ namespace MonoGameWindowsStarter
         /// </summary>
         /// <param name="enemies"></param>
         /// <param name="player"></param>
-        public static void PlayerOnBullet(List<Enemy> enemies, Player player)
+        public static void PlayerOnBullet(List<EntityAlive> enemies, Player player)
         {
             foreach(Enemy enemy in enemies)
             {
@@ -101,7 +101,7 @@ namespace MonoGameWindowsStarter
         /// </summary>
         /// <param name="enemies">Enemies to check</param>
         /// <param name="player">Player to check</param>
-        public static void PlayerOnEnemy(List<Enemy> enemies, Player player)
+        public static void PlayerOnEnemy(List<EntityAlive> enemies, Player player)
         {
             foreach(Enemy enemy in enemies)
             {
@@ -111,17 +111,51 @@ namespace MonoGameWindowsStarter
                 }
             }
         }
+        public static void BossOnBullet(Bosses.Boss boss, BulletSpawner bulletSpawner)
+        {
+            foreach (Bullet bullet in bulletSpawner.Bullets)
+            {
+                if (bullet.Bounds.Intersects(boss.Bounds))
+                {
+                    boss.healthCurrent -= (int)bullet.Damage;
+                    bullet.Alive = false;
+                    boss.healthBar.Update();
+                }
+            }
+        }
+        public static void PlayeronBoss(Bosses.Boss boss, Player player)
+        {
+            foreach (Bullet bullet in boss.bulletSpawner.Bullets)
+            {
+                if (bullet.Bounds.Intersects(player.Bounds))
+                {
+                    player.Hearts--;
+                    bullet.Alive = false;
+                }
+            }
+            if(player.Bounds.Intersects(boss.Bounds))
+            {
+                player.Hearts--;
+            }
+            
+        }
 
         /// <summary>
         /// Checks all the collisions possible
         /// </summary>
         /// <param name="enemies">Enemies to check</param>
         /// <param name="player">Player to check</param>
-        public static void CheckAll(List<Enemy> enemies, Player player)
+        public static void CheckAll(List<EntityAlive> enemies, Player player, Boss boss)
         {
             EnemyOnBullet(enemies, player.BulletSpawner);
             PlayerOnBullet(enemies, player);
             PlayerOnEnemy(enemies, player);
+            if(boss != null)
+            {
+                BossOnBullet(boss, player.BulletSpawner);
+                PlayeronBoss(boss, player);
+            }
+            
         }
 
         public static void BossOnBullet(Bosses.Boss boss, BulletSpawner bulletSpawner)
