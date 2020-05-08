@@ -174,7 +174,8 @@ namespace MonoGameWindowsStarter
             background.Update(gameTime);
             base.Update(gameTime);
             //Check all collisions
-            Collision.CheckAll(director.enemySpawner.Enemies, player);
+
+            Collision.CheckAll(new List<EntityAlive>(director.enemySpawner.Enemies), player, director.bossSpawner.boss);
             //remove dead enemies
             //EnemySpawner.Update(gameTime);
             particleSystem.Update(gameTime);

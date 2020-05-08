@@ -12,7 +12,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using MonoGameWindowsStarter.Bosses;
 namespace MonoGameWindowsStarter
 {
     enum State
@@ -24,9 +24,11 @@ namespace MonoGameWindowsStarter
     class Director
     {
         public EnemySpawner enemySpawner;
+        public BossSpawner bossSpawner;
         //BossSpawner bossSpawner;
         //PowerupSpawner powerupSpawner
         Game1 game;
+        int count = 0;
         double timer = 0;
         int credits = 100;
         const int BEGINCREDITS = 100;
@@ -37,14 +39,14 @@ namespace MonoGameWindowsStarter
         {
             this.game = game;
             enemySpawner = new EnemySpawner(game);
-            //bossSpawner = new BossSpawner(game);
+            bossSpawner = new BossSpawner(game);
             //powerupSpawner = new PowerupSpawner(game);
         }
 
         public void LoadContent(ContentManager content)
         {
             enemySpawner.LoadContent(content);
-            //bossSpawner.LoadContent(content);
+            bossSpawner.LoadContent(content);
             //powerupSpawner.LoadContent(content);
         }
 
@@ -113,7 +115,7 @@ namespace MonoGameWindowsStarter
         public void Draw(SpriteBatch spriteBatch)
         {
             enemySpawner.Draw(spriteBatch);
-            //bossSpawner.Draw(spriteBatch);
+            bossSpawner.Draw(spriteBatch);
             //powerupSpawner.Draw(spriteBatch);
         }
     }

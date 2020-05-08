@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 using MonoGameWindowsStarter.Powerups.Bullets;
 using MonoGameWindowsStarter.PlayerNamespace.Powerups;
+using MonoGameWindowsStarter.Powerups.Bullets.Powerups;
 
 namespace MonoGameWindowsStarter.PlayerNamespace
 {
@@ -329,12 +330,18 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         {
             // Draw the Bullet Spawner under the player
             BulletSpawner.Draw(spriteBatch);
+            var texture = GetPlayerTexture();
 
             // Draw the Player
             spriteBatch.Draw(
-                GetPlayerTexture(), 
-                bounds, 
-                CurrentPowerup.Color
+                texture,
+                bounds,
+                null,
+                CurrentPowerup.Color,
+                0f,
+                new Vector2(texture.Width / 2, 0),
+                SpriteEffects.None,
+                1f
             );
         }
     }
