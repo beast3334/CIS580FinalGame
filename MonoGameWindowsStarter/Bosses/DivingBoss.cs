@@ -20,7 +20,7 @@ namespace MonoGameWindowsStarter.Bosses
         Random random;
         ContentManager content;
         bool attackRand = true;
-
+        
         //adding a timer to make the boss move in different patterns
         double bossTimer;
 
@@ -30,14 +30,21 @@ namespace MonoGameWindowsStarter.Bosses
         public  override BoundingRectangle Bounds => bounds;
 
 
-        public DivingBoss(Game1 game, ContentManager content, Player player)
+        public DivingBoss(Game1 game, ContentManager content)
         {
             this.game = game;
             this.content = content;
             bounds.X = 500;
-            bounds.Y = player.Bounds.Y - 700;
+            bounds.Y = 50;
             bounds.Height = 200;
             bounds.Width = 200;
+            healthCurrent = 100;
+            bossName = "Divey Mcgee";
+            healthMax = 100;
+            
+            
+            
+            bulletSpawner = new Powerups.Bullets.BulletSpawner(game, bounds);
             LoadContent(content);
             //setting the speed for this specific boss
             speed = 3;
@@ -49,7 +56,8 @@ namespace MonoGameWindowsStarter.Bosses
 
         public override void LoadContent(ContentManager Content)
         {
-            texture = content.Load<Texture2D>("movieTheater");
+            texture = content.Load<Texture2D>("Enemy3");
+            healthBar = new HealthBar(game, content, this);
         }
 
         public override void Update(GameTime gameTime)
@@ -106,17 +114,17 @@ namespace MonoGameWindowsStarter.Bosses
             }
 
 
-
+            healthBar.Update();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, bounds, Color.White);
+            healthBar.Draw(spriteBatch);
         }
 
         public void Attack1()
         {
-            
             //once this is triggered the boss should go down towards the player bounce off the bottom sceen and go back
             bounds.Y += speed;
             if(bounds.Y >= game.GraphicsDevice.Viewport.Height - bounds.Height)
