@@ -27,6 +27,7 @@ namespace MonoGameWindowsStarter
         int playerPoints = 3000;
         int playerHearts = 3;
         String bulletType;
+        SoundEffect purchase;
 
         SpriteFont font;
 
@@ -39,9 +40,12 @@ namespace MonoGameWindowsStarter
             bounds.Height = game.GraphicsDevice.Viewport.Height;
             bounds.Width = game.GraphicsDevice.Viewport.Width;
             //sets variables to be displayed in the menu to the same as the player's
-            //playerSpeed = player.speed;
-            // bulletType = player.BulletSpawner.GetType().ToString();
+
+            //playerSpeed = player.Velocity;
             bulletType = player.BulletSpawner.Powerup.ToString();
+            //nukeNumber = player.Nukes;
+            //playerHearts = player.Hearts;
+
             LoadContent();
         }
 
@@ -49,6 +53,7 @@ namespace MonoGameWindowsStarter
         {
             texture = content.Load<Texture2D>("UpgradeMenu");
             font = content.Load<SpriteFont>("font");
+            purchase = content.Load<SoundEffect>("upgrade");
         }
 
         public  void Update(GameTime gameTime)
@@ -65,6 +70,7 @@ namespace MonoGameWindowsStarter
                if(playerPoints >= 200)
                 {
                     playerPoints -= 200;
+                    purchase.Play();
                 }
             }
             //trishot
@@ -73,6 +79,7 @@ namespace MonoGameWindowsStarter
                 if (playerPoints >= 200)
                 {
                     playerPoints -= 200;
+                    purchase.Play();
                 }
             }
             //360
@@ -81,6 +88,7 @@ namespace MonoGameWindowsStarter
                 if (playerPoints >= 200)
                 {
                     playerPoints -= 200;
+                    purchase.Play();
                 }
             }
             //tripleSplit
@@ -89,6 +97,7 @@ namespace MonoGameWindowsStarter
                 if (playerPoints >= 200)
                 {
                     playerPoints -= 200;
+                    purchase.Play();
                 }
             }
             //exploding
@@ -97,6 +106,7 @@ namespace MonoGameWindowsStarter
                 if (playerPoints >= 200)
                 {
                     playerPoints -= 200;
+                    purchase.Play();
                 }
             }
             //penetration
@@ -105,6 +115,7 @@ namespace MonoGameWindowsStarter
                 if (playerPoints >= 200)
                 {
                     playerPoints -= 200;
+                    purchase.Play();
                 }
             }
             //heart
@@ -113,6 +124,7 @@ namespace MonoGameWindowsStarter
                 if (playerPoints >= 100)
                 {
                     playerPoints -= 100;
+                    purchase.Play();
                     playerHearts++;
                 }
             }
@@ -122,6 +134,7 @@ namespace MonoGameWindowsStarter
                 if (playerPoints >= 250)
                 {
                     playerPoints -= 250;
+                    purchase.Play();
                     nukeNumber++;
                 }
             }
@@ -131,6 +144,7 @@ namespace MonoGameWindowsStarter
                 if (playerPoints >= 50)
                 {
                     playerPoints -= 50;
+                    purchase.Play();
                     playerSpeed++;
                 }
             }

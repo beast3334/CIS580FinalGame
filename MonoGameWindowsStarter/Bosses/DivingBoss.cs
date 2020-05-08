@@ -27,7 +27,7 @@ namespace MonoGameWindowsStarter.Bosses
 
         //a bool that if true will make the boss move back and forth
         bool moving = true;
-        public override BoundingRectangle Bounds => bounds;
+        public  override BoundingRectangle Bounds => bounds;
 
 
         public DivingBoss(Game1 game, ContentManager content, Player player)
@@ -38,7 +38,7 @@ namespace MonoGameWindowsStarter.Bosses
             bounds.Y = player.Bounds.Y - 700;
             bounds.Height = 200;
             bounds.Width = 200;
-            LoadContent();
+            LoadContent(content);
             //setting the speed for this specific boss
             speed = 3;
 
@@ -47,7 +47,7 @@ namespace MonoGameWindowsStarter.Bosses
 
         }
 
-        public override void LoadContent()
+        public override void LoadContent(ContentManager Content)
         {
             texture = content.Load<Texture2D>("movieTheater");
         }

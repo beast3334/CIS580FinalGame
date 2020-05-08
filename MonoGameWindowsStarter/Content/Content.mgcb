@@ -140,6 +140,12 @@
 /processorParam:TextureFormat=Color
 /build:SpaceBackground.jpg
 
+#begin upgrade.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:upgrade.wav
+
 #begin UpgradeMenu.png
 /importer:TextureImporter
 /processor:TextureProcessor
