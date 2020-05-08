@@ -19,7 +19,6 @@ namespace MonoGameWindowsStarter
         SpriteBatch spriteBatch;
         public Player player;
         BackgroundTileModel backgroundTileModel;
-        Bosses.CircleShooterBoss boss;
         Background background;
         public int Score;
         public int Wave;
@@ -31,7 +30,7 @@ namespace MonoGameWindowsStarter
         //List<Enemy> Enemies;
         //EnemySpawner EnemySpawner;
         Director director;
-
+        UpgradeMenu upgradeMenu;
 
         public Game1()
         {
@@ -69,7 +68,7 @@ namespace MonoGameWindowsStarter
             nuke = Content.Load<Texture2D>("Nuke");
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            boss = new Bosses.CircleShooterBoss(this, Content);
+            
             player.LoadContent(Content);
             //Background
             backgroundTileModel.LoadContent(Content);
@@ -82,7 +81,7 @@ namespace MonoGameWindowsStarter
             director = new Director(this);
             director.LoadContent(Content);
             mainFont = Content.Load<SpriteFont>("mainFont");
-
+            upgradeMenu = new UpgradeMenu(this, Content, player, Score);
             VisualDebugging.LoadContent(Content);
 
         }
@@ -114,9 +113,20 @@ namespace MonoGameWindowsStarter
             Collision.CheckAll(director.enemySpawner.Enemies, player);
             //remove dead enemies
             //EnemySpawner.Update(gameTime);
-            //director.Update(gameTime);
-            boss.Update(gameTime);
+            director.Update(gameTime);
+
+            //testing to draw the upgradeMenu
+            //temp: open upgrade by hitting 'U'
+            var keyboardState = Keyboard.GetState();
             
+            if (keyboardState.IsKeyDown(Keys.U))
+            {
+                upgradeMenu.isOpen = true;
+            }
+
+
+            if (upgradeMenu.isOpen)
+                upgradeMenu.Update(gameTime);
         }
 
         /// <summary>
@@ -136,8 +146,7 @@ namespace MonoGameWindowsStarter
                 player.Draw(spriteBatch);
             }
             //EnemySpawner.Draw(spriteBatch);
-            //director.Draw(spriteBatch);
-            boss.Draw(spriteBatch);
+            director.Draw(spriteBatch);
 
             // draw score
             spriteBatch.DrawString(mainFont, "SCORE", new Vector2(40, 20), Color.Red);
@@ -160,7 +169,8 @@ namespace MonoGameWindowsStarter
             {
                 spriteBatch.Draw(nuke, new BoundingRectangle(120 + (i * 40), 1035, 35, 35), Color.White);
             }
-
+            if (upgradeMenu.isOpen)
+                upgradeMenu.Draw(spriteBatch);
 
             spriteBatch.End();
 
