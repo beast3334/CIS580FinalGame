@@ -26,7 +26,8 @@ namespace MonoGameWindowsStarter
         KeyboardState oldKeyboard;
         //all of the variables that need to be displayed as a font
         Vector2 playerSpeed = new Vector2(1,1);
-        int playerPoints = 3000;
+        //int playerPoints = 3000;
+        int playerPoints;
         int playerHearts;
         String bulletType;
         SoundEffect purchase;
@@ -45,7 +46,7 @@ namespace MonoGameWindowsStarter
             //sets variables to be displayed in the menu to the same as the player's
             player = players;
             playerHearts = player.Hearts;
-           // playerPoints = score;
+            playerPoints = score;
             LoadContent();
         }
 
@@ -189,15 +190,15 @@ namespace MonoGameWindowsStarter
         {
             spriteBatch.Draw(texture, bounds, Color.White);
             //draw score
-            spriteBatch.DrawString(font, playerPoints.ToString(), new Vector2(610, 505), Color.White);
+            spriteBatch.DrawString(font, playerPoints.ToString(), new Vector2(game.GraphicsDevice.Viewport.Width - 1000, game.GraphicsDevice.Viewport.Height - 325), Color.White);
             //draw number of nukes
-            spriteBatch.DrawString(font, player.Nukes.ToString(), new Vector2(610, 545), Color.White);
+            spriteBatch.DrawString(font, player.Nukes.ToString(), new Vector2(game.GraphicsDevice.Viewport.Width - 1000, game.GraphicsDevice.Viewport.Height - 275), Color.White);
             //draw number of hearts
-            spriteBatch.DrawString(font, player.Hearts.ToString(), new Vector2(610, 587), Color.White);
+            spriteBatch.DrawString(font, player.Hearts.ToString(), new Vector2(game.GraphicsDevice.Viewport.Width - 1000, game.GraphicsDevice.Viewport.Height - 225), Color.White);
             //draw speed
-            spriteBatch.DrawString(font, player.Velocity.X.ToString(), new Vector2(610, 627), Color.White);
+            spriteBatch.DrawString(font, player.Velocity.X.ToString(), new Vector2(game.GraphicsDevice.Viewport.Width - 1000, game.GraphicsDevice.Viewport.Height - 175), Color.White);
             //draw current bullet type
-            spriteBatch.DrawString(font, bulletType, new Vector2(610, 670), Color.White);
+            spriteBatch.DrawString(font, bulletType, new Vector2(game.GraphicsDevice.Viewport.Width - 1000, game.GraphicsDevice.Viewport.Height - 125), Color.White);
         }
     }
 }
