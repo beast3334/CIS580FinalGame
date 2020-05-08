@@ -19,6 +19,7 @@ namespace MonoGameWindowsStarter
         SpriteBatch spriteBatch;
         public Player player;
         BackgroundTileModel backgroundTileModel;
+        Bosses.CircleShooterBoss boss;
         Background background;
         public int Score;
         public int Wave;
@@ -68,7 +69,7 @@ namespace MonoGameWindowsStarter
             nuke = Content.Load<Texture2D>("Nuke");
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+            boss = new Bosses.CircleShooterBoss(this, Content);
             player.LoadContent(Content);
             //Background
             backgroundTileModel.LoadContent(Content);
@@ -113,7 +114,8 @@ namespace MonoGameWindowsStarter
             Collision.CheckAll(director.enemySpawner.Enemies, player);
             //remove dead enemies
             //EnemySpawner.Update(gameTime);
-            director.Update(gameTime);
+            //director.Update(gameTime);
+            boss.Update(gameTime);
             
         }
 
@@ -134,7 +136,8 @@ namespace MonoGameWindowsStarter
                 player.Draw(spriteBatch);
             }
             //EnemySpawner.Draw(spriteBatch);
-            director.Draw(spriteBatch);
+            //director.Draw(spriteBatch);
+            boss.Draw(spriteBatch);
 
             // draw score
             spriteBatch.DrawString(mainFont, "SCORE", new Vector2(40, 20), Color.Red);
