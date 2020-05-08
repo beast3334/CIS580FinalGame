@@ -89,7 +89,7 @@ namespace MonoGameWindowsStarter
                     ShootingEnemy tempE = (ShootingEnemy)enemy;
                     foreach(Bullet bullet in tempE.bulletSpawner.Bullets)
                     {
-                        if (player.Bounds.Intersects(bullet.Position))
+                        if (player.Bounds.Intersects(bullet.Position) && player.Alive)
                         {
                             enemy.game.particleSystem.SpawnPerFrame = 30;
                             enemy.game.particleSystem.SpawnParticle = (ref Particle particle) =>
@@ -108,7 +108,7 @@ namespace MonoGameWindowsStarter
 
                             bullet.Alive = false;
                             player.Hearts -= bullet.Damage;
-                            bulet.HitEntity = true;
+                            bullet.HitEntity = true;
                         }
                     }
                     // Go through the bullet spawners inside the bullet spawner
@@ -129,7 +129,7 @@ namespace MonoGameWindowsStarter
         {
             foreach (Bullet bullet in bulletSpawner.Bullets)
             {
-                if (bullet.Bounds.Intersects(player.Bounds))
+                if (bullet.Bounds.Intersects(player.Bounds) && player.Alive)
                 {
                     player.Hearts--;
                 }
@@ -140,6 +140,7 @@ namespace MonoGameWindowsStarter
                 PlayerOnBullet(bs, player);
             }
         }
+        
 
         /// <summary>
         /// Detects if the player collides with an enemy
@@ -150,7 +151,7 @@ namespace MonoGameWindowsStarter
         {
             foreach(Enemy enemy in enemies)
             {
-                if (player.Bounds.Intersects(e.Bounds)){
+                if (player.Bounds.Intersects(enemy.Bounds) && player.Alive){
                     enemy.Alive = false;
                     player.Hearts--;
 

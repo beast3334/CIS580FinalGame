@@ -60,7 +60,6 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Particle.cs" />
     <Compile Include="ParticleSystem.cs" />
-    <Compile Include="Player.cs" />
     <Compile Include="PlayerNamespace\Player.cs" />
     <Compile Include="PlayerNamespace\PlayerPowerup.cs" />
     <Compile Include="PlayerNamespace\Powerups\PlayerPowerup_Default.cs" />

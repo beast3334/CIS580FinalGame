@@ -176,8 +176,8 @@ namespace MonoGameWindowsStarter
             //remove dead enemies
             //EnemySpawner.Update(gameTime);
             particleSystem.Update(gameTime);
-            //if (player.Alive)
-            //{
+            if (player.Alive)
+            {
                 playerParticle.SpawnParticle = (ref Particle particle) =>
                 {
                     MouseState mouse = Mouse.GetState();
@@ -191,7 +191,7 @@ namespace MonoGameWindowsStarter
                     particle.Scale = .5f;
                     particle.Life = .5f;
                 };
-            //}
+            }
             playerParticle.Update(gameTime);
             director.Update(gameTime);
 

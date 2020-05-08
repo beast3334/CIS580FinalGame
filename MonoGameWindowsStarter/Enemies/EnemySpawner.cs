@@ -42,7 +42,7 @@ namespace MonoGameWindowsStarter.Enemies
 
         public void SpawnStrong()
         {
-            pos = random.Next(50, 1850);
+            pos = random.Next(50, 1700);
             var r = random.Next(0, 100);
             if (r > 0 && r <= 40)
             {
@@ -56,7 +56,7 @@ namespace MonoGameWindowsStarter.Enemies
         }
          public void SpawnWeak()
         {
-            pos = random.Next(50, 1850);
+            pos = random.Next(50, 1700);
             var r = random.Next(0, 100);
             if (r >= 0 && r <= 40)
             {
@@ -77,7 +77,7 @@ namespace MonoGameWindowsStarter.Enemies
         {
             if (timer >= 2 && state == State.Idle)
             {
-                pos = random.Next(50, 1850);
+                pos = random.Next(50, 1700);
                 var r = random.Next(0, 100);
                 if(r>=0 && r<= 30)
                 {
