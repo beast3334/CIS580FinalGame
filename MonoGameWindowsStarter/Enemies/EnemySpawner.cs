@@ -42,30 +42,32 @@ namespace MonoGameWindowsStarter.Enemies
 
         public void SpawnRandom()
         {
+            if (timer >= 2 && state == State.Idle)
+            {
                 pos = random.Next(50, 1000);
                 var r = random.Next(0, 100);
-                if(r>=0 && r<= 30)
+                if (r >= 0 && r <= 30)
                 {
                     Enemies.Add(new BasicEnemy(game, Content, pos));
                 }
-                else if(r>30 && r <= 60)
+                else if (r > 30 && r <= 60)
                 {
                     Enemies.Add(new BasicShootingEnemy(game, Content, pos));
                 }
-                else if(r>60 && r <= 80)
+                else if (r > 60 && r <= 80)
                 {
                     Enemies.Add(new SwervingEnemy(game, Content, pos));
                 }
-                else if(r>80 && r <= 85)
+                else if (r > 80 && r <= 85)
                 {
                     Enemies.Add(new SwervingEnemy(game, Content, pos));
                     state = State.Spawning;
                 }
-                else if(r>85 && r<= 95)
+                else if (r > 85 && r <= 95)
                 {
                     Enemies.Add(new TrackingEnemy(game, Content, pos));
                 }
-                
+
                 /* old spawning method
                 switch (r)
                 {
@@ -81,35 +83,34 @@ namespace MonoGameWindowsStarter.Enemies
                     case 3:
                         Enemies.Add(new SwervingEnemy(game, Content, pos));
                         state = State.Spawning;
-
                         break;
-
                 }*/
-                
+
                 timer = 0;
+            }
         }
 
         public void Update(GameTime gameTime)
         {
-            
-            
-            
-            //if(state == State.Spawning)
-            //{
-            //    timer2 += gameTime.ElapsedGameTime.TotalSeconds;
-            //    if(timer2 >= .5 && counter <5)
-            //    {
-            //        Enemies.Add(new SwervingEnemy(game, Content, pos));
-            //        timer2 = 0;
-            //        counter++;
-            //    }
-            //    else if (counter >= 5)
-            //    {
-            //        counter = 0;
-            //        state = State.Idle;
-            //    }
-            //}
-            
+            timer += gameTime.ElapsedGameTime.TotalSeconds;
+
+
+            if (state == State.Spawning)
+            {
+                timer2 += gameTime.ElapsedGameTime.TotalSeconds;
+                if (timer2 >= .5 && counter < 5)
+                {
+                    Enemies.Add(new SwervingEnemy(game, Content, pos));
+                    timer2 = 0;
+                    counter++;
+                }
+                else if (counter >= 5)
+                {
+                    counter = 0;
+                    state = State.Idle;
+                }
+            }
+
 
             //update all enemies
             for (int i = 0; i < Enemies.Count; i++)
@@ -139,6 +140,6 @@ namespace MonoGameWindowsStarter.Enemies
             }
         }
 
-        
+
     }
 }

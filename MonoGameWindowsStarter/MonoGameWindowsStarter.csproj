@@ -45,6 +45,10 @@
     <Compile Include="Background\BackgroundTile.cs" />
     <Compile Include="Background\BackgroundTileModel.cs" />
     <Compile Include="Bosses\Boss.cs" />
+    <Compile Include="Bosses\BossSpawner.cs" />
+    <Compile Include="Bosses\CircleShooterBoss.cs" />
+    <Compile Include="Bosses\DivingBoss.cs" />
+    <Compile Include="Bosses\HealthBar.cs" />
     <Compile Include="BoundingRectangle.cs" />
     <Compile Include="Collision.cs" />
     <Compile Include="Director.cs" />
