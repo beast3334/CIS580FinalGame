@@ -18,7 +18,5 @@ namespace MonoGameWindowsStarter.Powerups.Bullets.Powerups
         public override TimeSpan TimeBetweenBullets => new TimeSpan(0);
 
         public override Color Color => Color.Purple;
-
-        public override float Damage => 5f;
     }
 }

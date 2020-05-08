@@ -6,7 +6,7 @@ using MonoGameWindowsStarter.Powerups;
 using MonoGameWindowsStarter.Powerups.Bullets;
 using MonoGameWindowsStarter.Enemies;
 using System.Collections.Generic;
-
+using MonoGameWindowsStarter.PlayerNamespace;
 
 namespace MonoGameWindowsStarter
 {
@@ -17,14 +17,19 @@ namespace MonoGameWindowsStarter
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Player player;
+        public Player player;
         BackgroundTileModel backgroundTileModel;
         Background background;
+        public int Score;
+        public int Wave;
+        SpriteFont mainFont;
+        Texture2D heart;
+        Texture2D nuke;
 
         List<BulletSpawner> BulletSpawners = new List<BulletSpawner>();
         //List<Enemy> Enemies;
-        EnemySpawner EnemySpawner;
-        Bosses.CircleShooterBoss Boss;
+        //EnemySpawner EnemySpawner;
+        Director director;
 
 
         public Game1()
@@ -34,7 +39,6 @@ namespace MonoGameWindowsStarter
             
             player = new Player(this);
             backgroundTileModel = new BackgroundTileModel();
-
 
         }
 
@@ -58,6 +62,10 @@ namespace MonoGameWindowsStarter
         /// </summary>
         protected override void LoadContent()
         {
+            Score = 0;
+            Wave = 1;
+            heart = Content.Load<Texture2D>("Heart");
+            nuke = Content.Load<Texture2D>("Nuke");
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             
@@ -68,9 +76,12 @@ namespace MonoGameWindowsStarter
 
 
             //Enemies
-            EnemySpawner = new EnemySpawner(this);
-            EnemySpawner.LoadContent(Content);
-            Boss = new Bosses.CircleShooterBoss(this, Content);
+            //EnemySpawner = new EnemySpawner(this);
+            // EnemySpawner.LoadContent(Content);
+            director = new Director(this);
+            director.LoadContent(Content);
+            mainFont = Content.Load<SpriteFont>("mainFont");
+
             VisualDebugging.LoadContent(Content);
 
         }
@@ -99,12 +110,10 @@ namespace MonoGameWindowsStarter
             background.Update(gameTime);
             base.Update(gameTime);
             //Check all collisions
-            Collision.CheckAll(EnemySpawner.Enemies, BulletSpawners, player);
+            Collision.CheckAll(director.enemySpawner.Enemies, player);
             //remove dead enemies
             //EnemySpawner.Update(gameTime);
-            Collision.BossOnBullet(Boss, player.BulletSpawner);
-            Boss.Update(gameTime);
-            
+            director.Update(gameTime);
             
         }
 
@@ -124,9 +133,31 @@ namespace MonoGameWindowsStarter
             {
                 player.Draw(spriteBatch);
             }
-
             //EnemySpawner.Draw(spriteBatch);
-            Boss.Draw(spriteBatch);
+            director.Draw(spriteBatch);
+
+            // draw score
+            spriteBatch.DrawString(mainFont, "SCORE", new Vector2(40, 20), Color.Red);
+            spriteBatch.DrawString(mainFont, Score.ToString(), new Vector2(141, 20), Color.Red);
+
+            // draw wave
+            spriteBatch.DrawString(mainFont, "WAVE", new Vector2(1790, 20), Color.Red);
+            spriteBatch.DrawString(mainFont, Wave.ToString(), new Vector2(1875, 20), Color.Red);
+
+            // draw hearts
+            spriteBatch.DrawString(mainFont, "HEARTS", new Vector2(40, 1000), Color.Red);
+            for(int i = 1; i <= player.Hearts; i++)
+            {
+                spriteBatch.Draw(heart, new BoundingRectangle(120 + (i * 40), 995, 35, 35), Color.White);
+            }
+
+            // draw nukes
+            spriteBatch.DrawString(mainFont, "NUKES", new Vector2(40, 1040), Color.Red);
+            for (int i = 1; i <= player.Nukes; i++)
+            {
+                spriteBatch.Draw(nuke, new BoundingRectangle(120 + (i * 40), 1035, 35, 35), Color.White);
+            }
+
 
             spriteBatch.End();
 

@@ -33,20 +33,21 @@ namespace MonoGameWindowsStarter.Enemies
             this.game = game;
             bounds.X = position;
             bounds.Y = 50;
-            bounds.Height = 50;
-            bounds.Width = 50;
+            bounds.Height = 120;
+            bounds.Width = 120;
             direction = 0;
             speed = 3;
             bulletSpawner = new BulletSpawner(game, this);
             bulletSpawner.Powerup = new PowerupDefaultEnemy();
             //bulletSpawner.Powerup.Velocity.Y *= -1; 
             LoadContent(content);
+            Health = 1;
         }
 
 
         public override void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("playerShip");
+            texture = content.Load<Texture2D>("Enemy1");
             bulletSpawner.LoadContent(content);
 
             
@@ -89,7 +90,7 @@ namespace MonoGameWindowsStarter.Enemies
         {
             if (Alive)
             {
-                spriteBatch.Draw(texture, bounds, Color.Green);
+                spriteBatch.Draw(texture, bounds, Color.White);
             }
             bulletSpawner.Draw(spriteBatch);
         }
