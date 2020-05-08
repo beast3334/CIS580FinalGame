@@ -81,7 +81,7 @@ namespace MonoGameWindowsStarter
             director = new Director(this);
             director.LoadContent(Content);
             mainFont = Content.Load<SpriteFont>("mainFont");
-            upgradeMenu = new UpgradeMenu(this, Content, player, Score);
+            upgradeMenu = new UpgradeMenu(this, Content, player);
             VisualDebugging.LoadContent(Content);
 
         }
@@ -126,7 +126,7 @@ namespace MonoGameWindowsStarter
 
 
             if (upgradeMenu.isOpen)
-                upgradeMenu.Update(gameTime);
+                upgradeMenu.Update(gameTime, Score);
         }
 
         /// <summary>
