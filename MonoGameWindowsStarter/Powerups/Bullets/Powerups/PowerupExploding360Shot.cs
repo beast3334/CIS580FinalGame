@@ -19,8 +19,6 @@ namespace MonoGameWindowsStarter.Powerups.Bullets.Powerups
 
         public override Color Color => Color.Green;
 
-        public override float Damage => 1f;
-
         public override Powerup SpawnAfterImpact => new Powerup360Shot();
     }
 }

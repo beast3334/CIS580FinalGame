@@ -6,7 +6,7 @@ using MonoGameWindowsStarter.Powerups;
 using MonoGameWindowsStarter.Powerups.Bullets;
 using MonoGameWindowsStarter.Enemies;
 using System.Collections.Generic;
-
+using MonoGameWindowsStarter.PlayerNamespace;
 
 namespace MonoGameWindowsStarter
 {
@@ -22,6 +22,10 @@ namespace MonoGameWindowsStarter
         Background background;
         public int Score;
         public Random random = new Random();
+        public int Wave;
+        SpriteFont mainFont;
+        Texture2D heart;
+        Texture2D nuke;
 
         List<BulletSpawner> BulletSpawners = new List<BulletSpawner>();
         //List<Enemy> Enemies;
@@ -65,7 +69,9 @@ namespace MonoGameWindowsStarter
         protected override void LoadContent()
         {
             Score = 0;
-
+            Wave = 1;
+            heart = Content.Load<Texture2D>("Heart");
+            nuke = Content.Load<Texture2D>("Nuke");
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             
@@ -80,6 +86,7 @@ namespace MonoGameWindowsStarter
             // EnemySpawner.LoadContent(Content);
             director = new Director(this);
             director.LoadContent(Content);
+            mainFont = Content.Load<SpriteFont>("mainFont");
 
 
             //particles
@@ -165,7 +172,7 @@ namespace MonoGameWindowsStarter
             background.Update(gameTime);
             base.Update(gameTime);
             //Check all collisions
-            Collision.CheckAll(director.enemySpawner.Enemies, BulletSpawners, player);
+            Collision.CheckAll(director.enemySpawner.Enemies, player);
             //remove dead enemies
             //EnemySpawner.Update(gameTime);
             particleSystem.Update(gameTime);
@@ -217,7 +224,28 @@ namespace MonoGameWindowsStarter
             //EnemySpawner.Draw(spriteBatch);
             director.Draw(spriteBatch);
 
-            
+            // draw score
+            spriteBatch.DrawString(mainFont, "SCORE", new Vector2(40, 20), Color.Red);
+            spriteBatch.DrawString(mainFont, Score.ToString(), new Vector2(141, 20), Color.Red);
+
+            // draw wave
+            spriteBatch.DrawString(mainFont, "WAVE", new Vector2(1790, 20), Color.Red);
+            spriteBatch.DrawString(mainFont, Wave.ToString(), new Vector2(1875, 20), Color.Red);
+
+            // draw hearts
+            spriteBatch.DrawString(mainFont, "HEARTS", new Vector2(40, 1000), Color.Red);
+            for(int i = 1; i <= player.Hearts; i++)
+            {
+                spriteBatch.Draw(heart, new BoundingRectangle(120 + (i * 40), 995, 35, 35), Color.White);
+            }
+
+            // draw nukes
+            spriteBatch.DrawString(mainFont, "NUKES", new Vector2(40, 1040), Color.Red);
+            for (int i = 1; i <= player.Nukes; i++)
+            {
+                spriteBatch.Draw(nuke, new BoundingRectangle(120 + (i * 40), 1035, 35, 35), Color.White);
+            }
+
 
             spriteBatch.End();
             particleSystem.Draw();

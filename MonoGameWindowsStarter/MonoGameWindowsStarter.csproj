@@ -61,10 +61,12 @@
     <Compile Include="Particle.cs" />
     <Compile Include="ParticleSystem.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="PlayerNamespace\Player.cs" />
+    <Compile Include="PlayerNamespace\PlayerPowerup.cs" />
+    <Compile Include="PlayerNamespace\Powerups\PlayerPowerup_Default.cs" />
     <Compile Include="Powerups\Bullets\Bullet.cs" />
     <Compile Include="Powerups\Bullets\BulletPosition.cs" />
     <Compile Include="Powerups\Bullets\BulletSpawner.cs" />
-    <Compile Include="Powerups\Bullets\Powerups\PowerupAcceleration.cs" />
     <Compile Include="Powerups\Bullets\Powerups\PowerupTrackingEnemy.cs" />
     <Compile Include="Powerups\Bullets\Powerups\PowerupTriplePenetration.cs" />
     <Compile Include="Powerups\Bullets\Powerups\PowerupPenetration.cs" />
@@ -92,9 +94,7 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Powerups\Player\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
