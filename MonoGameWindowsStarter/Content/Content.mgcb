@@ -13,9 +13,14 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin BossName.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:BossName.spritefont
 
 #begin Bullets/Bullet_1.PNG
-
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -25,11 +30,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-
 /build:Bullets/Bullet_1.PNG
 
 #begin Bullets/Bullet_2.PNG
-
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -39,7 +42,6 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-
 /build:Bullets/Bullet_2.PNG
 
 #begin Bullets/Bullet_3.PNG
@@ -66,6 +68,18 @@
 /processorParam:TextureFormat=Color
 /build:Bullets/Bullet_4.PNG
 
+#begin Health_Bar.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Health_Bar.png
+
 #begin pixel.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -78,7 +92,6 @@
 /processorParam:TextureFormat=Color
 /build:pixel.png
 
-
 #begin playerShip3_blue.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -90,6 +103,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:playerShip3_blue.png;playerShip.png
+
+#begin Sounds/enemykilled.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/enemykilled.wav
+
+#begin Sounds/playerdead.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/playerdead.wav
+
+#begin Sounds/shoot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/shoot.wav
+
+#begin Sounds/upgrade.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/upgrade.wav
 
 #begin SpaceBackground.jpg
 /importer:TextureImporter

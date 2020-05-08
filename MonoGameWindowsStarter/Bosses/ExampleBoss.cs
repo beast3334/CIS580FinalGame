@@ -20,6 +20,7 @@ namespace MonoGameWindowsStarter.Bosses
         Texture2D texture;
         Game1 game;
         Random random;
+        ContentManager content;
 
         //adding a timer to make the boss move in different patterns
         double bossTimer;
@@ -39,7 +40,7 @@ namespace MonoGameWindowsStarter.Bosses
             bounds.Y = player.Bounds.Y - 700;
             bounds.Height = 200;
             bounds.Width = 200;
-            LoadContent();
+            LoadContent(content);
             //setting the speed for this specific boss
             speed = 2;
             //adding in shooting for the boss

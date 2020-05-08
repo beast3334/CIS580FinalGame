@@ -64,6 +64,17 @@ namespace MonoGameWindowsStarter
             PlayerOnEnemy(enemies, player);
         }
 
-
+        public static void BossOnBullet(Bosses.Boss boss, BulletSpawner bulletSpawner)
+        {
+            foreach (Bullet bullet in bulletSpawner.Bullets)
+            {
+                if(bullet.Bounds.Intersects(boss.Bounds))
+                {
+                    boss.healthCurrent -= (int)bullet.Damage;
+                    bullet.Alive = false;
+                    boss.healthBar.Update();
+                }
+            }
+        }
     }
 }

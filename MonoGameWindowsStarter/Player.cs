@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 using MonoGameWindowsStarter.Powerups.Bullets;
+using MonoGameWindowsStarter.Powerups.Bullets.Powerups;
 
 namespace MonoGameWindowsStarter
 {
@@ -43,7 +44,6 @@ namespace MonoGameWindowsStarter
             bounds.X = (game.GraphicsDevice.Viewport.Width - bounds.Width) / 2; //Places player horizontally in the middle of viewwindow
             bounds.Y = game.GraphicsDevice.Viewport.Height; //Places player at bottom of viewwindow.
             texture = content.Load<Texture2D>("playerShip");
-
             BulletSpawner.LoadContent(content);
         }
 

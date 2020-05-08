@@ -24,6 +24,7 @@ namespace MonoGameWindowsStarter
         List<BulletSpawner> BulletSpawners = new List<BulletSpawner>();
         //List<Enemy> Enemies;
         EnemySpawner EnemySpawner;
+        Bosses.CircleShooterBoss Boss;
 
 
         public Game1()
@@ -33,6 +34,7 @@ namespace MonoGameWindowsStarter
             
             player = new Player(this);
             backgroundTileModel = new BackgroundTileModel();
+
 
         }
 
@@ -68,7 +70,7 @@ namespace MonoGameWindowsStarter
             //Enemies
             EnemySpawner = new EnemySpawner(this);
             EnemySpawner.LoadContent(Content);
-
+            Boss = new Bosses.CircleShooterBoss(this, Content);
             VisualDebugging.LoadContent(Content);
 
         }
@@ -99,7 +101,10 @@ namespace MonoGameWindowsStarter
             //Check all collisions
             Collision.CheckAll(EnemySpawner.Enemies, BulletSpawners, player);
             //remove dead enemies
-            EnemySpawner.Update(gameTime);
+            //EnemySpawner.Update(gameTime);
+            Collision.BossOnBullet(Boss, player.BulletSpawner);
+            Boss.Update(gameTime);
+            
             
         }
 
@@ -119,8 +124,9 @@ namespace MonoGameWindowsStarter
             {
                 player.Draw(spriteBatch);
             }
-            EnemySpawner.Draw(spriteBatch);
 
+            //EnemySpawner.Draw(spriteBatch);
+            Boss.Draw(spriteBatch);
 
             spriteBatch.End();
 

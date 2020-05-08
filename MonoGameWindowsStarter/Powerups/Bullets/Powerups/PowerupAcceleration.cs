@@ -12,12 +12,12 @@ namespace MonoGameWindowsStarter.Powerups.Bullets.Powerups
     {
         public override string TextureName => "Bullets/Bullet_4";
 
-        public override Vector2 Scale => new Vector2(0.04f, 0.09f);
+        public override Vector2 Scale => new Vector2(0.14f, 0.19f);
 
         public override Vector2 Velocity => new Vector2(0, 0);
 
         public override Vector2 Acceleration => new Vector2(0, -1);
 
-        public override int NumberToSpawnOnShoot => 3;
+        public override int NumberToSpawnOnShoot => 1;
     }
 }
