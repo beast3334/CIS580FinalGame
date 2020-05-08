@@ -60,6 +60,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="PlayerNamespace\Player.cs" />
     <Compile Include="PlayerNamespace\PlayerPowerup.cs" />
+    <Compile Include="Powerups\PowerupSpawner.cs" />
     <Compile Include="PlayerNamespace\Powerups\PlayerPowerup_Default.cs" />
     <Compile Include="Powerups\Bullets\Bullet.cs" />
     <Compile Include="Powerups\Bullets\BulletPosition.cs" />
