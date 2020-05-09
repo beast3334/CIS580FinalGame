@@ -15,12 +15,13 @@ namespace MonoGameWindowsStarter.Bosses
         Game1 game;
         ContentManager content;
         public Boss boss;
-        Random random = new Random();
+        Random random = new Random((int)DateTime.UtcNow.Ticks);
+        bool active = false;
 
+        public bool Active => active;
         public BossSpawner(Game1 game)
         {
             this.game = game;
-
         }
         public void LoadContent(ContentManager content)
         {
@@ -37,6 +38,7 @@ namespace MonoGameWindowsStarter.Bosses
             {
                 boss = new DivingBoss(game, content);
             }
+            active = true;
         }
         public void Update(GameTime gameTime)
         {
@@ -46,6 +48,7 @@ namespace MonoGameWindowsStarter.Bosses
                 if (boss.healthCurrent <= 0)
                 {
                     boss = null;
+                    active = false;
                 }
             }
             
