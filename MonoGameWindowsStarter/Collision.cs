@@ -240,6 +240,25 @@ namespace MonoGameWindowsStarter
                         case "ThreeSixtyShot":
                             player.ChangePowerup_PickedUp(new Powerup360Shot());
                             break;
+                        case "ExplodingShot":
+                            player.ChangePowerup_PickedUp(new PowerupExploding360Shot());
+                            break;
+                        
+                        case "Laser_Powerup":
+                            player.ChangePowerup_PickedUp(new PowerupLaser());
+                            break;
+                        
+                        case "PenetrationShot":
+                            player.ChangePowerup_PickedUp(new PowerupPenetration());
+                            break;
+                        
+                        case "TripleSplitShot":
+                            player.ChangePowerup_PickedUp(new PowerupTriplePenetration());
+                            break;
+                        case "Trishot_Powerup":
+                            player.ChangePowerup_PickedUp(new PowerupTriplePenetration());
+                            break;
+
                     }
                     
                 }
