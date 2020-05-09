@@ -110,8 +110,8 @@ namespace MonoGameWindowsStarter
                     }
                 }
                 
-                /*//spawn powerups
-                r = random.Next(0, 10);
+                //spawn powerups
+                /*r = random.Next(0, 10);
                 r = (int)(random.NextDouble()*100);
                 if ( r >=0)
                 {
@@ -120,12 +120,12 @@ namespace MonoGameWindowsStarter
                     if(r >= 90)
                     {
                         powerupSpawner.SpawnRandom(PowerupSpriteCategory.SpawnStrongPowerup);
-                        credits += 15;
+                        credits += 2;
                     }
                     else
                     {
                         powerupSpawner.SpawnRandom(PowerupSpriteCategory.SpawnWeakPowerup);
-                        credits += 5;
+                        credits += 1;
                     }
                 }*/
                 
