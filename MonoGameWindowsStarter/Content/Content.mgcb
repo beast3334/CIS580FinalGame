@@ -104,6 +104,12 @@
 /processorParam:TextureFormat=Color
 /build:Enemy_3.PNG;Enemy3.PNG
 
+#begin enemykilled.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:enemykilled.wav
+
 #begin Health_Bar.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -243,6 +249,12 @@
 /processorParam:TextureFormat=Color
 /build:Player/Player_4.PNG
 
+#begin playerHit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:playerHit.wav
+
 #begin playerShip3_blue.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -362,6 +374,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Powerups/Trishot_Powerup.PNG
+
+#begin shoot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:shoot.wav
+
+#begin space theme3.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:space theme3.wav;space_theme.wav
 
 #begin SpaceBackground.jpg
 /importer:TextureImporter

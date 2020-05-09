@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 using System;
 using MonoGameWindowsStarter.Powerups;
 using MonoGameWindowsStarter.Powerups.Bullets;
@@ -31,6 +33,9 @@ namespace MonoGameWindowsStarter
         public bool paused;
         Texture2D pauseMenuTexture;
         Texture2D mainMenuTexture;
+        SoundEffect enemyKilledSound;
+        SoundEffect playerHitSound;
+        Song gameSong;
 
         KeyboardState oldKeyboard;
 
@@ -66,6 +71,7 @@ namespace MonoGameWindowsStarter
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
             graphics.ApplyChanges();
+            Microsoft.Xna.Framework.Media.MediaPlayer.IsRepeating = true;
             base.Initialize();
         }
 
@@ -85,6 +91,10 @@ namespace MonoGameWindowsStarter
             Wave = 1;
             heart = Content.Load<Texture2D>("Heart");
             nuke = Content.Load<Texture2D>("Nuke");
+            enemyKilledSound = Content.Load<SoundEffect>("enemyKilled");
+            playerHitSound = Content.Load<SoundEffect>("playerHit");
+            gameSong = Content.Load<Song>("space_theme");
+            MediaPlayer.Play(gameSong);
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             
@@ -208,7 +218,7 @@ namespace MonoGameWindowsStarter
                     background.Update(gameTime);
                     base.Update(gameTime);
                     //Check all collisions
-                    Collision.CheckAll(new List<EntityAlive>(director.enemySpawner.Enemies), player, director.bossSpawner.boss, director.powerupSpawner);
+                    Collision.CheckAll(new List<EntityAlive>(director.enemySpawner.Enemies), player, director.bossSpawner.boss, director.powerupSpawner, enemyKilledSound, playerHitSound);
                     
                     particleSystem.Update(gameTime);
                     if (player.Alive)
