@@ -99,7 +99,7 @@ namespace MonoGameWindowsStarter
                if(playerPoints >= 200)
                 {
                     playerPoints -= 200;
-                    player.BulletSpawner.ChangePowerup(new PowerupLaser());
+                    player.ChangePowerup_Permanent(new PowerupLaser());
                     purchase.Play();
                 }
             }
@@ -109,7 +109,7 @@ namespace MonoGameWindowsStarter
                 if (playerPoints >= 200)
                 {
                     playerPoints -= 200;
-                    player.BulletSpawner.ChangePowerup(new PowerupTriplePenetration());
+                    player.ChangePowerup_Permanent(new PowerupTriplePenetration());
                     purchase.Play();
                 }
             }
@@ -119,7 +119,7 @@ namespace MonoGameWindowsStarter
                 if (playerPoints >= 200)
                 {
                     playerPoints -= 200;
-                    player.BulletSpawner.ChangePowerup(new Powerup360Shot());
+                    player.ChangePowerup_Permanent(new Powerup360Shot());
                     purchase.Play();
                 }
             }
@@ -129,7 +129,7 @@ namespace MonoGameWindowsStarter
                 if (playerPoints >= 200)
                 {
                     playerPoints -= 200;
-                    player.BulletSpawner.ChangePowerup(new PowerupTriplePenetration());
+                    player.ChangePowerup_Permanent(new PowerupTriplePenetration());
                     purchase.Play();
                    
                 }
@@ -140,7 +140,7 @@ namespace MonoGameWindowsStarter
                 if (playerPoints >= 200)
                 {
                     playerPoints -= 200;
-                    player.BulletSpawner.ChangePowerup(new PowerupExploding360Shot());
+                    player.ChangePowerup_Permanent(new PowerupExploding360Shot());
                     purchase.Play();
                 }
             }
@@ -150,7 +150,7 @@ namespace MonoGameWindowsStarter
                 if (playerPoints >= 200)
                 {
                     playerPoints -= 200;
-                    player.BulletSpawner.ChangePowerup(new PowerupPenetration());
+                    player.ChangePowerup_Permanent(new PowerupPenetration());
                     purchase.Play();
                 }
             }

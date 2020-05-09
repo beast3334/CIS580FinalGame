@@ -137,7 +137,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         public bool ChangePowerup(Powerup powerup)
         {
             // Can only change a powerup if it's allowed
-            if (canChangePowerup)
+            if (canChangePowerup && powerup != null)
             {
                 Powerup = powerup;
                 timeBetweenBullets = powerup.TimeBetweenBullets;

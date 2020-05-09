@@ -8,6 +8,8 @@ using MonoGameWindowsStarter.PlayerNamespace;
 using System.Collections.Generic;
 using MonoGameWindowsStarter.Bosses;
 using System;
+using MonoGameWindowsStarter.PlayerNamespace.Powerups;
+using MonoGameWindowsStarter.Powerups.Bullets.Powerups;
 
 namespace MonoGameWindowsStarter
 {
@@ -217,13 +219,68 @@ namespace MonoGameWindowsStarter
             }
             
         }
+        /*
+        ExplodingShot,
+        Heart_Powerup,
+        Laser_Powerup,
+        Nuke_Powerup,
+        PenetrationShot,
+        Speed_Powerup,
+        TripleSplitShot,
+        Trishot_Powerup
+         */
+        public static void PlayerOnPowerup(Player player, PowerupSpawner powerups)
+        {
+            foreach(PowerupSprite powerup in powerups.PowerupSprites)
+            {
+                if (player.Bounds.Intersects(new BoundingRectangle(powerup.Position.X, powerup.Position.Y, 50, 50)))
+                {
+                    switch (powerup.Powerup.Item2.ToString())
+                    {
+                        case "ThreeSixtyShot":
+                            player.ChangePowerup_PickedUp(new Powerup360Shot());
+                            break;
+                        case "ExplodingShot":
+                            player.ChangePowerup_PickedUp(new PowerupExploding360Shot());
+                            break;
+                        
+                        case "Laser_Powerup":
+                            player.ChangePowerup_PickedUp(new PowerupLaser());
+                            break;
+                        
+                        case "PenetrationShot":
+                            player.ChangePowerup_PickedUp(new PowerupPenetration());
+                            break;
+                        
+                        case "TripleSplitShot":
+                            player.ChangePowerup_PickedUp(new PowerupTriplePenetration());
+                            break;
+                        case "Trishot_Powerup":
+                            player.ChangePowerup_PickedUp(new PowerupTriplePenetration());
+                            break;
+                        case "Nuke_Powerup":
+                            player.Nukes++;
+                            break;
+                        case "Speed_Powerup":
+                            player.AddSpeed(new Vector2(1, 1));
+                            break;
+                        case "Heart_Powerup":
+                            player.AddHearts_PickedUpPowerup(1);
+                            break;
+
+                    }
+                    powerup.Alive = false;
+                    
+                }
+            }
+        }
 
         /// <summary>
         /// Checks all the collisions possible
         /// </summary>
         /// <param name="enemies">Enemies to check</param>
         /// <param name="player">Player to check</param>
-        public static void CheckAll(List<EntityAlive> enemies, Player player, Boss boss)
+        public static void CheckAll(List<EntityAlive> enemies, Player player, Boss boss, PowerupSpawner powerups)
         {
             EnemyOnBullet(enemies, player.BulletSpawner);
             PlayerOnBullet(enemies, player);
@@ -233,6 +290,7 @@ namespace MonoGameWindowsStarter
                 BossOnBullet(boss, player.BulletSpawner);
                 PlayeronBoss(boss, player);
             }
+            PlayerOnPowerup(player, powerups);
             
         }
 
