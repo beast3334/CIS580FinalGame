@@ -26,7 +26,7 @@ namespace MonoGameWindowsStarter
         public EnemySpawner enemySpawner;
         public BossSpawner bossSpawner;
         //BossSpawner bossSpawner;
-        PowerupSpawner powerupSpawner;
+        public PowerupSpawner powerupSpawner;
         Game1 game;
         int count = 0;
         double timer = 0;
@@ -62,9 +62,7 @@ namespace MonoGameWindowsStarter
                 credits = BEGINCREDITS;
             }
             timer += gameTime.ElapsedGameTime.TotalSeconds;
-            enemySpawner.Update(gameTime);
-            bossSpawner.Update(gameTime);
-            powerupSpawner.Update();
+            
 
             if(state == State.Enemy && credits <= 0 && enemySpawner.Enemies.Count <= 0)
             {
@@ -92,6 +90,9 @@ namespace MonoGameWindowsStarter
 
             if (state == State.Enemy)
             {
+                enemySpawner.Update(gameTime);
+
+                powerupSpawner.Update();
                 if (credits > 0)
                 {
                     //spawn enemies
@@ -133,7 +134,7 @@ namespace MonoGameWindowsStarter
             }
             else if (state == State.Boss)
             {
-
+                bossSpawner.Update(gameTime);
             }
             else if (state == State.Shop)
             {
