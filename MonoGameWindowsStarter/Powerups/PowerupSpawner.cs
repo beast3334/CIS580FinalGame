@@ -70,10 +70,9 @@ namespace MonoGameWindowsStarter.Powerups
         {
             PowerupSprites.ForEach(sprite =>
             {
-                var bounds = sprite.Powerup.Item3.Bounds;
                 SpriteBatch.Draw(
                     sprite.Powerup.Item3,
-                    new Rectangle(bounds.X, bounds.Y, bounds.Width * (int)sprite.Scale, bounds.Height * (int)sprite.Scale),
+                    new BoundingRectangle(sprite.Position.X, sprite.Position.Y, sprite.Powerup.Item3.Bounds.Width * sprite.Scale, sprite.Powerup.Item3.Bounds.Height * sprite.Scale),
                     Color.White
                 );
             });
@@ -86,11 +85,11 @@ namespace MonoGameWindowsStarter.Powerups
         /// <returns></returns>
         public PowerupSprite SpawnRandom(PowerupSpriteCategory Category)
         {
+            var random = new Random();
             var powerup = GetPowerup(Category);
-            var random = new Random().Next(6) / 100f;
-            var scale = 0.6f + random;
-            var position = new Vector2(new Random().Next(_game.GraphicsDevice.Viewport.Width), powerup.Item3.Height * scale);
-            var velocity = new Vector2(new Random().Next(50), 3 + new Random().Next(6));
+            var scale = 0.03f + random.Next(4) / 1000f;
+            var position = new Vector2(random.Next(_game.GraphicsDevice.Viewport.Width), -(powerup.Item3.Height * scale));
+            var velocity = new Vector2(0f, 2 + random.Next(2));
             var powerupSprite = new PowerupSprite(powerup, position, velocity, scale);
             PowerupSprites.Add(powerupSprite);
             return powerupSprite;

@@ -20,13 +20,6 @@
 /processorParam:TextureFormat=Compressed
 /build:BossName.spritefont
 
-#begin BossName.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:BossName.spritefont
-
 #begin Bullets/Bullet_1.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -123,18 +116,6 @@
 /processorParam:TextureFormat=Color
 /build:Health_Bar.png
 
-#begin Health_Bar.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Health_Bar.png
-
 #begin Heart.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -154,6 +135,18 @@
 /processorParam:TextureFormat=Compressed
 /build:mainFont.spritefont
 
+#begin MainMenu2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:MainMenu2.png;MainMenu.png
+
 #begin Nuke.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -165,6 +158,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Nuke.PNG
+
+#begin Particle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Particle.png
+
+#begin PauseMenu2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:PauseMenu2.png;PauseMenu.png
 
 #begin pixel.png
 /importer:TextureImporter

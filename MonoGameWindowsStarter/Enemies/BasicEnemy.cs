@@ -16,7 +16,7 @@ namespace MonoGameWindowsStarter.Enemies
 
         BoundingRectangle bounds;
         Texture2D texture;
-        Game1 game;
+        //Game1 game;
 
 
         public override BoundingRectangle Bounds => bounds;
@@ -25,7 +25,7 @@ namespace MonoGameWindowsStarter.Enemies
         {
             this.game = game;
             bounds.X = position;
-            bounds.Y = 50;
+            bounds.Y = 20;
             bounds.Height = 120;
             bounds.Width = 120;
             LoadContent(content);
@@ -40,7 +40,7 @@ namespace MonoGameWindowsStarter.Enemies
 
         public override void Update(GameTime gameTime)
         {
-            bounds.Y += 1;
+            bounds.Y += 4;
             if(bounds.Y>= game.GraphicsDevice.Viewport.Height)
             {
                 Alive = false;
