@@ -27,7 +27,14 @@ namespace MonoGameWindowsStarter
         Texture2D heart;
         Texture2D nuke;
 
-        List<BulletSpawner> BulletSpawners = new List<BulletSpawner>();
+        public bool started;
+        public bool paused;
+        Texture2D pauseMenuTexture;
+        Texture2D mainMenuTexture;
+
+        KeyboardState oldKeyboard;
+
+        //List<BulletSpawner> BulletSpawners = new List<BulletSpawner>();
         //List<Enemy> Enemies;
         //EnemySpawner EnemySpawner;
         Director director;
@@ -44,8 +51,7 @@ namespace MonoGameWindowsStarter
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             
-            player = new Player(this);
-            backgroundTileModel = new BackgroundTileModel();
+            
 
         }
 
@@ -69,6 +75,12 @@ namespace MonoGameWindowsStarter
         /// </summary>
         protected override void LoadContent()
         {
+            started = false;
+            pauseMenuTexture = Content.Load<Texture2D>("PauseMenu");
+            mainMenuTexture = Content.Load<Texture2D>("MainMenu");
+            paused = false;
+            player = new Player(this);
+            backgroundTileModel = new BackgroundTileModel();
             Score = 0;
             Wave = 1;
             heart = Content.Load<Texture2D>("Heart");
@@ -166,50 +178,80 @@ namespace MonoGameWindowsStarter
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            player.Update(gameTime);
-
-            background.Update(gameTime);
-            base.Update(gameTime);
-            //Check all collisions
-
-            Collision.CheckAll(new List<EntityAlive>(director.enemySpawner.Enemies), player, director.bossSpawner.boss, director.powerupSpawner);
-            //remove dead enemies
-            //EnemySpawner.Update(gameTime);
-            particleSystem.Update(gameTime);
-            if (player.Alive)
-            {
-                playerParticle.SpawnParticle = (ref Particle particle) =>
-                {
-                    MouseState mouse = Mouse.GetState();
-                    particle.Position = new Vector2(player.Bounds.X + player.Bounds.Width / 3, player.Bounds.Y + player.Bounds.Height);
-                    particle.Velocity = new Vector2(
-                        MathHelper.Lerp(-50, 50, (float)random.NextDouble()), // X between -50 and 50
-                        MathHelper.Lerp(-50, 50, (float)random.NextDouble()) // Y between 0 and 100
-                        );
-                    particle.Acceleration = 0.1f * new Vector2(0, (float)-random.NextDouble());
-                    particle.Color = Color.LightYellow;
-                    particle.Scale = .5f;
-                    particle.Life = .5f;
-                };
-            }
-            playerParticle.Update(gameTime);
-            director.Update(gameTime);
-
-            //testing to draw the upgradeMenu
-            //temp: open upgrade by hitting 'U'
             var keyboardState = Keyboard.GetState();
-            
-            if (keyboardState.IsKeyDown(Keys.U))
+            if (started)
             {
-                upgradeMenu.isOpen = true;
+                //pause menu
+                if (paused)
+                {
+                    if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !oldKeyboard.IsKeyDown(Keys.Escape) || Keyboard.GetState().IsKeyDown(Keys.D2) && !oldKeyboard.IsKeyDown(Keys.D2))
+                        Exit();
+                    if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !oldKeyboard.IsKeyDown(Keys.Enter) || Keyboard.GetState().IsKeyDown(Keys.D1) && !oldKeyboard.IsKeyDown(Keys.D1))
+                        paused = false;
+                }
+
+                if (player.Alive && !paused)
+                {
+                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                        paused = true;
+
+                    player.Update(gameTime);
+
+                    background.Update(gameTime);
+                    base.Update(gameTime);
+                    //Check all collisions
+
+                    Collision.CheckAll(new List<EntityAlive>(director.enemySpawner.Enemies), player, director.bossSpawner.boss, director.powerupSpawner);
+                    //remove dead enemies
+                    //EnemySpawner.Update(gameTime);
+                    particleSystem.Update(gameTime);
+                    if (player.Alive)
+                    {
+                        playerParticle.SpawnParticle = (ref Particle particle) =>
+                        {
+                            MouseState mouse = Mouse.GetState();
+                            particle.Position = new Vector2(player.Bounds.X + player.Bounds.Width / 3, player.Bounds.Y + player.Bounds.Height);
+                            particle.Velocity = new Vector2(
+                                MathHelper.Lerp(-50, 50, (float)random.NextDouble()), // X between -50 and 50
+                                MathHelper.Lerp(-50, 50, (float)random.NextDouble()) // Y between 0 and 100
+                                );
+                            particle.Acceleration = 0.1f * new Vector2(0, (float)-random.NextDouble());
+                            particle.Color = Color.LightYellow;
+                            particle.Scale = .5f;
+                            particle.Life = .5f;
+                        };
+                    }
+                    playerParticle.Update(gameTime);
+                    director.Update(gameTime);
+
+                    //testing to draw the upgradeMenu
+                    //temp: open upgrade by hitting 'U'
+
+                    if (keyboardState.IsKeyDown(Keys.U))
+                    {
+                        upgradeMenu.isOpen = true;
+                    }
+
+
+                    if (upgradeMenu.isOpen)
+                        upgradeMenu.Update(gameTime);
+                }
+                else
+                {
+                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
+                        LoadContent();
+                }
             }
-
-
-            if (upgradeMenu.isOpen)
-                upgradeMenu.Update(gameTime);
+            else
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.D2))
+                {
+                    Exit();
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.D1))
+                    started = true;
+            }
+            oldKeyboard = keyboardState;
         }
 
         /// <summary>
@@ -230,6 +272,10 @@ namespace MonoGameWindowsStarter
             if (player.Alive)
             {
                 player.Draw(spriteBatch);
+            }
+            else
+            {
+                spriteBatch.DrawString(mainFont, "GAME OVER: Press 'Enter' to restart", new Vector2(700, 540), Color.Red);
             }
             //EnemySpawner.Draw(spriteBatch);
             director.Draw(spriteBatch);
@@ -258,8 +304,17 @@ namespace MonoGameWindowsStarter
             if (upgradeMenu.isOpen)
                 upgradeMenu.Draw(spriteBatch);
 
+            if (paused)
+            {
+                spriteBatch.Draw(pauseMenuTexture, new BoundingRectangle(0, 0, 1920, 1080), Color.White);
+            }
+            if (!started)
+            {
+                spriteBatch.Draw(mainMenuTexture, new BoundingRectangle(0, 0, 1920, 1080), Color.White);
+            }
             spriteBatch.End();
             particleSystem.Draw();
+            
             
             base.Draw(gameTime);
         }
