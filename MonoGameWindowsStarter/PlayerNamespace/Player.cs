@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Audio;
 using MonoGameWindowsStarter.Powerups.Bullets;
 using MonoGameWindowsStarter.PlayerNamespace.Powerups;
 using MonoGameWindowsStarter.Powerups.Bullets.Powerups;
+using MonoGameWindowsStarter.Powerups;
 
 namespace MonoGameWindowsStarter.PlayerNamespace
 {
@@ -73,14 +74,19 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         public BulletSpawner BulletSpawner { get; set; }
 
         /// <summary>
-        /// The currently used powerup
+        /// The currently used player powerup
         /// </summary>
-        public PlayerPowerup CurrentPowerup { get; private set; } = new PlayerPowerup_Default();
+        public PlayerPowerup PlayerPowerup { get; private set; } = new PlayerPowerup_Default();
 
         /// <summary>
-        /// Temporary Powerup the player picked up
+        /// Temporary Bullet Powerup the player picked up
         /// </summary>
-        public PlayerPowerup TempPowerup { get; private set; } = null;
+        public Powerup TempPowerup { get; private set; } = null;
+
+        /// <summary>
+        /// The permanent Bullet powerup
+        /// </summary>
+        public Powerup PermanentPowerup { get; private set; } = null;
 
         private TimeSpan? _tempPowerupTimer = null;
         private bool _usedTempPowerup = false;
@@ -159,9 +165,9 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         /// Changes the powerup of the player
         /// </summary>
         /// <param name="powerup">Powerup to add</param>
-        public void ChangePowerup_Permanent(PlayerPowerup powerup)
+        public void ChangePowerup_Permanent(Powerup powerup)
         {
-            CurrentPowerup = powerup;
+            PermanentPowerup = powerup;
             TempPowerup = null;
             _tempPowerupTimer = null;
             _usedTempPowerup = false;
@@ -172,10 +178,10 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         /// Gives the player a temp powerup that lasts until they use it or the timer runs out
         /// </summary>
         /// <param name="powerup">Powerup to use</param>
-        public void ChangePowerup_PickedUp(PlayerPowerup powerup)
+        public void ChangePowerup_PickedUp(Powerup powerup)
         {
-            TempPowerup = CurrentPowerup;
-            CurrentPowerup = powerup;
+            TempPowerup = PermanentPowerup;
+            PermanentPowerup = powerup;
             _tempPowerupTimer = powerup.Timer;
             _usedTempPowerup = false;
             LoadContent(game.Content);
@@ -183,7 +189,7 @@ namespace MonoGameWindowsStarter.PlayerNamespace
 
         private void ChangeTempPowerupBack()
         {
-            CurrentPowerup = TempPowerup;
+            PermanentPowerup = TempPowerup;
             TempPowerup = null;
             _tempPowerupTimer = null;
             _usedTempPowerup = false;
@@ -201,7 +207,7 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         /// <param name="content">Content to load from</param>
         public override void LoadContent(ContentManager content)
         {
-            CurrentPowerup.TextureNames.ForEach(tex =>
+            PlayerPowerup.TextureNames.ForEach(tex =>
             {
                 Textures.Add(new Tuple<PlayerState, Texture2D>(tex.Item1, content.Load<Texture2D>(tex.Item2)));
             });
@@ -216,18 +222,18 @@ namespace MonoGameWindowsStarter.PlayerNamespace
                 texture.Height * Scale.Y
             );
 
-            Velocity = CurrentPowerup.Velocity;
-            Scale = CurrentPowerup.Scale;
+            Velocity = PlayerPowerup.Velocity;
+            Scale = PlayerPowerup.Scale;
 
             // Add to current hearts
-            if (CurrentPowerup.Hearts.Item1 == false)
+            if (PlayerPowerup.Hearts.Item1 == false)
             {
-                Hearts += CurrentPowerup.Hearts.Item2;
+                Hearts += PlayerPowerup.Hearts.Item2;
             }
             // Replace the current hearts
             else
             {
-                Hearts = CurrentPowerup.Hearts.Item2;
+                Hearts = PlayerPowerup.Hearts.Item2;
             }
 
             // Load the Bullet Spawner Content
@@ -337,7 +343,7 @@ namespace MonoGameWindowsStarter.PlayerNamespace
                 texture,
                 bounds,
                 null,
-                CurrentPowerup.Color,
+                PlayerPowerup.Color,
                 0f,
                 new Vector2(texture.Width / 2, 0),
                 SpriteEffects.None,
