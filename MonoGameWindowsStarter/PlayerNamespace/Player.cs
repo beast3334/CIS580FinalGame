@@ -371,7 +371,7 @@ namespace MonoGameWindowsStarter.PlayerNamespace
                 null,
                 PlayerPowerup.Color,
                 0f,
-                new Vector2(texture.Width / 2, 0),
+                new Vector2(0, 0),
                 SpriteEffects.None,
                 1f
             );
