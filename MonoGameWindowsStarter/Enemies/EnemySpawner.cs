@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 using MonoGameWindowsStarter.Powerups.Bullets.Powerups;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,6 @@ namespace MonoGameWindowsStarter.Enemies
         Random random = new Random();
         State state = State.Idle;
 
-
         public EnemySpawner(Game1 game)
         {
             this.game = game;
@@ -38,6 +38,7 @@ namespace MonoGameWindowsStarter.Enemies
         {
             Enemies = new List<Enemy>();
             Content = content;
+            
         }
 
         public void SpawnStrong()
