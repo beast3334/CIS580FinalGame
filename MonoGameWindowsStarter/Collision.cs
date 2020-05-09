@@ -258,8 +258,18 @@ namespace MonoGameWindowsStarter
                         case "Trishot_Powerup":
                             player.ChangePowerup_PickedUp(new PowerupTriplePenetration());
                             break;
+                        case "Nuke_Powerup":
+                            player.Nukes++;
+                            break;
+                        case "Speed_Powerup":
+                            player.AddSpeed(new Vector2(1, 1));
+                            break;
+                        case "Heart_Powerup":
+                            player.AddHearts_PickedUpPowerup(1);
+                            break;
 
                     }
+                    powerup.Alive = false;
                     
                 }
             }
