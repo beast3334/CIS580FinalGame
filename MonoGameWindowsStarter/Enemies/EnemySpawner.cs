@@ -161,6 +161,26 @@ namespace MonoGameWindowsStarter.Enemies
             }
         }
 
+        public void KillAll()
+        {
+            game.particleSystem.SpawnPerFrame = 30;
+            game.particleSystem.SpawnParticle = (ref Particle particle) =>
+            {
+                
+                particle.Position = new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2);
+                particle.Velocity = new Vector2(
+                    MathHelper.Lerp(-500, 500, (float)random.NextDouble()), 
+                    MathHelper.Lerp(-500, 500, (float)random.NextDouble()) 
+                    );
+                particle.Acceleration = 2f * new Vector2(0, (float)-random.NextDouble());
+                particle.Color = Color.GreenYellow;
+                particle.Scale = 3f;
+                particle.Life = 3f;
+            };
+            Enemies = new List<Enemy>();
+
+        }
+
 
     }
 }

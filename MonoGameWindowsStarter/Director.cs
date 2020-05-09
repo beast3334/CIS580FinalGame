@@ -30,8 +30,8 @@ namespace MonoGameWindowsStarter
         Game1 game;
         int count = 0;
         double timer = 0;
-        int credits;
-        int BEGINCREDITS = 100;
+        double credits;
+        double BEGINCREDITS = 100;
         Random random;
         int r;
 
@@ -84,7 +84,7 @@ namespace MonoGameWindowsStarter
                 if (!game.upgradeMenu.isOpen)
                 {
                     state = State.Enemy;
-                    credits = BEGINCREDITS;
+                    credits = BEGINCREDITS + (BEGINCREDITS*.1*game.Wave);
                     game.Wave++;
                 }
             }

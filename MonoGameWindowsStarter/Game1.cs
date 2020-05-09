@@ -192,18 +192,24 @@ namespace MonoGameWindowsStarter
 
                 if (player.Alive && !paused)
                 {
+                    //Pause Game
                     if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                         paused = true;
+
+                    //Use Nuke
+                    if(Keyboard.GetState().IsKeyDown(Keys.LeftShift) && !oldKeyboard.IsKeyDown(Keys.LeftShift) && player.Nukes >0)
+                    {
+                        director.enemySpawner.KillAll();
+                        player.Nukes--;
+                    }
 
                     player.Update(gameTime);
 
                     background.Update(gameTime);
                     base.Update(gameTime);
                     //Check all collisions
-
                     Collision.CheckAll(new List<EntityAlive>(director.enemySpawner.Enemies), player, director.bossSpawner.boss, director.powerupSpawner);
-                    //remove dead enemies
-                    //EnemySpawner.Update(gameTime);
+                    
                     particleSystem.Update(gameTime);
                     if (player.Alive)
                     {
@@ -244,11 +250,11 @@ namespace MonoGameWindowsStarter
             }
             else
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.D2))
+                if (Keyboard.GetState().IsKeyDown(Keys.D2) || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 {
                     Exit();
                 }
-                if (Keyboard.GetState().IsKeyDown(Keys.D1))
+                if (Keyboard.GetState().IsKeyDown(Keys.D1) || Keyboard.GetState().IsKeyDown(Keys.Enter))
                     started = true;
             }
             oldKeyboard = keyboardState;
