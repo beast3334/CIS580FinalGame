@@ -86,7 +86,7 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         /// <summary>
         /// The permanent Bullet powerup
         /// </summary>
-        public Powerup PermanentPowerup { get; private set; } = null;
+        public Powerup CurrentPowerup { get; private set; } = null;
 
         private TimeSpan? _tempPowerupTimer = null;
         private bool _usedTempPowerup = false;
@@ -167,7 +167,7 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         /// <param name="powerup">Powerup to add</param>
         public void ChangePowerup_Permanent(Powerup powerup)
         {
-            PermanentPowerup = powerup;
+            CurrentPowerup = powerup;
             TempPowerup = null;
             _tempPowerupTimer = null;
             _usedTempPowerup = false;
@@ -180,8 +180,8 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         /// <param name="powerup">Powerup to use</param>
         public void ChangePowerup_PickedUp(Powerup powerup)
         {
-            TempPowerup = PermanentPowerup;
-            PermanentPowerup = powerup;
+            TempPowerup = CurrentPowerup;
+            CurrentPowerup = powerup;
             _tempPowerupTimer = powerup.Timer;
             _usedTempPowerup = false;
             LoadContent(game.Content);
@@ -189,7 +189,7 @@ namespace MonoGameWindowsStarter.PlayerNamespace
 
         private void ChangeTempPowerupBack()
         {
-            PermanentPowerup = TempPowerup;
+            CurrentPowerup = TempPowerup;
             TempPowerup = null;
             _tempPowerupTimer = null;
             _usedTempPowerup = false;
@@ -211,6 +211,8 @@ namespace MonoGameWindowsStarter.PlayerNamespace
             {
                 Textures.Add(new Tuple<PlayerState, Texture2D>(tex.Item1, content.Load<Texture2D>(tex.Item2)));
             });
+
+            BulletSpawner.ChangePowerup(CurrentPowerup);
 
             // Get the texture
             var texture = GetPlayerTexture();
