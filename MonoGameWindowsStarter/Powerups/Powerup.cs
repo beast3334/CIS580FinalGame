@@ -71,8 +71,9 @@ namespace MonoGameWindowsStarter.Powerups
         /// </summary>
         public virtual Powerup SpawnAfterImpact => null;
 
-        //Extend with any methods required by all powerups.
-
-        //Will allow for abstract access to all powerups, instead of by name.
+        /// <summary>
+        /// The time that the powerup lasts if it isn't permanent
+        /// </summary>
+        public virtual TimeSpan Timer => new TimeSpan(0, 0, 30);
     }
 }

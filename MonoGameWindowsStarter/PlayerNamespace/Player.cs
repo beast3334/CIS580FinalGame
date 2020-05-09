@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 using MonoGameWindowsStarter.Powerups.Bullets;
 using MonoGameWindowsStarter.PlayerNamespace.Powerups;
+using MonoGameWindowsStarter.Powerups.Bullets.Powerups;
+using MonoGameWindowsStarter.Powerups;
 
 namespace MonoGameWindowsStarter.PlayerNamespace
 {
@@ -72,15 +74,21 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         public BulletSpawner BulletSpawner { get; set; }
 
         /// <summary>
-        /// The currently used powerup
+        /// The currently used player powerup
         /// </summary>
-        public PlayerPowerup CurrentPowerup { get; private set; } = new PlayerPowerup_Default();
+        public PlayerPowerup PlayerPowerup { get; private set; } = new PlayerPowerup_Default();
 
         /// <summary>
-        /// Temporary Powerup the player picked up
+        /// Temporary Bullet Powerup the player picked up
         /// </summary>
-        public PlayerPowerup TempPowerup { get; private set; } = null;
+        public Powerup TempPowerup { get; private set; } = null;
 
+        /// <summary>
+        /// The permanent Bullet powerup
+        /// </summary>
+        public Powerup CurrentPowerup { get; private set; } = new PowerupDefault();
+
+        private TimeSpan? timer;
         private TimeSpan? _tempPowerupTimer = null;
         private bool _usedTempPowerup = false;
 
@@ -93,6 +101,8 @@ namespace MonoGameWindowsStarter.PlayerNamespace
             {
                 LoadContent(game.Content);
             }
+            timer = new TimeSpan();
+            
         }
 
         /// <summary>
@@ -158,7 +168,7 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         /// Changes the powerup of the player
         /// </summary>
         /// <param name="powerup">Powerup to add</param>
-        public void ChangePowerup_Permanent(PlayerPowerup powerup)
+        public void ChangePowerup_Permanent(Powerup powerup)
         {
             CurrentPowerup = powerup;
             TempPowerup = null;
@@ -171,9 +181,12 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         /// Gives the player a temp powerup that lasts until they use it or the timer runs out
         /// </summary>
         /// <param name="powerup">Powerup to use</param>
-        public void ChangePowerup_PickedUp(PlayerPowerup powerup)
+        public void ChangePowerup_PickedUp(Powerup powerup)
         {
-            TempPowerup = CurrentPowerup;
+            if (TempPowerup == null)
+            {
+                TempPowerup = CurrentPowerup;
+            }
             CurrentPowerup = powerup;
             _tempPowerupTimer = powerup.Timer;
             _usedTempPowerup = false;
@@ -200,41 +213,48 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         /// <param name="content">Content to load from</param>
         public override void LoadContent(ContentManager content)
         {
-            CurrentPowerup.TextureNames.ForEach(tex =>
+            PlayerPowerup.TextureNames.ForEach(tex =>
             {
                 Textures.Add(new Tuple<PlayerState, Texture2D>(tex.Item1, content.Load<Texture2D>(tex.Item2)));
             });
+            
+            
 
             // Get the texture
             var texture = GetPlayerTexture();
             // Set the bounds according to the texture
-            bounds = new BoundingRectangle(
-                (game.GraphicsDevice.Viewport.Width - Bounds.Width) / 2, //Places player horizontally in the middle of viewwindow
-                game.GraphicsDevice.Viewport.Height, //Places player at bottom of viewwindow
-                texture.Width * Scale.X,
-                texture.Height * Scale.Y
-            );
+            if (Velocity == Vector2.Zero)
+            {
+                bounds = new BoundingRectangle(
+                    (game.GraphicsDevice.Viewport.Width - Bounds.Width) / 2, //Places player horizontally in the middle of viewwindow
+                    game.GraphicsDevice.Viewport.Height, //Places player at bottom of viewwindow
+                    texture.Width * Scale.X,
+                    texture.Height * Scale.Y
+                );
+            }
 
-            Velocity = CurrentPowerup.Velocity;
-            Scale = CurrentPowerup.Scale;
+            Velocity = PlayerPowerup.Velocity;
+            Scale = PlayerPowerup.Scale;
 
             // Add to current hearts
-            if (CurrentPowerup.Hearts.Item1 == false)
+            if (PlayerPowerup.Hearts.Item1 == false)
             {
-                Hearts += CurrentPowerup.Hearts.Item2;
+                Hearts += PlayerPowerup.Hearts.Item2;
             }
             // Replace the current hearts
             else
             {
-                Hearts = CurrentPowerup.Hearts.Item2;
+                Hearts = PlayerPowerup.Hearts.Item2;
             }
 
             // Load the Bullet Spawner Content
             BulletSpawner.LoadContent(content);
+            BulletSpawner.ChangePowerup(CurrentPowerup);
         }
 
         public override void Update(GameTime gameTime)
         {
+            timer+= gameTime.ElapsedGameTime;
             var keyboardState = Keyboard.GetState();
 
             //Up Movement
@@ -275,7 +295,7 @@ namespace MonoGameWindowsStarter.PlayerNamespace
             UpdateBounds();
 
             //Check Action Button
-            if (keyboardState.IsKeyDown(Keys.Space))
+            if (keyboardState.IsKeyDown(Keys.Space) && Alive)
             {
                 BulletSpawner.Shoot();
 
@@ -285,6 +305,11 @@ namespace MonoGameWindowsStarter.PlayerNamespace
                     // Knows the powerup is used
                     _usedTempPowerup = true;
                 }
+            }
+            if(timer!= null && _tempPowerupTimer!= null &&  timer >= _tempPowerupTimer)
+            {
+                ChangeTempPowerupBack();
+                timer = new TimeSpan();
             }
 
             //Check Y bounds
@@ -318,18 +343,29 @@ namespace MonoGameWindowsStarter.PlayerNamespace
                     ChangeTempPowerupBack();
                 }
             }
+
+            if (Hearts <= 0)
+            {
+                Alive = false;
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             // Draw the Bullet Spawner under the player
             BulletSpawner.Draw(spriteBatch);
+            var texture = GetPlayerTexture();
 
             // Draw the Player
             spriteBatch.Draw(
-                GetPlayerTexture(), 
-                bounds, 
-                CurrentPowerup.Color
+                texture,
+                bounds,
+                null,
+                PlayerPowerup.Color,
+                0f,
+                new Vector2(texture.Width / 2, 0),
+                SpriteEffects.None,
+                1f
             );
         }
     }

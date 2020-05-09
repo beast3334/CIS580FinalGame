@@ -18,7 +18,7 @@ namespace MonoGameWindowsStarter.Enemies
 
         BoundingRectangle bounds;
         Texture2D texture;
-        Game1 game;
+        //Game1 game;
         int speed;
         //public BulletSpawner bulletSpawner;
         double shootTimer;
@@ -32,7 +32,7 @@ namespace MonoGameWindowsStarter.Enemies
         {
             this.game = game;
             bounds.X = position;
-            bounds.Y = 50;
+            bounds.Y = 20;
             bounds.Height = 180;
             bounds.Width = 180;
             direction = 0;

@@ -40,53 +40,66 @@ namespace MonoGameWindowsStarter.Enemies
             Content = content;
         }
 
+        public void SpawnStrong()
+        {
+            pos = random.Next(50, 1700);
+            var r = random.Next(0, 100);
+            if (r > 0 && r <= 40)
+            {
+                Enemies.Add(new SwervingEnemy(game, Content, pos));
+                state = State.Spawning;
+            }
+            else if (r > 40 && r <= 100)
+            {
+                Enemies.Add(new TrackingEnemy(game, Content, pos));
+            }
+        }
+         public void SpawnWeak()
+        {
+            pos = random.Next(50, 1700);
+            var r = random.Next(0, 100);
+            if (r >= 0 && r <= 40)
+            {
+                Enemies.Add(new BasicEnemy(game, Content, pos));
+            }
+            else if (r > 40 && r <= 70)
+            {
+                Enemies.Add(new BasicShootingEnemy(game, Content, pos));
+            }
+            else if (r > 70 && r <= 100)
+            {
+                Enemies.Add(new SwervingEnemy(game, Content, pos));
+            }
+            
+        }
+
         public void SpawnRandom()
         {
             if (timer >= 2 && state == State.Idle)
             {
-                pos = random.Next(50, 1000);
+                pos = random.Next(50, 1700);
                 var r = random.Next(0, 100);
-                if(r>=0 && r<= 30)
+                if (r >= 0 && r <= 30)
                 {
                     Enemies.Add(new BasicEnemy(game, Content, pos));
                 }
-                else if(r>30 && r <= 60)
+                else if (r > 30 && r <= 60)
                 {
                     Enemies.Add(new BasicShootingEnemy(game, Content, pos));
                 }
-                else if(r>60 && r <= 80)
+                else if (r > 60 && r <= 80)
                 {
                     Enemies.Add(new SwervingEnemy(game, Content, pos));
                 }
-                else if(r>80 && r <= 85)
+                else if (r > 80 && r <= 85)
                 {
                     Enemies.Add(new SwervingEnemy(game, Content, pos));
                     state = State.Spawning;
                 }
-                else if(r>85 && r<= 95)
+                else if (r > 85 && r <= 95)
                 {
                     Enemies.Add(new TrackingEnemy(game, Content, pos));
                 }
-                
-                /* old spawning method
-                switch (r)
-                {
-                    case 0:
-                        Enemies.Add(new BasicEnemy(game, Content, pos));
-                        break;
-                    case 1:
-                        Enemies.Add(new BasicShootingEnemy(game, Content, pos));
-                        break;
-                    case 2:
-                        Enemies.Add(new SwervingEnemy(game, Content, pos));
-                        break;
-                    case 3:
-                        Enemies.Add(new SwervingEnemy(game, Content, pos));
-                        state = State.Spawning;
-
-                        break;
-
-                }*/
                 
                 timer = 0;
             }
@@ -95,12 +108,12 @@ namespace MonoGameWindowsStarter.Enemies
         public void Update(GameTime gameTime)
         {
             timer += gameTime.ElapsedGameTime.TotalSeconds;
-            
-            
-            if(state == State.Spawning)
+
+
+            if (state == State.Spawning)
             {
                 timer2 += gameTime.ElapsedGameTime.TotalSeconds;
-                if(timer2 >= .5 && counter <5)
+                if (timer2 >= .5 && counter < 5)
                 {
                     Enemies.Add(new SwervingEnemy(game, Content, pos));
                     timer2 = 0;
@@ -112,24 +125,30 @@ namespace MonoGameWindowsStarter.Enemies
                     state = State.Idle;
                 }
             }
-            
 
-            //update all enemies
-            for (int i = 0; i < Enemies.Count; i++)
+            if (Enemies.Count > 0)
             {
-                Enemies[i].Update(gameTime);
-            }
-            //remove dead enemies;
-            for (int i = 0; i < Enemies.Count; i++)
-            {
-                if (Enemies[i].ReadyForTrash == true)
+                //update all enemies
+                for (int i = 0; i < Enemies.Count; i++)
                 {
-                    if (Enemies[i].Bounds.Y < game.GraphicsDevice.Viewport.Height)
+                    Enemies[i].Update(gameTime);
+                }
+                //remove dead enemies;
+                for (int i = 0; i < Enemies.Count(); i++)
+                {
+                    if (Enemies[i].ReadyForTrash == true)
                     {
-                        game.Score += Enemies[i].points;
+                        var x = Enemies[i].Bounds.X;
+                        var y = Enemies[i].Bounds.Y;
+                        if (Enemies[i].Bounds.Y < game.GraphicsDevice.Viewport.Height)
+                        {
+                            
+                            game.Score += Enemies[i].points;
+                        }
+                        Enemies.RemoveAt(i);
+                        i--;
+                        
                     }
-                    Enemies.Remove(Enemies[i]);
-                    i--;
                 }
             }
         }
@@ -142,6 +161,6 @@ namespace MonoGameWindowsStarter.Enemies
             }
         }
 
-        
+
     }
 }
