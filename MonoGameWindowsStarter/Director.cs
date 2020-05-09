@@ -57,7 +57,8 @@ namespace MonoGameWindowsStarter
 
         public void Update(GameTime gameTime)
         {
-            if( state == State.Enemy && credits == 0 && count == 1)
+            powerupSpawner.Update();
+            if ( state == State.Enemy && credits == 0 && count == 1)
             {
                 credits = BEGINCREDITS;
             }
@@ -92,7 +93,7 @@ namespace MonoGameWindowsStarter
             {
                 enemySpawner.Update(gameTime);
 
-                powerupSpawner.Update();
+                
                 if (credits > 0)
                 {
                     //spawn enemies

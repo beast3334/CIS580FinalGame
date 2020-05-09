@@ -233,7 +233,7 @@ namespace MonoGameWindowsStarter
         {
             foreach(PowerupSprite powerup in powerups.PowerupSprites)
             {
-                if (player.Bounds.Intersects(powerup.Position))
+                if (player.Bounds.Intersects(new BoundingRectangle(powerup.Position.X, powerup.Position.Y, 50, 50)))
                 {
                     switch (powerup.Powerup.Item2.ToString())
                     {

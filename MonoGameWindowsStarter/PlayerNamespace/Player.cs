@@ -86,8 +86,9 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         /// <summary>
         /// The permanent Bullet powerup
         /// </summary>
-        public Powerup CurrentPowerup { get; private set; } = null;
+        public Powerup CurrentPowerup { get; private set; } = new PowerupDefault();
 
+        private TimeSpan? timer;
         private TimeSpan? _tempPowerupTimer = null;
         private bool _usedTempPowerup = false;
 
@@ -100,6 +101,8 @@ namespace MonoGameWindowsStarter.PlayerNamespace
             {
                 LoadContent(game.Content);
             }
+            timer = new TimeSpan();
+            
         }
 
         /// <summary>
@@ -180,7 +183,10 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         /// <param name="powerup">Powerup to use</param>
         public void ChangePowerup_PickedUp(Powerup powerup)
         {
-            TempPowerup = CurrentPowerup;
+            if (TempPowerup == null)
+            {
+                TempPowerup = CurrentPowerup;
+            }
             CurrentPowerup = powerup;
             _tempPowerupTimer = powerup.Timer;
             _usedTempPowerup = false;
@@ -211,18 +217,21 @@ namespace MonoGameWindowsStarter.PlayerNamespace
             {
                 Textures.Add(new Tuple<PlayerState, Texture2D>(tex.Item1, content.Load<Texture2D>(tex.Item2)));
             });
-
-            BulletSpawner.ChangePowerup(CurrentPowerup);
+            
+            
 
             // Get the texture
             var texture = GetPlayerTexture();
             // Set the bounds according to the texture
-            bounds = new BoundingRectangle(
-                (game.GraphicsDevice.Viewport.Width - Bounds.Width) / 2, //Places player horizontally in the middle of viewwindow
-                game.GraphicsDevice.Viewport.Height, //Places player at bottom of viewwindow
-                texture.Width * Scale.X,
-                texture.Height * Scale.Y
-            );
+            if (Velocity == Vector2.Zero)
+            {
+                bounds = new BoundingRectangle(
+                    (game.GraphicsDevice.Viewport.Width - Bounds.Width) / 2, //Places player horizontally in the middle of viewwindow
+                    game.GraphicsDevice.Viewport.Height, //Places player at bottom of viewwindow
+                    texture.Width * Scale.X,
+                    texture.Height * Scale.Y
+                );
+            }
 
             Velocity = PlayerPowerup.Velocity;
             Scale = PlayerPowerup.Scale;
@@ -240,10 +249,12 @@ namespace MonoGameWindowsStarter.PlayerNamespace
 
             // Load the Bullet Spawner Content
             BulletSpawner.LoadContent(content);
+            BulletSpawner.ChangePowerup(CurrentPowerup);
         }
 
         public override void Update(GameTime gameTime)
         {
+            timer+= gameTime.ElapsedGameTime;
             var keyboardState = Keyboard.GetState();
 
             //Up Movement
@@ -294,6 +305,11 @@ namespace MonoGameWindowsStarter.PlayerNamespace
                     // Knows the powerup is used
                     _usedTempPowerup = true;
                 }
+            }
+            if(timer!= null && _tempPowerupTimer!= null &&  timer >= _tempPowerupTimer)
+            {
+                ChangeTempPowerupBack();
+                timer = new TimeSpan();
             }
 
             //Check Y bounds
