@@ -19,7 +19,7 @@ namespace MonoGameWindowsStarter
         SpriteBatch spriteBatch;
         public Player player;
         BackgroundTileModel backgroundTileModel;
-        Background background;
+        public Background background;
         public int Score;
         public Random random = new Random();
         public int Wave;
@@ -192,25 +192,31 @@ namespace MonoGameWindowsStarter
 
                 if (player.Alive && !paused)
                 {
+                    //Pause Game
                     if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                         paused = true;
+
+                    //Use Nuke
+                    if(Keyboard.GetState().IsKeyDown(Keys.LeftShift) && !oldKeyboard.IsKeyDown(Keys.LeftShift) && player.Nukes >0)
+                    {
+                        director.enemySpawner.KillAll();
+                        player.Nukes--;
+                    }
 
                     player.Update(gameTime);
 
                     background.Update(gameTime);
                     base.Update(gameTime);
                     //Check all collisions
-
                     Collision.CheckAll(new List<EntityAlive>(director.enemySpawner.Enemies), player, director.bossSpawner.boss, director.powerupSpawner);
-                    //remove dead enemies
-                    //EnemySpawner.Update(gameTime);
+                    
                     particleSystem.Update(gameTime);
                     if (player.Alive)
                     {
                         playerParticle.SpawnParticle = (ref Particle particle) =>
                         {
                             MouseState mouse = Mouse.GetState();
-                            particle.Position = new Vector2(player.Bounds.X + player.Bounds.Width / 3, player.Bounds.Y + player.Bounds.Height);
+                            particle.Position = new Vector2(player.Bounds.X -4, player.Bounds.Y + player.Bounds.Height);
                             particle.Velocity = new Vector2(
                                 MathHelper.Lerp(-50, 50, (float)random.NextDouble()), // X between -50 and 50
                                 MathHelper.Lerp(-50, 50, (float)random.NextDouble()) // Y between 0 and 100
@@ -244,11 +250,11 @@ namespace MonoGameWindowsStarter
             }
             else
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.D2))
+                if (Keyboard.GetState().IsKeyDown(Keys.D2) || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 {
                     Exit();
                 }
-                if (Keyboard.GetState().IsKeyDown(Keys.D1))
+                if (Keyboard.GetState().IsKeyDown(Keys.D1) || Keyboard.GetState().IsKeyDown(Keys.Enter))
                     started = true;
             }
             oldKeyboard = keyboardState;

@@ -29,8 +29,8 @@ namespace MonoGameWindowsStarter.Bosses
         }
         public void SpawnRandom()
         {
-            int r = random.Next(100, 200);
-            if(r < 100)
+            int r = (int)(random.NextDouble()*100);
+            if(r < 50)
             {
                 boss = new CircleShooterBoss(game, content);
             }
