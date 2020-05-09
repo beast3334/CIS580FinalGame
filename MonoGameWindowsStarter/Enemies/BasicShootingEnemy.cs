@@ -33,10 +33,11 @@ namespace MonoGameWindowsStarter.Enemies
             this.game = game;
             bounds.X = position;
             bounds.Y = 20;
-            bounds.Height = 120;
-            bounds.Width = 120;
+            bounds.Height = 80;
+            bounds.Width = 80;
             direction = 0;
             speed = 3;
+            //bulletSpawner = new BulletSpawner(game, new Vector2(bounds.X + bounds.Width / 2, bounds.Y + bounds.Height / 2));
             bulletSpawner = new BulletSpawner(game, this);
             bulletSpawner.Powerup = new PowerupDefaultEnemy();
             //bulletSpawner.Powerup.Velocity.Y *= -1; 
@@ -49,6 +50,8 @@ namespace MonoGameWindowsStarter.Enemies
         {
             texture = content.Load<Texture2D>("Enemy1");
             bulletSpawner.LoadContent(content);
+            //bounds.Width = texture.Width;
+            //bounds.Height = texture.Height;
 
             
         }
