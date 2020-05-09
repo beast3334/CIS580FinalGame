@@ -32,7 +32,12 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         Game1 game;
         List<Tuple<PlayerState, Texture2D>> Textures = new List<Tuple<PlayerState, Texture2D>>();
         BoundingRectangle bounds = new BoundingRectangle();
+
         SoundEffect shootingEffect;
+
+        public bool hit = false;
+
+
         /// <summary>
         /// State of the player
         /// </summary>

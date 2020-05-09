@@ -20,7 +20,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
                 // entity bounds is used
                 if (Entity != null)
                 {
-                    return new Vector2(Entity.Bounds.X, Entity.Bounds.Y);
+                    return new Vector2(Entity.Bounds.X+Entity.Bounds.Width/2, Entity.Bounds.Y+Entity.Bounds.Height/2);
                 }
                 // position is used
                 else if (position != null)

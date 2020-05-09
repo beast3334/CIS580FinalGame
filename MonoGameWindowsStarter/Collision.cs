@@ -213,29 +213,23 @@ namespace MonoGameWindowsStarter
         {
             foreach (Bullet bullet in boss.bulletSpawner.Bullets)
             {
-                if (bullet.Bounds.Intersects(player.Bounds))
+                //if (bullet.Bounds.Intersects(player.Bounds))\
+                if(player.Bounds.Intersects(bullet.Position))
                 {
                     player.Hearts--;
                     bullet.Alive = false;
                     playerHit.Play();
                 }
             }
-            if(player.Bounds.Intersects(boss.Bounds))
+            if(player.Bounds.Intersects(boss.Bounds) && !player.hit)
             {
                 player.Hearts--;
+                player.hit = true;
             }
-            
+            else if(!player.Bounds.Intersects(boss.Bounds) && player.hit) { player.hit = false; }
         }
-        /*
-        ExplodingShot,
-        Heart_Powerup,
-        Laser_Powerup,
-        Nuke_Powerup,
-        PenetrationShot,
-        Speed_Powerup,
-        TripleSplitShot,
-        Trishot_Powerup
-         */
+        
+
         public static void PlayerOnPowerup(Player player, PowerupSpawner powerups)
         {
             foreach(PowerupSprite powerup in powerups.PowerupSprites)
