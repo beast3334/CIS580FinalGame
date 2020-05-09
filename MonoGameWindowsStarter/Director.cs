@@ -109,26 +109,26 @@ namespace MonoGameWindowsStarter
                         timer = 0;
                     }
                 }
-                
-                /*//spawn powerups
-                r = random.Next(0, 10);
-                r = (int)(random.NextDouble()*100);
-                if ( r >=0)
+
+                //spawn powerups
+                r = random.Next(1000);
+                // r = (int)(random.NextDouble() * 100);
+                if (r >= 998)
                 {
+                    // r = random.Next(0, 20);
                     r = random.Next(0, 10);
-                    r = random.Next(0, 100);
-                    if(r >= 90)
+                    if (r >= 9)
                     {
                         powerupSpawner.SpawnRandom(PowerupSpriteCategory.SpawnStrongPowerup);
-                        credits += 15;
+                        //credits += 15;
                     }
                     else
                     {
                         powerupSpawner.SpawnRandom(PowerupSpriteCategory.SpawnWeakPowerup);
-                        credits += 5;
+                        //credits += 5;
                     }
-                }*/
-                
+                }
+
 
             }
             else if (state == State.Boss)
