@@ -276,7 +276,7 @@ namespace MonoGameWindowsStarter.PlayerNamespace
             UpdateBounds();
 
             //Check Action Button
-            if (keyboardState.IsKeyDown(Keys.Space))
+            if (keyboardState.IsKeyDown(Keys.Space) && Alive)
             {
                 BulletSpawner.Shoot();
 
@@ -318,6 +318,11 @@ namespace MonoGameWindowsStarter.PlayerNamespace
                 {
                     ChangeTempPowerupBack();
                 }
+            }
+
+            if (Hearts <= 0)
+            {
+                Alive = false;
             }
         }
 

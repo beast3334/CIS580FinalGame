@@ -14,7 +14,7 @@ namespace MonoGameWindowsStarter.Enemies
     {
         BoundingRectangle bounds;
         Texture2D texture;
-        Game1 game;
+        //Game1 game;
 
         public override BoundingRectangle Bounds => bounds;
 

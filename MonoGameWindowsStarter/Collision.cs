@@ -7,6 +7,8 @@ using MonoGameWindowsStarter.Enemies;
 using MonoGameWindowsStarter.PlayerNamespace;
 using System.Collections.Generic;
 using MonoGameWindowsStarter.Bosses;
+using System;
+
 namespace MonoGameWindowsStarter
 {
     static class Collision
@@ -24,11 +26,41 @@ namespace MonoGameWindowsStarter
                         
                             if (enemy.Health <= 1)
                             {
+                                
                                 enemy.Alive = false;
-                            }
+                                enemy.game.particleSystem.SpawnPerFrame = 20;
+                                enemy.game.particleSystem.SpawnParticle = (ref Particle particle) =>
+                                {
+
+                                      particle.Position = new Vector2(enemy.Bounds.X+enemy.Bounds.Width/2, enemy.Bounds.Y+enemy.Bounds.Height/2);
+                                      particle.Velocity = new Vector2(
+                                         MathHelper.Lerp(-100, 100, (float)enemy.game.random.NextDouble()), // X between -50 and 50
+                                         MathHelper.Lerp(-100, 100, (float)enemy.game.random.NextDouble()) // Y between 0 and 100
+                                         );
+                                      particle.Acceleration = 0.1f * new Vector2(0, (float)-enemy.game.random.NextDouble());
+                                      particle.Color = Color.Gold;
+                                       particle.Scale = 1.5f;
+                                       particle.Life = .3f;
+                                };
+                            
+                        }
                             else
                             {
-                                enemy.Health--;
+                                enemy.game.particleSystem.SpawnPerFrame = 3;
+                                enemy.game.particleSystem.SpawnParticle = (ref Particle particle) =>
+                                {
+
+                                    particle.Position = new Vector2(enemy.Bounds.X + enemy.Bounds.Width / 2, enemy.Bounds.Y + enemy.Bounds.Height / 2);
+                                    particle.Velocity = new Vector2(
+                                        MathHelper.Lerp(-100, 100, (float)enemy.game.random.NextDouble()), // X between -50 and 50
+                                        MathHelper.Lerp(-100, 100, (float)enemy.game.random.NextDouble()) // Y between 0 and 100
+                                        );
+                                    particle.Acceleration = 0.1f * new Vector2(0, (float)-enemy.game.random.NextDouble());
+                                    particle.Color = Color.Gold;
+                                    particle.Scale = 1.0f;
+                                    particle.Life = .3f;
+                                };
+                            enemy.Health-=(int)bullet.Damage;
                             }
                         
                         bullet.HitEntity = true;
@@ -58,14 +90,28 @@ namespace MonoGameWindowsStarter
                     ShootingEnemy tempE = (ShootingEnemy)enemy;
                     foreach(Bullet bullet in tempE.bulletSpawner.Bullets)
                     {
-                        if (player.Bounds.Intersects(bullet.Position))
+                        if (player.Bounds.Intersects(bullet.Position) && player.Alive)
                         {
+                            enemy.game.particleSystem.SpawnPerFrame = 30;
+                            enemy.game.particleSystem.SpawnParticle = (ref Particle particle) =>
+                            {
+
+                                particle.Position = new Vector2(player.Bounds.X + player.Bounds.Width / 2, player.Bounds.Y + player.Bounds.Height / 2);
+                                particle.Velocity = new Vector2(
+                                   MathHelper.Lerp(-100, 100, (float)enemy.game.random.NextDouble()), // X between -50 and 50
+                                   MathHelper.Lerp(-100, 100, (float)enemy.game.random.NextDouble()) // Y between 0 and 100
+                                   );
+                                particle.Acceleration = 0.2f * new Vector2(0, (float)-enemy.game.random.NextDouble());
+                                particle.Color = Color.Gold;
+                                particle.Scale = 2f;
+                                particle.Life = .8f;
+                            };
+
                             bullet.Alive = false;
-                            bullet.HitEntity = true;
                             player.Hearts -= bullet.Damage;
+                            bullet.HitEntity = true;
                         }
                     }
-
                     // Go through the bullet spawners inside the bullet spawner
                     foreach (BulletSpawner bs in tempE.bulletSpawner.BulletSpawners)
                     {
@@ -84,7 +130,7 @@ namespace MonoGameWindowsStarter
         {
             foreach (Bullet bullet in bulletSpawner.Bullets)
             {
-                if (bullet.Bounds.Intersects(player.Bounds))
+                if (bullet.Bounds.Intersects(player.Bounds) && player.Alive)
                 {
                     player.Hearts--;
                 }
@@ -95,6 +141,7 @@ namespace MonoGameWindowsStarter
                 PlayerOnBullet(bs, player);
             }
         }
+        
 
         /// <summary>
         /// Detects if the player collides with an enemy
@@ -105,12 +152,43 @@ namespace MonoGameWindowsStarter
         {
             foreach(Enemy enemy in enemies)
             {
-                if (player.Bounds.Intersects(enemy.Bounds)) {
+                if (player.Bounds.Intersects(enemy.Bounds) && player.Alive){
                     enemy.Alive = false;
                     player.Hearts--;
+
+                    enemy.game.particleSystem.SpawnPerFrame = 40;
+                    enemy.game.particleSystem.SpawnParticle = (ref Particle particle) =>
+                    {
+
+                        particle.Position = new Vector2(enemy.Bounds.X, enemy.Bounds.Y) + Vector2.Subtract(new Vector2(player.Bounds.X, player.Bounds.Y), new Vector2(enemy.Bounds.X, enemy.Bounds.Y))/2;
+                        particle.Velocity = new Vector2(
+                           MathHelper.Lerp(-100, 100, (float)enemy.game.random.NextDouble()), // X between -50 and 50
+                           MathHelper.Lerp(-100, 100, (float)enemy.game.random.NextDouble()) // Y between 0 and 100
+                           );
+                        particle.Acceleration = 0.5f * new Vector2(0, (float)-enemy.game.random.NextDouble());
+                        particle.Color = Color.Gold;
+                        particle.Scale = 1.5f;
+                        particle.Life = .3f;
+                    };
+
+                    /*e.game.playerParticle.SpawnParticle = (ref Particle particle) =>
+                    {
+                        MouseState mouse = Mouse.GetState();
+                        particle.Position = new Vector2(player.Bounds.X + player.Bounds.Width / 3, player.Bounds.Y + player.Bounds.Height);
+                        particle.Velocity = new Vector2(
+                            MathHelper.Lerp(-50, 50, (float)e.game.random.NextDouble()), // X between -50 and 50
+                            MathHelper.Lerp(-50, 50, (float)e.game.random.NextDouble()) // Y between 0 and 100
+                            );
+                        particle.Acceleration = 0.1f * new Vector2(0, (float)-e.game.random.NextDouble());
+                        particle.Color = Color.LightYellow;
+                        particle.Scale = .5f;
+                        particle.Life = .5f;
+                    };*/
+                
                 }
             }
         }
+
         public static void BossOnBullet(Bosses.Boss boss, BulletSpawner bulletSpawner)
         {
             foreach (Bullet bullet in bulletSpawner.Bullets)

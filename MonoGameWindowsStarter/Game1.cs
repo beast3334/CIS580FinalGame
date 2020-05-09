@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+using System;
 using MonoGameWindowsStarter.Powerups;
 using MonoGameWindowsStarter.Powerups.Bullets;
 using MonoGameWindowsStarter.Enemies;
@@ -21,6 +21,7 @@ namespace MonoGameWindowsStarter
         BackgroundTileModel backgroundTileModel;
         Background background;
         public int Score;
+        public Random random = new Random();
         public int Wave;
         SpriteFont mainFont;
         Texture2D heart;
@@ -30,7 +31,13 @@ namespace MonoGameWindowsStarter
         //List<Enemy> Enemies;
         //EnemySpawner EnemySpawner;
         Director director;
-        UpgradeMenu upgradeMenu;
+        public UpgradeMenu upgradeMenu;
+
+        //particles
+        public ParticleSystem particleSystem;
+        public ParticleSystem playerParticle;
+        Texture2D particleTexture;
+
 
         public Game1()
         {
@@ -81,6 +88,63 @@ namespace MonoGameWindowsStarter
             director = new Director(this);
             director.LoadContent(Content);
             mainFont = Content.Load<SpriteFont>("mainFont");
+
+
+            //particles
+            particleTexture = Content.Load<Texture2D>("Particle");
+            particleSystem = new ParticleSystem(this.GraphicsDevice, 1000, particleTexture);
+            playerParticle = new ParticleSystem(this.GraphicsDevice, 1000, particleTexture);
+            //particleSystem.Emitter = new Vector2(100, 100);
+            particleSystem.SpawnPerFrame = 20;
+            particleSystem.SpawnParticle = (ref Particle particle) =>
+            {
+                MouseState mouse = Mouse.GetState();
+                particle.Position = new Vector2(mouse.X, mouse.Y);
+                particle.Velocity = new Vector2(
+                    MathHelper.Lerp(-50, 50, (float)random.NextDouble()), // X between -50 and 50
+                    MathHelper.Lerp(0, 100, (float)random.NextDouble()) // Y between 0 and 100
+                    );
+                particle.Acceleration = 0.1f * new Vector2(0, (float)-random.NextDouble());
+                particle.Color = Color.Gold;
+                particle.Scale = 1f;
+                particle.Life = .3f;
+            };
+
+            // Set the UpdateParticle method
+            particleSystem.UpdateParticle = (float deltaT, ref Particle particle) =>
+            {
+                particle.Velocity += deltaT * particle.Acceleration;
+                particle.Position += deltaT * particle.Velocity;
+                particle.Scale -= deltaT;
+                particle.Life -= deltaT;
+            };
+
+
+            playerParticle.SpawnPerFrame = 1;
+            playerParticle.SpawnParticle = (ref Particle particle) =>
+            {
+                MouseState mouse = Mouse.GetState();
+                particle.Position = new Vector2(player.Bounds.X + player.Bounds.Width/2, player.Bounds.Y + player.Bounds.Height/2);
+                particle.Velocity = new Vector2(
+                    MathHelper.Lerp(-50, 50, (float)random.NextDouble()), // X between -50 and 50
+                    MathHelper.Lerp(0, 100, (float)random.NextDouble()) // Y between 0 and 100
+                    );
+                particle.Acceleration = 0.1f * new Vector2(0, (float)-random.NextDouble());
+                particle.Color = Color.LightYellow;
+                particle.Scale = .5f;
+                particle.Life = .5f;
+            };
+
+            // Set the UpdateParticle method
+            playerParticle.UpdateParticle = (float deltaT, ref Particle particle) =>
+            {
+                particle.Velocity += deltaT * particle.Acceleration;
+                particle.Position += deltaT * particle.Velocity;
+                particle.Scale -= deltaT;
+                particle.Life -= deltaT;
+            };
+
+
             upgradeMenu = new UpgradeMenu(this, Content, player, Score);
             VisualDebugging.LoadContent(Content);
 
@@ -114,6 +178,24 @@ namespace MonoGameWindowsStarter
             Collision.CheckAll(new List<EntityAlive>(director.enemySpawner.Enemies), player, director.bossSpawner.boss);
             //remove dead enemies
             //EnemySpawner.Update(gameTime);
+            particleSystem.Update(gameTime);
+            if (player.Alive)
+            {
+                playerParticle.SpawnParticle = (ref Particle particle) =>
+                {
+                    MouseState mouse = Mouse.GetState();
+                    particle.Position = new Vector2(player.Bounds.X + player.Bounds.Width / 3, player.Bounds.Y + player.Bounds.Height);
+                    particle.Velocity = new Vector2(
+                        MathHelper.Lerp(-50, 50, (float)random.NextDouble()), // X between -50 and 50
+                        MathHelper.Lerp(-50, 50, (float)random.NextDouble()) // Y between 0 and 100
+                        );
+                    particle.Acceleration = 0.1f * new Vector2(0, (float)-random.NextDouble());
+                    particle.Color = Color.LightYellow;
+                    particle.Scale = .5f;
+                    particle.Life = .5f;
+                };
+            }
+            playerParticle.Update(gameTime);
             director.Update(gameTime);
 
             //testing to draw the upgradeMenu
@@ -137,10 +219,13 @@ namespace MonoGameWindowsStarter
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            spriteBatch.Begin();
+            background.Draw(spriteBatch);
+            spriteBatch.End();
+            playerParticle.Draw();
             spriteBatch.Begin();
 
-            background.Draw(spriteBatch);
+            
 
             if (player.Alive)
             {
@@ -174,7 +259,8 @@ namespace MonoGameWindowsStarter
                 upgradeMenu.Draw(spriteBatch);
 
             spriteBatch.End();
-
+            particleSystem.Draw();
+            
             base.Draw(gameTime);
         }
     }
