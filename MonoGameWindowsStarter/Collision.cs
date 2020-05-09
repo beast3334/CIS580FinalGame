@@ -184,10 +184,11 @@ namespace MonoGameWindowsStarter
                         particle.Scale = .5f;
                         particle.Life = .5f;
                     };*/
-                }
+                
                 }
             }
         }
+
         public static void BossOnBullet(Bosses.Boss boss, BulletSpawner bulletSpawner)
         {
             foreach (Bullet bullet in bulletSpawner.Bullets)
@@ -222,7 +223,7 @@ namespace MonoGameWindowsStarter
         /// </summary>
         /// <param name="enemies">Enemies to check</param>
         /// <param name="player">Player to check</param>
-        public static void CheckAll(List<Enemy> enemies, Player player, Boss boss)
+        public static void CheckAll(List<EntityAlive> enemies, Player player, Boss boss)
         {
             EnemyOnBullet(enemies, player.BulletSpawner);
             PlayerOnBullet(enemies, player);

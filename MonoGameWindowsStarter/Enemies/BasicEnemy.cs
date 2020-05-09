@@ -25,7 +25,7 @@ namespace MonoGameWindowsStarter.Enemies
         {
             this.game = game;
             bounds.X = position;
-            bounds.Y = 50;
+            bounds.Y = 20;
             bounds.Height = 120;
             bounds.Width = 120;
             LoadContent(content);

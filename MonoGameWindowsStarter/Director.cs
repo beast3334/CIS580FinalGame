@@ -26,77 +26,109 @@ namespace MonoGameWindowsStarter
         public EnemySpawner enemySpawner;
         public BossSpawner bossSpawner;
         //BossSpawner bossSpawner;
-        //PowerupSpawner powerupSpawner
+        PowerupSpawner powerupSpawner;
         Game1 game;
         int count = 0;
         double timer = 0;
-        int credits = 100;
-        const int BEGINCREDITS = 100;
+        int credits;
+        int BEGINCREDITS = 100;
+        Random random;
+        int r;
 
-        State state = State.Enemy;
+        State state;
 
         public Director(Game1 game)
         {
             this.game = game;
             enemySpawner = new EnemySpawner(game);
             bossSpawner = new BossSpawner(game);
-            //powerupSpawner = new PowerupSpawner(game);
+            powerupSpawner = new PowerupSpawner(game);
+            random = new Random();
         }
 
         public void LoadContent(ContentManager content)
         {
             enemySpawner.LoadContent(content);
             bossSpawner.LoadContent(content);
-            //powerupSpawner.LoadContent(content);
+            powerupSpawner.LoadContent(content);
+            credits = BEGINCREDITS;
+            state = State.Enemy;
         }
 
         public void Update(GameTime gameTime)
         {
+            if( state == State.Enemy && credits == 0 && count == 1)
+            {
+                credits = BEGINCREDITS;
+            }
             timer += gameTime.ElapsedGameTime.TotalSeconds;
             enemySpawner.Update(gameTime);
-            //bossSpawner.Update(gameTime);
-            //powerupSpawner.Update(gameTime);
+            bossSpawner.Update(gameTime);
+            powerupSpawner.Update();
 
             if(state == State.Enemy && credits <= 0 && enemySpawner.Enemies.Count <= 0)
             {
+                bossSpawner.SpawnRandom();
                 state = State.Boss;
             }
             else if(state == State.Boss)
             {
-                /*if (game.BossSpawner.boss == null)
+                if (bossSpawner.boss == null)
                 {
                     game.upgradeMenu.isOpen = true;
                     state = State.Shop;
-                }*/
+                    game.Score += 100;
+                }
             }
             else if (state == State.Shop)
             {
                 if (!game.upgradeMenu.isOpen)
                 {
                     state = State.Enemy;
+                    credits = BEGINCREDITS;
+                    game.Wave++;
                 }
             }
 
             if (state == State.Enemy)
             {
-
-                //spawn enemies
-                enemySpawner.SpawnRandom();
-                credits -= 5;
-                if (timer >= 8)
+                if (credits > 0)
                 {
-                    for (int i = 0; i <= 3; i++)
+                    //spawn enemies
+                    enemySpawner.SpawnRandom();
+                    credits -= 5;
+                    if (timer >= 8)
                     {
-                        enemySpawner.SpawnWeak();
-                        credits -= 5;
+                        for (int i = 0; i <= 3; i++)
+                        {
+                            enemySpawner.SpawnWeak();
+                            credits -= 5;
+                        }
+                        enemySpawner.SpawnStrong();
+                        credits -= 10;
+                        timer = 0;
                     }
-                    enemySpawner.SpawnStrong();
-                    credits -= 10;
-                    timer = 0;
                 }
-
-                //spawn powerups
-
+                
+                /*//spawn powerups
+                r = random.Next(0, 10);
+                r = (int)(random.NextDouble()*100);
+                if ( r >=0)
+                {
+                    r = random.Next(0, 10);
+                    r = random.Next(0, 100);
+                    if(r >= 90)
+                    {
+                        powerupSpawner.SpawnRandom(PowerupSpriteCategory.SpawnStrongPowerup);
+                        credits += 15;
+                    }
+                    else
+                    {
+                        powerupSpawner.SpawnRandom(PowerupSpriteCategory.SpawnWeakPowerup);
+                        credits += 5;
+                    }
+                }*/
+                
 
             }
             else if (state == State.Boss)
@@ -107,8 +139,8 @@ namespace MonoGameWindowsStarter
             {
 
             }
-            
-
+            if (count ==0)
+                count = 1;
             
         }
 
@@ -116,7 +148,7 @@ namespace MonoGameWindowsStarter
         {
             enemySpawner.Draw(spriteBatch);
             bossSpawner.Draw(spriteBatch);
-            //powerupSpawner.Draw(spriteBatch);
+            powerupSpawner.Draw(spriteBatch);
         }
     }
 }
