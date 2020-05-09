@@ -70,6 +70,7 @@ namespace MonoGameWindowsStarter
         {
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
+            graphics.IsFullScreen = true;
             graphics.ApplyChanges();
             Microsoft.Xna.Framework.Media.MediaPlayer.IsRepeating = true;
             base.Initialize();
