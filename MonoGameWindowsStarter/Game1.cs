@@ -19,7 +19,7 @@ namespace MonoGameWindowsStarter
         SpriteBatch spriteBatch;
         public Player player;
         BackgroundTileModel backgroundTileModel;
-        Background background;
+        public Background background;
         public int Score;
         public Random random = new Random();
         public int Wave;
@@ -216,7 +216,7 @@ namespace MonoGameWindowsStarter
                         playerParticle.SpawnParticle = (ref Particle particle) =>
                         {
                             MouseState mouse = Mouse.GetState();
-                            particle.Position = new Vector2(player.Bounds.X + player.Bounds.Width / 3, player.Bounds.Y + player.Bounds.Height);
+                            particle.Position = new Vector2(player.Bounds.X -4, player.Bounds.Y + player.Bounds.Height);
                             particle.Velocity = new Vector2(
                                 MathHelper.Lerp(-50, 50, (float)random.NextDouble()), // X between -50 and 50
                                 MathHelper.Lerp(-50, 50, (float)random.NextDouble()) // Y between 0 and 100

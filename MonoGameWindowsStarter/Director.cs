@@ -86,6 +86,7 @@ namespace MonoGameWindowsStarter
                     state = State.Enemy;
                     credits = BEGINCREDITS + (BEGINCREDITS*.1*game.Wave);
                     game.Wave++;
+                    game.background.speed += .1f;
                 }
             }
 
