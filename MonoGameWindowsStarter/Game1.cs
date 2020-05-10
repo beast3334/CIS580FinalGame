@@ -35,6 +35,8 @@ namespace MonoGameWindowsStarter
         Texture2D mainMenuTexture;
         SoundEffect enemyKilledSound;
         SoundEffect playerHitSound;
+        SoundEffect useNuke;
+        public SoundEffect upgradePickup;
         Song gameSong;
 
         KeyboardState oldKeyboard;
@@ -92,6 +94,8 @@ namespace MonoGameWindowsStarter
             Wave = 1;
             heart = Content.Load<Texture2D>("Heart");
             nuke = Content.Load<Texture2D>("Nuke");
+            useNuke = Content.Load<SoundEffect>("useNuke");
+            upgradePickup = Content.Load<SoundEffect>("waveupgrade");
             enemyKilledSound = Content.Load<SoundEffect>("enemyKilled");
             playerHitSound = Content.Load<SoundEffect>("playerHit");
             gameSong = Content.Load<Song>("space_theme");
@@ -212,6 +216,7 @@ namespace MonoGameWindowsStarter
                     {
                         director.enemySpawner.KillAll();
                         player.Nukes--;
+                        useNuke.Play();
                     }
 
                     player.Update(gameTime);

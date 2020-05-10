@@ -29,7 +29,7 @@ namespace MonoGameWindowsStarter.PlayerNamespace
 
     public class Player : EntityAlive
     {
-        Game1 game;
+        public Game1 game;
         List<Tuple<PlayerState, Texture2D>> Textures = new List<Tuple<PlayerState, Texture2D>>();
         BoundingRectangle bounds = new BoundingRectangle();
 

@@ -271,6 +271,7 @@ namespace MonoGameWindowsStarter
 
                     }
                     powerup.Alive = false;
+                    player.game.upgradePickup.Play();
                     
                 }
             }
