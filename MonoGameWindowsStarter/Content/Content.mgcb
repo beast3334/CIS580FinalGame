@@ -165,6 +165,12 @@
 /processorParam:TextureFormat=Color
 /build:Nuke.PNG
 
+#begin nuke.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:nuke.wav;useNuke.wav
+
 #begin Particle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -428,4 +434,10 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:UpgradeMenu.png
+
+#begin waveupgrade.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:waveupgrade.wav
 
