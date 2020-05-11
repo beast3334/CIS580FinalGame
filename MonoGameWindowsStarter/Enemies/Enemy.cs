@@ -20,7 +20,7 @@ namespace MonoGameWindowsStarter.Enemies
         //public bool Alive { get; set; } = true;
         public bool ReadyForTrash = false;
         public int Health = 0;
-        public int points = 100;
+        public int points = 10;
         public Game1 game;
 
     }
