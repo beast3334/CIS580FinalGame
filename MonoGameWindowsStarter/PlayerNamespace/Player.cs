@@ -133,7 +133,7 @@ namespace MonoGameWindowsStarter.PlayerNamespace
         public void AddHearts_PurchasedPowerup(int numberOfHearts)
         {
             MaxHearts += numberOfHearts;
-            Hearts = MaxHearts;
+            Hearts += numberOfHearts;
         }
 
         /// <summary>
