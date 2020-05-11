@@ -29,9 +29,14 @@ namespace MonoGameWindowsStarter.PlayerNamespace
 
     public class Player : EntityAlive
     {
-        Game1 game;
+        public Game1 game;
         List<Tuple<PlayerState, Texture2D>> Textures = new List<Tuple<PlayerState, Texture2D>>();
         BoundingRectangle bounds = new BoundingRectangle();
+
+        SoundEffect shootingEffect;
+
+        public bool hit = false;
+
 
         /// <summary>
         /// State of the player
@@ -217,8 +222,8 @@ namespace MonoGameWindowsStarter.PlayerNamespace
             {
                 Textures.Add(new Tuple<PlayerState, Texture2D>(tex.Item1, content.Load<Texture2D>(tex.Item2)));
             });
-            
-            
+
+            shootingEffect = content.Load<SoundEffect>("shoot");
 
             // Get the texture
             var texture = GetPlayerTexture();
@@ -297,8 +302,11 @@ namespace MonoGameWindowsStarter.PlayerNamespace
             //Check Action Button
             if (keyboardState.IsKeyDown(Keys.Space) && Alive)
             {
+                if (BulletSpawner.CanShoot)
+                {
+                    shootingEffect.Play();
+                }
                 BulletSpawner.Shoot();
-
                 // The temporary powerup is used
                 if (TempPowerup != null)
                 {
@@ -363,7 +371,7 @@ namespace MonoGameWindowsStarter.PlayerNamespace
                 null,
                 PlayerPowerup.Color,
                 0f,
-                new Vector2(texture.Width / 2, 0),
+                new Vector2(0, 0),
                 SpriteEffects.None,
                 1f
             );

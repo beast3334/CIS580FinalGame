@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameWindowsStarter.Powerups;
+using Microsoft.Xna.Framework.Audio;
 using MonoGameWindowsStarter.Powerups.Bullets;
 using MonoGameWindowsStarter.Enemies;
 using MonoGameWindowsStarter.PlayerNamespace;
@@ -17,7 +18,7 @@ namespace MonoGameWindowsStarter
     {
         //static int counter = 0;
 
-        public static void EnemyOnBullet(List<EntityAlive> enemies, BulletSpawner bulletSpawner)
+        public static void EnemyOnBullet(List<EntityAlive> enemies, BulletSpawner bulletSpawner, SoundEffect enemyKilled)
         {
             foreach(Bullet bullet in bulletSpawner.Bullets)
             {
@@ -30,6 +31,8 @@ namespace MonoGameWindowsStarter
                             {
                                 
                                 enemy.Alive = false;
+                                enemyKilled.Play();
+                            
                                 enemy.game.particleSystem.SpawnPerFrame = 20;
                                 enemy.game.particleSystem.SpawnParticle = (ref Particle particle) =>
                                 {
@@ -73,7 +76,7 @@ namespace MonoGameWindowsStarter
             // Check on the bullet spawners inside the bullet spawner
             foreach (BulletSpawner bs in bulletSpawner.BulletSpawners)
             {
-                EnemyOnBullet(enemies, bs);
+                EnemyOnBullet(enemies, bs, enemyKilled);
             }
             
         }
@@ -83,7 +86,7 @@ namespace MonoGameWindowsStarter
         /// </summary>
         /// <param name="enemies"></param>
         /// <param name="player"></param>
-        public static void PlayerOnBullet(List<EntityAlive> enemies, Player player)
+        public static void PlayerOnBullet(List<EntityAlive> enemies, Player player, SoundEffect playerHit)
         {
             foreach(Enemy enemy in enemies)
             {
@@ -112,12 +115,13 @@ namespace MonoGameWindowsStarter
                             bullet.Alive = false;
                             player.Hearts -= bullet.Damage;
                             bullet.HitEntity = true;
+                            playerHit.Play();
                         }
                     }
                     // Go through the bullet spawners inside the bullet spawner
                     foreach (BulletSpawner bs in tempE.bulletSpawner.BulletSpawners)
                     {
-                        PlayerOnBullet(bs, player);
+                        PlayerOnBullet(bs, player, playerHit);
                     }
                 }
             }
@@ -128,19 +132,20 @@ namespace MonoGameWindowsStarter
         /// </summary>
         /// <param name="bulletSpawner">Bullet Spawner to detect bullets from</param>
         /// <param name="player">Player to detect</param>
-        private static void PlayerOnBullet(BulletSpawner bulletSpawner, Player player)
+        private static void PlayerOnBullet(BulletSpawner bulletSpawner, Player player, SoundEffect playerHit)
         {
             foreach (Bullet bullet in bulletSpawner.Bullets)
             {
                 if (bullet.Bounds.Intersects(player.Bounds) && player.Alive)
                 {
                     player.Hearts--;
+                    playerHit.Play();
                 }
             }
 
             foreach (BulletSpawner bs in bulletSpawner.BulletSpawners)
             {
-                PlayerOnBullet(bs, player);
+                PlayerOnBullet(bs, player, playerHit);
             }
         }
         
@@ -150,13 +155,14 @@ namespace MonoGameWindowsStarter
         /// </summary>
         /// <param name="enemies">Enemies to check</param>
         /// <param name="player">Player to check</param>
-        public static void PlayerOnEnemy(List<EntityAlive> enemies, Player player)
+        public static void PlayerOnEnemy(List<EntityAlive> enemies, Player player, SoundEffect playerHit)
         {
             foreach(Enemy enemy in enemies)
             {
                 if (player.Bounds.Intersects(enemy.Bounds) && player.Alive){
                     enemy.Alive = false;
                     player.Hearts--;
+                    playerHit.Play();
 
                     enemy.game.particleSystem.SpawnPerFrame = 40;
                     enemy.game.particleSystem.SpawnParticle = (ref Particle particle) =>
@@ -203,32 +209,27 @@ namespace MonoGameWindowsStarter
                 }
             }
         }
-        public static void PlayeronBoss(Bosses.Boss boss, Player player)
+        public static void PlayeronBoss(Bosses.Boss boss, Player player, SoundEffect playerHit)
         {
             foreach (Bullet bullet in boss.bulletSpawner.Bullets)
             {
-                if (bullet.Bounds.Intersects(player.Bounds))
+                //if (bullet.Bounds.Intersects(player.Bounds))\
+                if(player.Bounds.Intersects(bullet.Position))
                 {
                     player.Hearts--;
                     bullet.Alive = false;
+                    playerHit.Play();
                 }
             }
-            if(player.Bounds.Intersects(boss.Bounds))
+            if(player.Bounds.Intersects(boss.Bounds) && !player.hit)
             {
                 player.Hearts--;
+                player.hit = true;
             }
-            
+            else if(!player.Bounds.Intersects(boss.Bounds) && player.hit) { player.hit = false; }
         }
-        /*
-        ExplodingShot,
-        Heart_Powerup,
-        Laser_Powerup,
-        Nuke_Powerup,
-        PenetrationShot,
-        Speed_Powerup,
-        TripleSplitShot,
-        Trishot_Powerup
-         */
+        
+
         public static void PlayerOnPowerup(Player player, PowerupSpawner powerups)
         {
             foreach(PowerupSprite powerup in powerups.PowerupSprites)
@@ -270,6 +271,7 @@ namespace MonoGameWindowsStarter
 
                     }
                     powerup.Alive = false;
+                    player.game.upgradePickup.Play();
                     
                 }
             }
@@ -280,15 +282,15 @@ namespace MonoGameWindowsStarter
         /// </summary>
         /// <param name="enemies">Enemies to check</param>
         /// <param name="player">Player to check</param>
-        public static void CheckAll(List<EntityAlive> enemies, Player player, Boss boss, PowerupSpawner powerups)
+        public static void CheckAll(List<EntityAlive> enemies, Player player, Boss boss, PowerupSpawner powerups, SoundEffect enemyKilled, SoundEffect playerHit)
         {
-            EnemyOnBullet(enemies, player.BulletSpawner);
-            PlayerOnBullet(enemies, player);
-            PlayerOnEnemy(enemies, player);
+            EnemyOnBullet(enemies, player.BulletSpawner, enemyKilled);
+            PlayerOnBullet(enemies, player, playerHit);
+            PlayerOnEnemy(enemies, player, playerHit);
             if(boss != null)
             {
                 BossOnBullet(boss, player.BulletSpawner);
-                PlayeronBoss(boss, player);
+                PlayeronBoss(boss, player, playerHit);
             }
             PlayerOnPowerup(player, powerups);
             

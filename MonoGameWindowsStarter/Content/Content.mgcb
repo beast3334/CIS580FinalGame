@@ -68,7 +68,7 @@
 /processorParam:TextureFormat=Color
 /build:Bullets/Bullet_4.PNG
 
-#begin Enemy1.PNG
+#begin Enemy_1.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -78,9 +78,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Enemy1.PNG
+/build:Enemy_1.PNG;Enemy1.PNG
 
-#begin Enemy2.PNG
+#begin Enemy_2.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -90,9 +90,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Enemy2.PNG
+/build:Enemy_2.PNG;Enemy2.PNG
 
-#begin Enemy3.PNG
+#begin Enemy_3.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -102,7 +102,13 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Enemy3.PNG
+/build:Enemy_3.PNG;Enemy3.PNG
+
+#begin enemykilled.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:enemykilled.wav
 
 #begin Health_Bar.png
 /importer:TextureImporter
@@ -158,6 +164,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Nuke.PNG
+
+#begin nuke.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:nuke.wav;useNuke.wav
 
 #begin Particle.png
 /importer:TextureImporter
@@ -254,6 +266,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Player/playerShip3_blue.png
+
+#begin playerHit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:playerHit.wav
 
 #begin Powerups/360shot.PNG
 /importer:TextureImporter
@@ -363,6 +381,18 @@
 /processorParam:TextureFormat=Color
 /build:Powerups/Trishot_Powerup.PNG
 
+#begin shoot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:shoot.wav
+
+#begin space theme3.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:space theme3.wav;space_theme.wav
+
 #begin SpaceBackground.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -404,4 +434,10 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:UpgradeMenu.png
+
+#begin waveupgrade.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:waveupgrade.wav
 
