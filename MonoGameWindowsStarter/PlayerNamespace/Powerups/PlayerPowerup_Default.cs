@@ -18,6 +18,6 @@ namespace MonoGameWindowsStarter.PlayerNamespace.Powerups
             new Tuple<PlayerState, string>(PlayerState.Right, "Player/playerShip3_blue"),
         };
 
-        public override Vector2 Scale => new Vector2(0.5f);
+        public override Vector2 Scale => new Vector2(0.7f);
     }
 }
