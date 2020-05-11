@@ -35,8 +35,8 @@ namespace MonoGameWindowsStarter.Enemies
             this.game = game;
             bounds.X = position;
             bounds.Y = 20;
-            bounds.Height = 80;
-            bounds.Width = 80;
+            bounds.Height = 45;
+            bounds.Width = 45;
             direction = 0;
             speed = 3;
             bulletSpawner = new BulletSpawner(game, this);

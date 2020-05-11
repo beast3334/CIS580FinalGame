@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 using MonoGameWindowsStarter.Powerups.Bullets.Powerups;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,8 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
         TimeSpan timer = new TimeSpan();
         bool canShoot = true;
         bool canChangePowerup = true;
-
+        
+        public bool CanShoot => canShoot;
         /// <summary>
         /// Bullet spawners
         /// </summary>
@@ -120,6 +122,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
                     );
                     // Adds the bullet to the list of bullets
                     Bullets.Add(bullet);
+                    
                 }
                 // Can't shoot now
                 canShoot = false;
@@ -152,7 +155,7 @@ namespace MonoGameWindowsStarter.Powerups.Bullets
             this.content = content;
             // TODO: Make a dictionary or something of Textures to use in the Draw for different bullets just in case the texture changes while the bullet is still alive.
             Texture = content.Load<Texture2D>(Powerup.TextureName);
-
+            
             // Go through the spawners and Load their content
             BulletSpawners.ForEach(bs =>
             {
