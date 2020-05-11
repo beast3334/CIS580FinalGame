@@ -87,7 +87,7 @@ namespace MonoGameWindowsStarter.Powerups
         {
             var random = new Random();
             var powerup = GetPowerup(Category);
-            var scale = 0.03f + random.Next(4) / 1000f;
+            var scale = 0.05f + random.Next(4) / 1000f;
             var position = new Vector2(random.Next(_game.GraphicsDevice.Viewport.Width), -(powerup.Item3.Height * scale));
             var velocity = new Vector2(0f, 2 + random.Next(2));
             var powerupSprite = new PowerupSprite(powerup, position, velocity, scale);

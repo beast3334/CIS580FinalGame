@@ -243,7 +243,7 @@
 /processorParam:TextureFormat=Color
 /build:Player/Player_4.PNG
 
-#begin playerShip3_blue.png
+#begin Player/playerShip3_blue.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -253,7 +253,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:playerShip3_blue.png;playerShip.png
+/build:Player/playerShip3_blue.png
 
 #begin Powerups/360shot.PNG
 /importer:TextureImporter
