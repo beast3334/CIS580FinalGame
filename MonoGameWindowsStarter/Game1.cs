@@ -215,6 +215,7 @@ namespace MonoGameWindowsStarter
                     if(Keyboard.GetState().IsKeyDown(Keys.LeftShift) && !oldKeyboard.IsKeyDown(Keys.LeftShift) && player.Nukes >0)
                     {
                         director.enemySpawner.KillAll();
+                        director.bossSpawner.boss = null;
                         player.Nukes--;
                         useNuke.Play();
                     }

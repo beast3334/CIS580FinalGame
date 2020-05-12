@@ -178,8 +178,15 @@ namespace MonoGameWindowsStarter.Enemies
                 particle.Scale = 3f;
                 particle.Life = 3f;
             };
-            Enemies = new List<Enemy>();
 
+            // Adds the score from each enemy
+            // Deletes the enemy and boss
+            for (int i = 0; i < Enemies.Count; i++)
+            {
+                game.Score += Enemies[i].points;
+                Enemies.RemoveAt(i);
+                i--;
+            }
         }
 
 
