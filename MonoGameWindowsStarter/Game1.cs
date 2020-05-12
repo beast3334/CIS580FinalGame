@@ -251,12 +251,12 @@ namespace MonoGameWindowsStarter
 
                     //testing to draw the upgradeMenu
                     //temp: open upgrade by hitting 'U'
-
+#if DEBUG
                     if (keyboardState.IsKeyDown(Keys.U))
                     {
                         upgradeMenu.isOpen = true;
                     }
-
+#endif
 
                     if (upgradeMenu.isOpen)
                         upgradeMenu.Update(gameTime);
