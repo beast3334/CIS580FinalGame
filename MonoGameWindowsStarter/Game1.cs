@@ -173,7 +173,9 @@ namespace MonoGameWindowsStarter
 
 
             upgradeMenu = new UpgradeMenu(this, Content, player, Score);
+#if DEBUG
             VisualDebugging.LoadContent(Content);
+#endif
 
         }
 
